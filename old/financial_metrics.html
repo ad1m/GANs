@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Financial Metrics</title>
+  
+  
+  <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Inconsolata|Space+Mono:700'>
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css'>
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css'>
+
+      <link rel="stylesheet" href="css/style.css">
+      <script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+      <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-89638118-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</head>
+
+<body>
+  <main>
+  <style>
+  a {
+  	color: brown
+  }
+  .shorter {
+    width: 450px;
+  }
+  </style>
+  <div class="preview__link" href="#" itemprop="url">
+              <span class="preview__date" itemprop="datePublished" datetime="2016-09-07T00:00:00-07:00">Jan 06, 2017</span>
+              <center><h2 class="preview__header" itemprop="name">Financial Metrics</h2></center>
+              <center><u><h4>What Will We Learn?</h4></u></center>
+              <p>In the previous lesson, we wrote some code to create a portfolio. In this lesson we will write code to evaluate the performance of our portfolio. We will write functions to compute the cumulative return, daily returns, average daily return, volatility, Sharpe Ratio, Beta corresponding to a given equity (or index), and the Treynor Ratio. In quantitative finance these are all popular performance measures to decide whether a backtested strategy is fit to go live.</p>
+              <!--<p>Previously we constructed Quantitative financial metrics are important determinants of portfolio performance. There are a variety of financial metrics and we will code a bunch of them in this lesson. We will calculate total return, cumulative return, daily returns, average daily returns, volatilitility  </p> -->
+              <center><u><h4>Libraries We Need</h4></u></center>
+              <p>We need the following libraries for our program:
+              <ol>
+              <li>pandas: We will use the pandas dataframe to hold our adjusted close prices and a pandas series to hold our portfolio value. To install pandas go to your terminal or command prompt and use pip install pandas to download the pandas package on your machine. If you installed tha anaconda distribution then you have pandas installed.</li>
+              <li>panda_datareader: We will use this to scrape our adjusted close prices into a dictionary, which we will then turn into a dataframe. To download this library go to your terminal or command prompt and type in pip install pandas-datareader. If you installed the anaconda distribution then you have this library on your machine.</li>
+              <li>Matplotlib: This allows us to plot and is used in a previous portfolio construction file we will need to import. If you installed the anaconda distribution you have matplotlib. If not go to your terminal or command prompt and type in pip install matplotlib.</li>
+              <li>Numpy: We will use numpy arrays and some mathematical functions from numpy. If you installed the anaconda distribution then you will have numpy. If not, go to your terminal or command prompt and pip install numpy to download this library.</li>
+              </ol>
+              <center><u><h4>Files We Need</h4></u></center>
+              <p>In the last lesson, we wrote code to construct a portfolio in a python file called Portfolio_Constructor.py. We will import this code and its libraries into our new file. If you do not have the portfolio constructor code you can download Portfolio_Constructor.py from <a href='https://github.com/ad1m/derivative_code'>here</a>. Note, please place this file in the same directory as the new file that we are about to write. If you would like to learn more about how the Portfolio_Constructor code works you can check out the previous lesson <a href='portfolio_value.html'>here</a>.</p>
+
+              <center><u><h4>What Our Program Will Do</h4></u></center>
+              <p>We will write 6 functions in this lesson. We will write code to compute the cumulative return, daily returns, average daily returns, volatility, Sharpe Ratio, Beta, and Treynor Ratio. We can then examine these metrics to help gauge the strength of our portfolio over our given time frame.</p>
+
+              <center><u><h4>Implementation</h4></u></center>
+              <p>Let us first create a file called performance_metrics.py and place the Portfolio_Constructor.py file at the same level (make sure both files are in the same directory). We will then import all functions from the Portfolio_Constructor file into our performance_metrics file. We can do so by writing from Portfolio_Constructor import *. We will also need to import numpy as np. We do so as follows:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">from</span> <span style="color: #00aaaa; text-decoration: underline">Portfolio_Constructor</span> <span style="color: #0000aa">import</span> *
+<span style="color: #0000aa">import</span> <span style="color: #00aaaa; text-decoration: underline">numpy</span> <span style="color: #0000aa">as</span> <span style="color: #00aaaa; text-decoration: underline">np</span>
+</pre></div>
+
+
+
+              <p>Cumulative return is how much money our investment has gained or lost over time and is expressed as a percentage. It is computed as follows:</p>
+              $$\frac{\text{current price} - \text{original price}}{\text{original price}}$$
+              <p>It is a good sign if our cumulative return is positive, as we want our portfolio to make money. Let us now write this function. We will create a function called cumulative_returns which will take in a dataframe of our portfolio value. To compute the cumulative return we can simply divide the last price in our dataframe (index -1) by the first element in our dataframe (index 0) and then subtract 1 so that we can express it as a percentage. We can simply return the computation we described above and we have our cumulative return. The code for this function looks as follows:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">def</span> <span style="color: #00aa00">cumulative_returns</span>(df):
+    <span style="color: #0000aa">return</span> (df[-<span style="color: #009999">1</span>]/df[<span style="color: #009999">0</span>])-<span style="color: #009999">1</span>
+</pre></div>
+
+
+			  <br>
+              <p>Daily returns are the day to day returns we make. We can create another dataframe that holds the daily returns so we can see whichd days have made money and which days have lost money. Let's create a function called daily_returns that takes in our portfolio value dataframe. We can calculate the daily returns by dividing each element in our dataframe by the next element (using the shift(1) function from pandas). The shift(1) function simply shifts all the indexes down by one. We can perform the division and then subtract 1 to express this as a percent. We then want to remove the 0th row because it will be a NaN (not a number), so we will take all indicies after index 0 (1:). Our function looks as follows: </p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">def</span> <span style="color: #00aa00">daily_returns</span>(df):
+    dr = (df/df.shift(<span style="color: #009999">1</span>)) - <span style="color: #009999">1</span>
+    dr = dr[<span style="color: #009999">1</span>:]
+    <span style="color: #0000aa">return</span> dr
+</pre></div>
+
+
+			  <br>
+              <p>Average daily returns are the average of our daily returns, they are how much money we were making per day on average expressed as a percent. We can create a function called average_daily_returns that takes in our portfolio value dataframe and calls the daily returns function and then takes the mean of it. We create this function as follows:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">def</span> <span style="color: #00aa00">average_daily_returns</span>(df):
+    dr = daily_returns(df)
+    <span style="color: #0000aa">return</span> dr.mean()
+</pre></div>
+
+
+			  <br>
+              <p>Portfolio volatility is the standard deviation of the average daily returns. Volatility tells us how much our portfolio fluctuates over time. Knowing our portfolio volatility can give us a rough indicator of potential risk going forward. Let's create a function called volatility which takes in the portfolio value dataframe. Inside this function we can simply call the daily_returns function with our dataframe and then return the standard deviation of it. Our function looks as follows:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">def</span> <span style="color: #00aa00">volatility</span>(df):
+    dr = daily_returns(df)
+    <span style="color: #0000aa">return</span> dr.std()
+</pre></div>
+
+
+			  <br>
+              <p>Sharpe Ratio lets us calcualte risk-adjusted return and is a very popular measure in quantitative finance. This is the average return in excess of the risk-free rate per unit of total risk. The risk-free rate of return is the theoretical rate of return of an investment with zero risk. We can calculate the sharpe ratio as follows:</p>
+              $$\frac{\text{mean portfolio risk}-\text{risk free rate}}{\text{standard deviation of portfolio return}}$$
+              <p>Let us write a function called Sharpe_Ratio which takes in the porfolio value dataframe and a risk free rate. Initially we will set the risk free rate to 0. We want the annualized sharpe ratio so we will need to multiply by $\sqrt{252}$. We will set our samples per year to 252 and then take the average daily returns minus the risk free rate and take the mean of that. We will store this in a variable called mean_avg_daily_rets We will then call our volatility function and our sharpe ratio will be the square root of the samples per year multiplied by mean_avg_daily_rets/volatility. We will then return this value. The code for this function looks as follows:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">def</span> <span style="color: #00aa00">Sharpe_Ratio</span>(df,rf=<span style="color: #009999">0</span>):
+    samples_per_year = <span style="color: #009999">252</span>
+    mean_avg_daily_rets = (average_daily_returns(df) - rf).mean()
+    vol = volatility(df)
+    sharpe_ratio = np.sqrt(samples_per_year)*(mean_avg_daily_rets/vol)
+    <span style="color: #0000aa">return</span> sharpe_ratio
+</pre></div>
+
+
+			  <br>
+              <p>Let us now write a function called BTR which will return the beta of our portfolio as well as the Treynor Ratio. Beta is a measure of the systematic risk or volatility of our portfolio compared to the market as a whole or some other specified security or benchmark. This will tell us how volatilie our portfolio is compared to the benchmark. We calculate beta from regression. To calculate beta we need to know about two mathematical terms: covariance and variance. Covariance is a measure of the joint probability of two random variables. Say we have two random variables $X$ and $Y$, we can then calculate $\text{cov}(X,Y) = \mathbb{E}[(X-\mathbb{E}[X])(Y-\mathbb{E}[Y])]$ where $\mathbb{E}$ denotes the expected value of the random variable. We can simplify the above expression into $\text{cov}(X,Y)=\mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]$. The covariance tells us how changes in one variable are associated with changes in a second variable. This measures the degree to which two variables are linearly associated. Variance is the expectation of the squared deviation of a random variable from its mean. It measures how far a set is spread our from its mean. We can calculate variance as $\text{Var}(X) = \mathbb{E}[(X-\mu)^2]$ where $\mu$ is the mean. We can also express variance as $\text{Var}(X)=\text{Cov}(X,X) = \mathbb{E}[X^2]-(\mathbb{E}[X]^2)$. We can calculate beta as follows:</p>
+              $$\beta = \frac{\text{Cov}(A,B)}{\text{Var}(B)}$$
+              <p>Where $A$ is our portfolio and $B$ is our benchmark.</p>
+              <p>The Treynor ratio is a measurement of the returns earned in excess of that which could have ben earned on an investment like a Treasury bill which has no diversifiable risk. Alternatively, it could be in a completly diversified portfolio. This ratio relates excess return over the risk-free rate to the additional risk taken. We can calculate the Treynor ratio as follows:</p>
+              $$T = \frac{\text{portfolio return} - \text{risk free rate}}{\text{portfolio beta}}$$
+              <p>The higher the Treynor Ratio, the better performance the portfolio has under further analysis.</p>
+              <p>Since we are calculating beta, we might as well calculate the Treynor ratio in a few more lines of code and return both metrics. Let us write a function called BTR (stands for Beta and Treynor Ratio) that takes in the portfolio value dataframe, a benchmark (comp), the start date of the portfolio, the end date of the portfolio, the sum of the shares of our original portfolio, and a risk free rate which we initially set equal to 0. We will then get the adjusted close prices of our benchmark and create a portfolio that only holds the benchmark equity. For this we need to invest all shares in the benchmark. We can then compute the daily returns of our portfolio and the daily returns of the benchmark and use numpy to calculate the covariance between the daily returns of the original portfolo and the benchmark. We can then use numpy to compute the variance of the benchmark. We can then calculate beta as the covariance divided by the variance. Finally, we can compute the Treynor ratio as (cumulative returns of the original portfolio minus the risk free rate) divided by the beta. We can then return both the beta and the Treynor ratio. Our function looks as follows: </p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">def</span> <span style="color: #00aa00">BTR</span>(pv,comp,start,end,shares,cash,rf=<span style="color: #009999">0</span>):
+    tickers = [comp]
+    comp_adj_close = get_adjusted_close(tickers,start,end)
+    comp_pv = Portfolio_Value(comp_adj_close,shares,cash)
+    comp_returns = daily_returns(comp_pv)
+    port_returns = daily_returns(pv)
+    covariance = np.cov(port_returns,comp_returns)[<span style="color: #009999">0</span>][<span style="color: #009999">1</span>]
+    variance = np.var(comp_returns)
+    beta = covariance/variance
+    Treynor_Ratio = (cumulative_returns(pv) - rf)/beta
+    <span style="color: #0000aa">return</span> beta,Treynor_Ratio
+</pre></div>
+
+
+			  <br>
+              <p>We have now written all six financial metric functions. Let us take a look at our completed python file:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">from</span> <span style="color: #00aaaa; text-decoration: underline">Portfolio_Constructor</span> <span style="color: #0000aa">import</span> *
+<span style="color: #0000aa">import</span> <span style="color: #00aaaa; text-decoration: underline">numpy</span> <span style="color: #0000aa">as</span> <span style="color: #00aaaa; text-decoration: underline">np</span>
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">cumulative_returns</span>(df):
+    <span style="color: #0000aa">return</span> (df[-<span style="color: #009999">1</span>]/df[<span style="color: #009999">0</span>])-<span style="color: #009999">1</span>
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">daily_returns</span>(df):
+    dr = (df/df.shift(<span style="color: #009999">1</span>)) - <span style="color: #009999">1</span>
+    dr = dr[<span style="color: #009999">1</span>:]
+    <span style="color: #0000aa">return</span> dr
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">average_daily_returns</span>(df):
+    dr = daily_returns(df)
+    <span style="color: #0000aa">return</span> dr.mean()
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">volatility</span>(df):
+    dr = daily_returns(df)
+    <span style="color: #0000aa">return</span> dr.std()
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">Sharpe_Ratio</span>(df,rf=<span style="color: #009999">0</span>):
+    samples_per_year = <span style="color: #009999">252</span>
+    mean_avg_daily_rets = (average_daily_returns(df) - rf).mean()
+    vol = volatility(df)
+    sharpe_ratio = np.sqrt(samples_per_year)*(mean_avg_daily_rets/vol)
+    <span style="color: #0000aa">return</span> sharpe_ratio
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">BTR</span>(pv,comp,start,end,shares,cash,rf=<span style="color: #009999">0</span>):
+    tickers = [comp]
+    comp_adj_close = get_adjusted_close(tickers,start,end)
+    comp_pv = Portfolio_Value(comp_adj_close,shares,cash)
+    comp_returns = daily_returns(comp_pv)
+    port_returns = daily_returns(pv)
+    covariance = np.cov(port_returns,comp_returns)[<span style="color: #009999">0</span>][<span style="color: #009999">1</span>]
+    variance = np.var(comp_returns)
+    beta = covariance/variance
+    Treynor_Ratio = (cumulative_returns(pv) - rf)/beta
+    <span style="color: #0000aa">return</span> beta,Treynor_Ratio
+</pre></div>
+
+
+			  <br>
+              <p>Let us now test all of our metrics. We will create a portfolio consisting of AAPL, BAC, GILD, and MSFT. We will have $100,000 and 100 shares of each ticker. We will first get the adjusted close prices of our portfolio and then get the portfolio value. We will then get the cumulative return, daily returns, average daily returns, volatility, the Sharpe Ratio, the beta, and the Treynor Ratio. We do so as follows: </p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">from</span> <span style="color: #00aaaa; text-decoration: underline">Portfolio_Constructor</span> <span style="color: #0000aa">import</span> *
+<span style="color: #0000aa">import</span> <span style="color: #00aaaa; text-decoration: underline">numpy</span> <span style="color: #0000aa">as</span> <span style="color: #00aaaa; text-decoration: underline">np</span>
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">cumulative_returns</span>(df):
+    <span style="color: #0000aa">return</span> (df[-<span style="color: #009999">1</span>]/df[<span style="color: #009999">0</span>])-<span style="color: #009999">1</span>
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">daily_returns</span>(df):
+    dr = (df/df.shift(<span style="color: #009999">1</span>)) - <span style="color: #009999">1</span>
+    dr = dr[<span style="color: #009999">1</span>:]
+    <span style="color: #0000aa">return</span> dr
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">average_daily_returns</span>(df):
+    dr = daily_returns(df)
+    <span style="color: #0000aa">return</span> dr.mean()
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">volatility</span>(df):
+    dr = daily_returns(df)
+    <span style="color: #0000aa">return</span> dr.std()
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">Sharpe_Ratio</span>(df,rf=<span style="color: #009999">0</span>):
+    samples_per_year = <span style="color: #009999">252</span>
+    mean_avg_daily_rets = (average_daily_returns(df) - rf).mean()
+    vol = volatility(df)
+    sharpe_ratio = np.sqrt(samples_per_year)*(mean_avg_daily_rets/vol)
+    <span style="color: #0000aa">return</span> sharpe_ratio
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">BTR</span>(pv,comp,start,end,shares,cash,rf=<span style="color: #009999">0</span>):
+    tickers = [comp]
+    comp_adj_close = get_adjusted_close(tickers,start,end)
+    comp_pv = Portfolio_Value(comp_adj_close,shares,cash)
+    comp_returns = daily_returns(comp_pv)
+    port_returns = daily_returns(pv)
+    covariance = np.cov(port_returns,comp_returns)[<span style="color: #009999">0</span>][<span style="color: #009999">1</span>]
+    variance = np.var(comp_returns)
+    beta = covariance/variance
+    Treynor_Ratio = (cumulative_returns(pv) - rf)/beta
+    <span style="color: #0000aa">return</span> beta,Treynor_Ratio
+
+<span style="color: #0000aa">if</span> __name__ == <span style="color: #aa5500">&#39;__main__&#39;</span>:
+    tickers = [<span style="color: #aa5500">&#39;AAPL&#39;</span>,<span style="color: #aa5500">&#39;BAC&#39;</span>,<span style="color: #aa5500">&#39;GILD&#39;</span>,<span style="color: #aa5500">&#39;MSFT&#39;</span>]
+    start = <span style="color: #aa5500">&#39;2014-01-01&#39;</span>
+    end = <span style="color: #aa5500">&#39;2016-01-01&#39;</span>
+    cash = <span style="color: #009999">100000</span>
+    shares = [<span style="color: #009999">100</span>,<span style="color: #009999">100</span>,<span style="color: #009999">100</span>,<span style="color: #009999">100</span>]
+    df = get_adjusted_close(tickers,start,end)
+    pv = Portfolio_Value(df,shares,cash)
+    cr = cumulative_returns(pv)
+    dr = daily_returns(pv)
+    adr = average_daily_returns(pv)
+    vol = volatility(pv)
+    sr = Sharpe_Ratio(pv)
+    b,tr = BTR(pv,<span style="color: #aa5500">&#39;SPY&#39;</span>,start,end,[<span style="color: #00aaaa">sum</span>(shares)],cash)
+    <span style="color: #0000aa">print</span> <span style="color: #aa5500">&#39;Cumulative Return: &#39;</span> + <span style="color: #00aaaa">str</span>(cr) +<span style="color: #aa5500">&#39;\n&#39;</span>
+    <span style="color: #0000aa">print</span> <span style="color: #aa5500">&#39;Daily Returns: \n&#39;</span>
+    <span style="color: #0000aa">print</span> dr
+    <span style="color: #0000aa">print</span> <span style="color: #aa5500">&#39;\n&#39;</span>
+    <span style="color: #0000aa">print</span> <span style="color: #aa5500">&#39;Average Daily Return:&#39;</span> + <span style="color: #00aaaa">str</span>(adr) + <span style="color: #aa5500">&#39;\n&#39;</span>
+    <span style="color: #0000aa">print</span> <span style="color: #aa5500">&#39;Volatility: &#39;</span> + <span style="color: #00aaaa">str</span>(vol) + <span style="color: #aa5500">&#39;\n&#39;</span>
+    <span style="color: #0000aa">print</span> <span style="color: #aa5500">&#39;Sharpe Ratio: &#39;</span> + <span style="color: #00aaaa">str</span>(sr) + <span style="color: #aa5500">&#39;\n&#39;</span>
+    <span style="color: #0000aa">print</span> <span style="color: #aa5500">&#39;Beta: &#39;</span> + <span style="color: #00aaaa">str</span>(b) + <span style="color: #aa5500">&#39;\n&#39;</span>
+    <span style="color: #0000aa">print</span> <span style="color: #aa5500">&#39;Treynor Ratio: &#39;</span> + <span style="color: #00aaaa">str</span>(tr)
+</pre></div>
+
+
+
+              <p>Our results are as follows:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Cumulative Return: <span style="color: #009999">0.346554828615</span>
+
+Daily Returns: 
+
+Date
+<span style="color: #009999">2014</span>-<span style="color: #009999">01</span>-<span style="color: #009999">03</span>   -<span style="color: #009999">0.005318</span>
+<span style="color: #009999">2014</span>-<span style="color: #009999">01</span>-<span style="color: #009999">06</span>   -<span style="color: #009999">0.003642</span>
+<span style="color: #009999">2014</span>-<span style="color: #009999">01</span>-<span style="color: #009999">07</span>   -<span style="color: #009999">0.003923</span>
+<span style="color: #009999">2014</span>-<span style="color: #009999">01</span>-<span style="color: #009999">08</span>    <span style="color: #009999">0.000684</span>
+<span style="color: #009999">2014</span>-<span style="color: #009999">01</span>-<span style="color: #009999">09</span>    <span style="color: #009999">0.002015</span>
+<span style="color: #009999">2014</span>-<span style="color: #009999">01</span>-<span style="color: #009999">10</span>    <span style="color: #009999">0.002805</span>
+<span style="color: #009999">2014</span>-<span style="color: #009999">01</span>-<span style="color: #009999">13</span>   -<span style="color: #009999">0.017026</span>
+<span style="color: #009999">2014</span>-<span style="color: #009999">01</span>-<span style="color: #009999">14</span>    <span style="color: #009999">0.022167</span>
+<span style="color: #009999">2014</span>-<span style="color: #009999">01</span>-<span style="color: #009999">15</span>    <span style="color: #009999">0.018298</span>
+<span style="color: #009999">2014</span>-<span style="color: #009999">01</span>-<span style="color: #009999">16</span>    <span style="color: #009999">0.007146</span>
+<span style="color: #009999">2014</span>-<span style="color: #009999">01</span>-<span style="color: #009999">17</span>   -<span style="color: #009999">0.008793</span>
+<span style="color: #009999">2014</span>-<span style="color: #009999">01</span>-<span style="color: #009999">21</span>    <span style="color: #009999">0.012777</span>
+<span style="color: #009999">2014</span>-<span style="color: #009999">01</span>-<span style="color: #009999">22</span>    <span style="color: #009999">0.003561</span>
+<span style="color: #009999">2014</span>-<span style="color: #009999">01</span>-<span style="color: #009999">23</span>   -<span style="color: #009999">0.001570</span>
+<span style="color: #009999">2014</span>-<span style="color: #009999">01</span>-<span style="color: #009999">24</span>   -<span style="color: #009999">0.010668</span>
+<span style="color: #009999">2014</span>-<span style="color: #009999">01</span>-<span style="color: #009999">27</span>   -<span style="color: #009999">0.011072</span>
+<span style="color: #009999">2014</span>-<span style="color: #009999">01</span>-<span style="color: #009999">28</span>   -<span style="color: #009999">0.005696</span>
+<span style="color: #009999">2014</span>-<span style="color: #009999">01</span>-<span style="color: #009999">29</span>   -<span style="color: #009999">0.003474</span>
+<span style="color: #009999">2014</span>-<span style="color: #009999">01</span>-<span style="color: #009999">30</span>    <span style="color: #009999">0.010367</span>
+<span style="color: #009999">2014</span>-<span style="color: #009999">01</span>-<span style="color: #009999">31</span>    <span style="color: #009999">0.001267</span>
+<span style="color: #009999">2014</span>-<span style="color: #009999">02</span>-<span style="color: #009999">03</span>   -<span style="color: #009999">0.020803</span>
+<span style="color: #009999">2014</span>-<span style="color: #009999">02</span>-<span style="color: #009999">04</span>    <span style="color: #009999">0.013168</span>
+<span style="color: #009999">2014</span>-<span style="color: #009999">02</span>-<span style="color: #009999">05</span>   -<span style="color: #009999">0.013921</span>
+<span style="color: #009999">2014</span>-<span style="color: #009999">02</span>-<span style="color: #009999">06</span>    <span style="color: #009999">0.002827</span>
+<span style="color: #009999">2014</span>-<span style="color: #009999">02</span>-<span style="color: #009999">07</span>    <span style="color: #009999">0.015471</span>
+<span style="color: #009999">2014</span>-<span style="color: #009999">02</span>-<span style="color: #009999">10</span>    <span style="color: #009999">0.011647</span>
+<span style="color: #009999">2014</span>-<span style="color: #009999">02</span>-<span style="color: #009999">11</span>    <span style="color: #009999">0.010688</span>
+<span style="color: #009999">2014</span>-<span style="color: #009999">02</span>-<span style="color: #009999">12</span>    <span style="color: #009999">0.000629</span>
+<span style="color: #009999">2014</span>-<span style="color: #009999">02</span>-<span style="color: #009999">13</span>    <span style="color: #009999">0.006456</span>
+<span style="color: #009999">2014</span>-<span style="color: #009999">02</span>-<span style="color: #009999">14</span>   -<span style="color: #009999">0.005182</span>
+                ...   
+<span style="color: #009999">2015</span>-<span style="color: #009999">11</span>-<span style="color: #009999">18</span>    <span style="color: #009999">0.026742</span>
+<span style="color: #009999">2015</span>-<span style="color: #009999">11</span>-<span style="color: #009999">19</span>   -<span style="color: #009999">0.001601</span>
+<span style="color: #009999">2015</span>-<span style="color: #009999">11</span>-<span style="color: #009999">20</span>    <span style="color: #009999">0.002095</span>
+<span style="color: #009999">2015</span>-<span style="color: #009999">11</span>-<span style="color: #009999">23</span>   -<span style="color: #009999">0.006045</span>
+<span style="color: #009999">2015</span>-<span style="color: #009999">11</span>-<span style="color: #009999">24</span>    <span style="color: #009999">0.003450</span>
+<span style="color: #009999">2015</span>-<span style="color: #009999">11</span>-<span style="color: #009999">25</span>   -<span style="color: #009999">0.002265</span>
+<span style="color: #009999">2015</span>-<span style="color: #009999">11</span>-<span style="color: #009999">27</span>    <span style="color: #009999">0.001672</span>
+<span style="color: #009999">2015</span>-<span style="color: #009999">11</span>-<span style="color: #009999">30</span>   -<span style="color: #009999">0.002152</span>
+<span style="color: #009999">2015</span>-<span style="color: #009999">12</span>-<span style="color: #009999">01</span>    <span style="color: #009999">0.006161</span>
+<span style="color: #009999">2015</span>-<span style="color: #009999">12</span>-<span style="color: #009999">02</span>   -<span style="color: #009999">0.007424</span>
+<span style="color: #009999">2015</span>-<span style="color: #009999">12</span>-<span style="color: #009999">03</span>   -<span style="color: #009999">0.018559</span>
+<span style="color: #009999">2015</span>-<span style="color: #009999">12</span>-<span style="color: #009999">04</span>    <span style="color: #009999">0.030252</span>
+<span style="color: #009999">2015</span>-<span style="color: #009999">12</span>-<span style="color: #009999">07</span>   -<span style="color: #009999">0.007879</span>
+<span style="color: #009999">2015</span>-<span style="color: #009999">12</span>-<span style="color: #009999">08</span>   -<span style="color: #009999">0.002680</span>
+<span style="color: #009999">2015</span>-<span style="color: #009999">12</span>-<span style="color: #009999">09</span>   -<span style="color: #009999">0.014994</span>
+<span style="color: #009999">2015</span>-<span style="color: #009999">12</span>-<span style="color: #009999">10</span>    <span style="color: #009999">0.005565</span>
+<span style="color: #009999">2015</span>-<span style="color: #009999">12</span>-<span style="color: #009999">11</span>   -<span style="color: #009999">0.024840</span>
+<span style="color: #009999">2015</span>-<span style="color: #009999">12</span>-<span style="color: #009999">14</span>    <span style="color: #009999">0.006986</span>
+<span style="color: #009999">2015</span>-<span style="color: #009999">12</span>-<span style="color: #009999">15</span>    <span style="color: #009999">0.006360</span>
+<span style="color: #009999">2015</span>-<span style="color: #009999">12</span>-<span style="color: #009999">16</span>    <span style="color: #009999">0.013997</span>
+<span style="color: #009999">2015</span>-<span style="color: #009999">12</span>-<span style="color: #009999">17</span>   -<span style="color: #009999">0.015239</span>
+<span style="color: #009999">2015</span>-<span style="color: #009999">12</span>-<span style="color: #009999">18</span>   -<span style="color: #009999">0.023288</span>
+<span style="color: #009999">2015</span>-<span style="color: #009999">12</span>-<span style="color: #009999">21</span>    <span style="color: #009999">0.011965</span>
+<span style="color: #009999">2015</span>-<span style="color: #009999">12</span>-<span style="color: #009999">22</span>    <span style="color: #009999">0.004336</span>
+<span style="color: #009999">2015</span>-<span style="color: #009999">12</span>-<span style="color: #009999">23</span>    <span style="color: #009999">0.009495</span>
+<span style="color: #009999">2015</span>-<span style="color: #009999">12</span>-<span style="color: #009999">24</span>   -<span style="color: #009999">0.001891</span>
+<span style="color: #009999">2015</span>-<span style="color: #009999">12</span>-<span style="color: #009999">28</span>   -<span style="color: #009999">0.007722</span>
+<span style="color: #009999">2015</span>-<span style="color: #009999">12</span>-<span style="color: #009999">29</span>    <span style="color: #009999">0.013658</span>
+<span style="color: #009999">2015</span>-<span style="color: #009999">12</span>-<span style="color: #009999">30</span>   -<span style="color: #009999">0.010179</span>
+<span style="color: #009999">2015</span>-<span style="color: #009999">12</span>-<span style="color: #009999">31</span>   -<span style="color: #009999">0.014207</span>
+dtype: float64
+
+
+Average Daily Return:<span style="color: #009999">0.000659937473472</span>
+
+Volatility: <span style="color: #009999">0.011682884793</span>
+
+Sharpe Ratio: <span style="color: #009999">0.896711967941</span>
+
+Beta: <span style="color: #009999">1.168979102</span>
+
+Treynor Ratio: <span style="color: #009999">0.296459387531</span>
+</pre></div>
+
+
+			  <p>Looking at the output above, we see that our portfolio has almost a 35% return from our start to end date. We have the daily returns for each day along with our average daily return. We see that our portfolio is slightly volatile and that our sharpe ratio is under one. This could potentially be from the high volatility. Our beta is approximately 1.16 times what the market moves. We also have a 
+      		  <p>The above code (performance_metrics.py) can be downloaded from <a href='https://github.com/ad1m/derivative_code'>here</a>. We need a comparison for our Treynor Ratio. Let us compare the Treynor Ratio to that of SPY. We can calculate the Treynor Ratio by adding the following to the main method:</p>
+      		  <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">from</span> <span style="color: #00aaaa; text-decoration: underline">Portfolio_Constructor</span> <span style="color: #0000aa">import</span> *
+<span style="color: #0000aa">import</span> <span style="color: #00aaaa; text-decoration: underline">numpy</span> <span style="color: #0000aa">as</span> <span style="color: #00aaaa; text-decoration: underline">np</span>
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">cumulative_returns</span>(df):
+    <span style="color: #0000aa">return</span> (df[-<span style="color: #009999">1</span>]/df[<span style="color: #009999">0</span>])-<span style="color: #009999">1</span>
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">daily_returns</span>(df):
+    dr = (df/df.shift(<span style="color: #009999">1</span>)) - <span style="color: #009999">1</span>
+    dr = dr[<span style="color: #009999">1</span>:]
+    <span style="color: #0000aa">return</span> dr
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">average_daily_returns</span>(df):
+    dr = daily_returns(df)
+    <span style="color: #0000aa">return</span> dr.mean()
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">volatility</span>(df):
+    dr = daily_returns(df)
+    <span style="color: #0000aa">return</span> dr.std()
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">Sharpe_Ratio</span>(df,rf=<span style="color: #009999">0</span>):
+    samples_per_year = <span style="color: #009999">252</span>
+    mean_avg_daily_rets = (average_daily_returns(df) - rf).mean()
+    vol = volatility(df)
+    sharpe_ratio = np.sqrt(samples_per_year)*(mean_avg_daily_rets/vol)
+    <span style="color: #0000aa">return</span> sharpe_ratio
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">BTR</span>(pv,comp,start,end,shares,cash,rf=<span style="color: #009999">0</span>):
+    tickers = [comp]
+    comp_adj_close = get_adjusted_close(tickers,start,end)
+    comp_pv = Portfolio_Value(comp_adj_close,shares,cash)
+    comp_returns = daily_returns(comp_pv)
+    port_returns = daily_returns(pv)
+    covariance = np.cov(port_returns,comp_returns)[<span style="color: #009999">0</span>][<span style="color: #009999">1</span>]
+    variance = np.var(comp_returns)
+    beta = covariance/variance
+    Treynor_Ratio = (cumulative_returns(pv) - rf)/beta
+    <span style="color: #0000aa">return</span> beta,Treynor_Ratio
+
+<span style="color: #0000aa">if</span> __name__ == <span style="color: #aa5500">&#39;__main__&#39;</span>:
+    tickers = [<span style="color: #aa5500">&#39;AAPL&#39;</span>,<span style="color: #aa5500">&#39;BAC&#39;</span>,<span style="color: #aa5500">&#39;GILD&#39;</span>,<span style="color: #aa5500">&#39;MSFT&#39;</span>]
+    start = <span style="color: #aa5500">&#39;2014-01-01&#39;</span>
+    end = <span style="color: #aa5500">&#39;2016-01-01&#39;</span>
+    cash = <span style="color: #009999">100000</span>
+    shares = [<span style="color: #009999">100</span>,<span style="color: #009999">100</span>,<span style="color: #009999">100</span>,<span style="color: #009999">100</span>]
+    df = get_adjusted_close(tickers,start,end)
+    pv = Portfolio_Value(df,shares,cash)
+    cr = cumulative_returns(pv)
+    dr = daily_returns(pv)
+    adr = average_daily_returns(pv)
+    vol = volatility(pv)
+    sr = Sharpe_Ratio(pv)
+    b,tr = BTR(pv,<span style="color: #aa5500">&#39;SPY&#39;</span>,start,end,[<span style="color: #00aaaa">sum</span>(shares)],cash)
+    <span style="color: #0000aa">print</span> <span style="color: #aa5500">&#39;Cumulative Return: &#39;</span> + <span style="color: #00aaaa">str</span>(cr) +<span style="color: #aa5500">&#39;\n&#39;</span>
+    <span style="color: #0000aa">print</span> <span style="color: #aa5500">&#39;Daily Returns: \n&#39;</span>
+    <span style="color: #0000aa">print</span> dr
+    <span style="color: #0000aa">print</span> <span style="color: #aa5500">&#39;\n&#39;</span>
+    <span style="color: #0000aa">print</span> <span style="color: #aa5500">&#39;Average Daily Return:&#39;</span> + <span style="color: #00aaaa">str</span>(adr) + <span style="color: #aa5500">&#39;\n&#39;</span>
+    <span style="color: #0000aa">print</span> <span style="color: #aa5500">&#39;Volatility: &#39;</span> + <span style="color: #00aaaa">str</span>(vol) + <span style="color: #aa5500">&#39;\n&#39;</span>
+    <span style="color: #0000aa">print</span> <span style="color: #aa5500">&#39;Sharpe Ratio: &#39;</span> + <span style="color: #00aaaa">str</span>(sr) + <span style="color: #aa5500">&#39;\n&#39;</span>
+    <span style="color: #0000aa">print</span> <span style="color: #aa5500">&#39;Beta: &#39;</span> + <span style="color: #00aaaa">str</span>(b) + <span style="color: #aa5500">&#39;\n&#39;</span>
+    <span style="color: #0000aa">print</span> <span style="color: #aa5500">&#39;Treynor Ratio: &#39;</span> + <span style="color: #00aaaa">str</span>(tr) + <span style="color: #aa5500">&#39;\n&#39;</span>
+
+    <span style="color: #aaaaaa; font-style: italic">#Treynor Comparison</span>
+    tickers = [<span style="color: #aa5500">&#39;SPY&#39;</span>]
+    shares = [<span style="color: #009999">400</span>]
+    df = get_adjusted_close(tickers,start,end)
+    pv = Portfolio_Value(df,shares,cash)
+    b,tr = BTR(pv,<span style="color: #aa5500">&#39;SPY&#39;</span>,start,end,shares,cash)
+    <span style="color: #0000aa">print</span> <span style="color: #aa5500">&#39;SPY Treynor Ratio: &#39;</span> +<span style="color: #00aaaa">str</span>(tr)
+</pre></div>
+
+	<p>We see that the Treynor Ratio of SPY is lower than that of our portfolio. This is a good sign for our portfolio.</p>
+	<p>Overall, we see that our portfolio is slightly volatile, has a great cumulative return, a slightly below average Sharpe Ratio mostly due to the high volatility, a beta that is slightly higher than 1, and a higher Treynor ratio than that of the market.</p>
+	<p>We see that these metrics allow us to evaluate the strength and risk of our portfolio.</p>
+	<p>The above code (financial_metrics.py) can be downloaded from <a href='https://github.com/ad1m/derivative_code'>here</a>.</p>
+
+        <!--<p>With the above function we have an automated way of pulling stock data. All we need to do is place the tickers as strings into the tickers list and provide a start date, end date, and optional all_data parameter and we have stock data within seconds!</p>
+        <p>The above code (data_scraper.py) can be downloaded from <a href='https://github.com/ad1m/derivative_code'>here</a>.</p> -->
+
+
+        
+
+
+
+
+
+
+
+              
+    </div>
+
+  </main>
+  </body>

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Python Primer</title>
+  
+  
+  <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Inconsolata|Space+Mono:700'>
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css'>
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css'>
+
+      <link rel="stylesheet" href="css/style.css">
+
+      <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-89638118-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</head>
+
+<body>
+  <main>
+  <style>
+  a {
+    color: brown
+  }
+  .shorter {
+    width: 450px;
+  }
+  .code {
+    float: left
+  }
+  </style>
+  <div class="preview__link" href="#" itemprop="url">
+              <span class="preview__date" itemprop="datePublished" datetime="2016-09-07T00:00:00-07:00">Dec 31, 2016</span>
+              <center><h2 class="preview__header" itemprop="name">Python Primer</h2></center>
+
+
+              <p>Let's get familiar with the python language. We will start by introducing the basic data types: integers, floats, and strings.
+              </p> 
+              <p>Integers, or more commonly called ints, are exactly what you think they are. They are positive or negative whole numbers such as -2,-3,0,1,2,3, etc.. In python we do not have to declare that something is an integer such as we have to do in Java. Python will automatically pick up the integer data type for us. Let's explore some operations we can do with integers:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em; text-align"><pre style="margin: 0; line-height: 125%;">our_int = <span style="color: #009999">1</span>
+              <span style="color: #0000aa;" class='code'>print</span> <span class='code'> our_int </span>
+              <span class='code' style="color: #0000aa">print</span> <span style="color: #00aaaa" class='code'> type</span><span class='code'>(our_int)</span></pre></div>
+              <p>This will output</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #009999">1</span>
+              <span class='code'>&lt;</span><span class='code'style="color: #00aaaa" class='code'>type</span> <span class='code'><span style="color: #aa5500"> &#39;int&#39;</span class='code'>&gt;</span></pre></div>
+              <p>We see that we have created an int stored in the variable our_int and that we can use the print statement to print out our variable. We can also use the command type to check the type of our variable. Python is also great for math. Let's do some math:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">a = <span style="color: #009999">2</span>
+              <span class='code'>b = <span style="color: #009999">3</span>
+              <span class='code'>c = a+b </span>
+              <span class='code'>d = a-b </span>
+              <span class='code'>e = a*b </span>
+              <span class='code'>f = a**b </span>
+              <span class='code'>g = a/b </span>
+              <span class='code' style="color: #0000aa">print </span> <span class='code'>c,d,e,f,g</span></pre></div>
+              <p>This outputs the following:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #009999">5</span> -<span style="color: #009999">1</span> <span style="color: #009999">6</span> <span style="color: #009999">8</span> <span style="color: #009999">0</span></pre></div>
+              <p>We see that we can use + for addition, - for subtraction, * for multiplication, ** for exponents, and / for division. We also notice that when we do 2/3 we get 0 and not 0.666666666667 like we would expect. This is because python is doing division with integers and not floats, which we will talk about next.</p>
+              <p>If we wanted to get a solution of 0.666666666667 for 2/3 we need to use a float object. To create a float we add a dot to our number as follows:</p>
+              <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">a = <span style="color: #009999">1.0</span> 
+              <span class='code'style="color: #0000aa">print </span> <span class='code' style="color: #00aaaa">type</span><span class='code'>(a)</span></pre></div>
+              <p>The output is as follows:</p>
+              <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">&lt;<span style="color: #00aaaa">type</span> <span style="color: #aa5500">&#39;float&#39;</span>&gt;</pre></div>
+              <p>We can perform the same mathematical operations with floats:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">a = <span style="color: #009999">2.0</span>
+              <span class='code'>b = <span style="color: #009999">3.0</span>
+              <span class='code'>c = a+b </span>
+              <span class='code'>d = a-b </span>
+              <span class='code'>e = a*b </span>
+              <span class='code'>f = a**b </span>
+              <span class='code'>g = a/b </span>
+              <span class='code' style="color: #0000aa">print </span> <span class='code'>c,d,e,f,g</span></pre></div>
+              <p>This outputs the following:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #009999">5.0</span> -<span style="color: #009999">1.0</span> <span style="color: #009999">6.0</span> <span style="color: #009999">8.0</span> <span style="color: #009999">0.666666666667</span></pre></div>
+              <p>We note that if we have at least one float in our operation, then the type of our solution will be a float:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">print</span> <span style="color: #009999">2</span>+<span style="color: #009999">5</span>-<span style="color: #009999">3.0</span>/<span style="color: #009999">2</span></pre></div>
+              <p>The output is as follows:</p>
+              <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #009999">5.5</span></pre></div>
+              <p>Our next data type is a string. Strings allow us to output text and work with files that have non numerical data.</p>
+              <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #00aaaa">str</span> = <span style="color: #aa5500">&#39;hello!&#39;</span>
+              <span class='code'style="color: #0000aa">print </span> <span class='code' style="color: #00aaaa">type</span><span class='code'>(</span><span class='code' style="color: #00aaaa">str</span><span class='code'>)</span></pre></div>
+              <p>This outputs:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">&lt;<span style="color: #00aaaa">type</span> <span style="color: #aa5500">&#39;str&#39;</span>&gt;</pre></div>
+              <p>Strings are very useful and there are a number of different operations we can use to manipulate strings. We can add two strings together, which is called string concatenation.</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">a = <span style="color: #aa5500">&#39;Python &#39;</span>
+              <span class='code'>b = <span style="color: #aa5500">&#39;is awesome for finance!&#39;</span></span>
+              <span class='code'>c = a+b</span>
+              <span class='code'><span style="color: #0000aa">print</span> c</span></pre></div>
+              <p>This outputs:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #009999">Python is awesome for finance!</span></pre></div>
+              <p>Let's take a look at some useful methods that we can use with strings:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">a = <span style="color: #aa5500">&#39;algorithmic trading is awesome!&#39;</span>
+              <span class='code'>b = a.capitalize()</span> <span class='code' style="color: #aaaaaa; font-style: italic"> #first letter capitalized</span>
+              <span class='code' style="color: #0000aa">print</span> <span class='code'> b</span>
+              <span class='code'>c = a.count(</span><span class='code'style="color: #aa5500">&#39;a&#39;</span><span class='code'>)</span>  <span class='code' style="color: #aaaaaa; font-style: italic">#Counts how many a&#39;s are in the string</span>
+              <span class='code' style="color: #0000aa">print</span> <span class='code'> c</span>
+              <span class='code'>d = a.find(</span><span class='code' style="color: #aa5500">&#39;trading&#39;</span><span class='code'>) </span><span class='code'style="color: #aaaaaa; font-style: italic">#lowest index where the substring is found</span>
+              <span class='code' style="color: #0000aa">print</span> <span class='code'> d</span>
+              <span class='code'>e = a.replace(</span><span class='code'style="color: #aa5500">&quot;a&quot;</span><span class='code'>,</span><span class='code' style="color: #aa5500">&quot;b&quot;</span><span class='code'>) </span><span class='code' style="color: #aaaaaa; font-style: italic">#replace all a&#39;s with b&#39;s</span>
+              <span class='code' style="color: #0000aa">print</span> <span class='code'> e</span>
+              <span class='code'>f = a.split(</span><span class='code' style="color: #aa5500">&quot; &quot;</span><span class='code'>) </span><span class='code'style="color: #aaaaaa; font-style: italic">#splits all words where spaces and puts them into a list</span>
+              <span class='code' style="color: #0000aa">print</span> <span class='code'> f</span>
+              <span class='code'>g = a.upper() </span><span class='code'style="color: #aaaaaa; font-style: italic"> #makes the string all uppercase</span>
+              <span class='code' style="color: #0000aa">print</span> <span class='code'> g</span>
+              <span class='code'>h = a.lower()</span> <span class='code'style="color: #aaaaaa; font-style: italic"> #makes the string all lowercase</span>
+              <span class='code' style="color: #0000aa">print</span> <span class='code'> h</span></pre></div>
+              <p>The output is as follows:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span class='code'style="color: #009999">Algorithmic trading is awesome!</span>
+              <span class='code'style="color: #009999">3</span>
+              <span class='code'style="color: #009999">12</span>
+              <span class='code'style="color: #009999">blgorithmic trbding is bwesome!</span>
+              <span class='code'style="color: #009999"><font color='black'>[</font>'algorithmic'<font color='black'>,</font> 'trading'<font color='black'>,</font> 'is'<font color='black'>,</font> 'awesome!'<font color='black'>]</font></span>
+              <span class='code'style="color: #009999">ALGORITHMIC TRADING IS AWESOME!</span>
+              <span class='code'style="color: #009999">algorithmic trading is awesome!</span></pre></div>
+              <p>There are many different string manipulations that you can use. For more information on methods check out the official python documentation <a href='https://docs.python.org/2/library/index.html'>here</a>. This document has a wide variety of python topics and usage and is highly reccommended to look at for a full range of python features.</p>
+              <p>Financial data is time series data. So, we are going to need to know how to work with and handle dates. To handle dates we need to import datetime from the datetime package. We can do some simple date manipulation as follows:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">from</span> <span style="color: #00aaaa; text-decoration: underline">datetime</span> <span style="color: #0000aa">import</span> datetime
+              <span class='code'>x = <span style="color: #aa5500">&#39;01/01/2017&#39;</span></span>
+              <span class='code'>y = <span style="color: #aa5500">&#39;12/31/2016&#39;</span></span>
+              <span class='code'>d1 = datetime.strptime(x,</span><span class='code'style="color: #aa5500">&#39;%d/%m/%Y&#39;</span><span class='code'>)</span>
+              <span class='code'>d2 = datetime.strptime(y,<span style="color: #aa5500">&#39;%m/%d/%Y&#39;</span>)
+              <span class='code'><span style="color: #0000aa">print</span> d1</span>
+              <span class='code'><span style="color: #0000aa">print</span> d2</span></pre></div>
+              <p>The output is as follows:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #009999">2017</span>-<span style="color: #009999">01</span>-<span style="color: #009999">01</span> <span style="color: #009999">00</span>:<span style="color: #009999">00</span>:<span style="color: #009999">00</span>
+              <span class='code'><span style="color: #009999">2016</span>-<span style="color: #009999">12</span>-<span style="color: #009999">31</span> <span style="color: #009999">00</span>:<span style="color: #009999">00</span>:<span style="color: #009999">00</span></span></pre></div>
+              <p>Above, we see that we have handled two different formated dates and made them into the same format. The %d stands for day, %m stands for month, and %Y stands for year. We use a / in between each d,m,Y as that is how the date is originally separated in the x and y string variables. The 00:00:00 is a timestamp in the output above. There are many useful functions in the datetime module and you can read more about them in the official python guide referenced above.</p> 
+              <p>Let us now talk about python's data strucures. These are objects that contain a possibly large number of other objects. Python provides 4 main data structures:</p>
+              <ol>
+              <li>Tuple - a collection of arbitrary objects. There are only a few methods available with tuples.</li>
+              <li>List - a colelction of arbitrary objects. There are many methods available with lists.</li>
+              <li>Dictionary - a key-calue store object.</li>
+              <li>Set - an unordered colelction object for other unique objects.</li>
+              </ol>
+
+              <p>Let us now write some code and see what methods are available for tuples:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">t = (<span style="color: #009999">1</span>,<span style="color: #009999">2</span>,<span style="color: #009999">2.3</span>,<span style="color: #aa5500">&#39;hello&#39;</span>)
+              <span class='code'><span class='code'><span style="color: #0000aa">print</span> <span style="color: #00aaaa">type</span>(t)</span></span>
+              <span class='code'><span class='code'><span style="color: #0000aa">print</span> t[<span style="color: #009999">0</span>]</span></span>
+              <span class='code'><span style="color: #0000aa">print</span> t[-<span style="color: #009999">1</span>]</span>
+              <span class='code'><span style="color: #0000aa">print</span> t[<span style="color: #009999">0</span>:<span style="color: #009999">2</span>]</span>
+              <span class='code'><span style="color: #0000aa">print</span> t.index(<span style="color: #009999">2</span>)</span>
+              <span class='code'>g = (<span style="color: #aa5500">&#39;hello&#39;</span>,<span style="color: #aa5500">&#39;hello&#39;</span>,<span style="color: #009999">1</span>,<span style="color: #009999">2</span>,<span style="color: #009999">3</span>,<span style="color: #009999">5.4</span>)</span>
+              <span class='code'><span style="color: #0000aa">print</span> g.count(<span style="color: #aa5500">&#39;hello&#39;</span>)</span></pre></div>
+              <p>The output is as follows:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">&lt;<span style="color: #00aaaa">type</span> <span style="color: #aa5500">&#39;tuple&#39;</span>&gt;
+              <span class='code' style="color: #009999">1</span>
+              <span class='code'>hello</span>
+              <span class='code'>(<span style="color: #009999">1</span>, <span style="color: #009999">2</span>)</span>
+              <span class='code' style="color: #009999">1</span>
+              <span class='code' style="color: #009999">2</span></pre></div>
+              <p>We see that the variable t is a tuple. We then see that we can print the first element in the tuple by printing t[0]. In python we start at (or index) at 0. We can print the last element in the tuple t by printing t[-1]. We can print elements 0 and 1 in t by printing t[0:2] (note that we do not print index 2). We can get the index of the element 2 in the tuple t by using the .index method. We can count how many times the word hello appears in tuple g by using the .count method. This is about all we can do with tuples. We note that tuples are immutable. This means that we cannot change the values in the tuple, add, or remove elements in the tuple. Let us now move onto lists, which are very heavily used in the python programming language.</p>
+              <p>Let us now create a list and explore some of the methods associated with them:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">l = [<span style="color: #009999">1</span>,<span style="color: #009999">2</span>,<span style="color: #009999">3</span>,<span style="color: #009999">4</span>,<span style="color: #009999">5</span>,<span style="color: #aa5500">&#39;hi&#39;</span>]
+              <span class='code'><span style="color: #0000aa">print</span> l</span>
+              <span class='code' ><span style="color: #0000aa">print</span> l[<span style="color: #009999">0</span>]</span>
+              <span class='code'>l.append(<span style="color: #aa5500">&#39;yo&#39;</span>)</span>
+              <span class='code'><span style="color: #0000aa">print</span> l</span>
+              <span class='code'><span style="color: #0000aa">del</span> l[<span style="color: #009999">0</span>:<span style="color: #009999">2</span>]</span>
+              <span class='code'><span class='code' style="color: #0000aa">print</span> l</span>
+              <span class='code'>l.pop(<span style="color: #009999">0</span>)</span>
+              <span class='code'><span style="color: #0000aa">print</span> l</span>
+              <span class='code'>l.pop(<span style="color: #009999">1</span>)</span>
+              <span class='code'><span style="color: #0000aa">print</span> l</span>
+              <span class='code'>l.remove(<span style="color: #aa5500">&#39;hi&#39;</span>)</span>
+              <span class='code'><span style="color: #0000aa">print</span> l</span>
+              <span class='code'>l[<span style="color: #009999">0</span>] = <span style="color: #aa5500">&#39;finance&#39;</span></span>
+              <span class='code'><span style="color: #0000aa">print</span> l</span>
+              <span class='code'>l.append(<span style="color: #aa5500">&#39;finance&#39;</span>)</span>
+              <span class='code'><span style="color: #0000aa">print</span> l.count(<span style="color: #aa5500">&#39;finance&#39;</span>)</span>
+              <span class='code'>l = []</span>
+              <span class='code'><span style="color: #0000aa">print</span> l</span></pre></div>
+              <p>The output is as follows:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">[<span style="color: #009999">1</span>, <span style="color: #009999">2</span>, <span style="color: #009999">3</span>, <span style="color: #009999">4</span>, <span style="color: #009999">5</span>, <span style="color: #aa5500">&#39;hi&#39;</span>]
+              <span class='code'><span style="color: #009999">1</span></span>
+              <span class='code'>[<span style="color: #009999">1</span>, <span style="color: #009999">2</span>, <span style="color: #009999">3</span>, <span style="color: #009999">4</span>, <span style="color: #009999">5</span>, <span style="color: #aa5500">&#39;hi&#39;</span>, <span style="color: #aa5500">&#39;yo&#39;</span>]</span>
+              <span class='code'>[<span style="color: #009999">3</span>, <span style="color: #009999">4</span>, <span style="color: #009999">5</span>, <span style="color: #aa5500">&#39;hi&#39;</span>, <span style="color: #aa5500">&#39;yo&#39;</span>]</span>
+              <span class='code'>[<span style="color: #009999">4</span>, <span style="color: #009999">5</span>, <span style="color: #aa5500">&#39;hi&#39;</span>, <span style="color: #aa5500">&#39;yo&#39;</span>]</span>
+              <span class='code'>[<span style="color: #009999">4</span>, <span style="color: #aa5500">&#39;hi&#39;</span>, <span style="color: #aa5500">&#39;yo&#39;</span>]</span>
+              <span class='code'>[<span style="color: #009999">4</span>, <span style="color: #aa5500">&#39;yo&#39;</span>]</span></span>
+              <span class='code'>[<span style="color: #aa5500">&#39;finance&#39;</span>, <span style="color: #aa5500">&#39;yo&#39;</span>]</span>
+              <span class='code'><span style="color: #009999">2</span></span>
+              <span class='code'>[]</span></pre></div>
+              <p>We see that we create can retrieve the 0th element from the list l by calling l[0]. We can append an element to a list with the append method, which shows us that lists are not immutable like tuples are. We can remove some elements from the list (elements 0 and 1) using del l[0:2] and can also remove the 0th and 1st element in the list using l.pop(0) and l.pop(1). We can also remove a specific element in the list by using the remove method. We can change elelemtns in the list. For example we can set the 0th element to the string 'finance' through l[0] = 'finance'. We can also count how many times an element appears in a list using the count method. We see that the string 'finance' appears in the list l two times. Lists are powerful and we can even have a list of lists or a list of tuples as follows:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">l = [[<span style="color: #aa5500">&#39;a&#39;</span>,<span style="color: #aa5500">&#39;b&#39;</span>,<span style="color: #aa5500">&#39;c&#39;</span>],(<span style="color: #009999">1</span>,<span style="color: #009999">2</span>)] 
+              <span class='code'><span style="color: #0000aa">print</span> l</span></pre></div>
+              <p>The output is as follows:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">[[<span style="color: #aa5500">&#39;a&#39;</span>, <span style="color: #aa5500">&#39;b&#39;</span>, <span style="color: #aa5500">&#39;c&#39;</span>], (<span style="color: #009999">1</span>, <span style="color: #009999">2</span>)]</pre></div>
+              <p>Above, we see that we have a list of strings that contains a list and a tuple of integers. We note that the list inside the list has 3 elements and the tuple has 2 elements. Lists are very flexible and have a lot of functionality. Check out the official python documentation <a href='https://docs.python.org/3/tutorial/datastructures.html'>here</a> for more list methods. Another great resource to learn more about python lists comes from the book How to Think Like a Computer Scientist. The chapter on lists can be found <a href='http://openbookproject.net/thinkcs/python/english2e/ch09.html'>here</a>.</p>
+              <p>Our next data structure is the dictionary. Strings, lists, and tuples use integers as indices to access the values within them. However, dictionaries are different. They use keys and values. Each value in a dictionary has an associated key with it. Let's create some dictionaries to learn more about how they work and what they are useful for.</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #00aaaa">dict</span> = {<span style="color: #aa5500">&#39;AAPL&#39;</span>:<span style="color: #009999">115.83</span>, <span style="color: #aa5500">&#39;BAC&#39;</span>:<span style="color: #009999">22.10</span>,<span style="color: #aa5500">&#39;SLB&#39;</span>:<span style="color: #009999">85.78</span>,<span style="color: #aa5500">&#39;MSFT&#39;</span>:<span style="color: #009999">60.55</span>}
+              <span class='code'><span style="color: #0000aa">print</span> <span style="color: #00aaaa">dict</span></span>
+              <span class='code'><span style="color: #0000aa">print</span> <span style="color: #00aaaa">dict</span>[<span style="color: #aa5500">&#39;AAPL&#39;</span>]</span>
+              <span class='code'><span style="color: #00aaaa">dict</span>[<span style="color: #aa5500">&#39;CMG&#39;</span>] = <span style="color: #009999">678.88</span></span>
+              <span class='code'><span style="color: #0000aa">print</span> <span style="color: #00aaaa">dict</span></span>
+              <span class='code'><span style="color: #0000aa">del</span> <span style="color: #00aaaa">dict</span>[<span style="color: #aa5500">&#39;SLB&#39;</span>]</span>
+              <span class='code'><span style="color: #0000aa">print</span> <span style="color: #00aaaa">dict</span></span>
+              <span class='code'><span style="color: #0000aa">print</span> <span style="color: #00aaaa">dict</span>.values()</span>
+              <span class='code'><span style="color: #0000aa">print</span> <span style="color: #00aaaa">dict</span>.keys()</span>
+              <span class='code'><span style="color: #0000aa">print</span> <span style="color: #00aaaa">dict</span>.items()</span>
+              <span class='code'><span style="color: #00aaaa">dict</span>.update({<span style="color: #aa5500">&#39;GILD&#39;</span>:<span style="color: #009999">78.85</span>})</span>
+              <span class='code'><span style="color: #0000aa">print</span> <span style="color: #00aaaa">dict</span></span>
+              <span class='code'><span style="color: #0000aa">print</span> <span style="color: #00aaaa">len</span>(<span style="color: #00aaaa">dict</span>)</span>
+              <span class='code'><span style="color: #0000aa">print</span> <span style="color: #00aaaa">len</span>(<span style="color: #00aaaa">dict</span>.values())</span></pre></div>
+              <p>Our output is as follows:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span class='code'>{<span style="color: #aa5500">&#39;MSFT&#39;</span>: <span style="color: #009999">60.55</span>, <span style="color: #aa5500">&#39;AAPL&#39;</span>: <span style="color: #009999">115.83</span>, <span style="color: #aa5500">&#39;BAC&#39;</span>: <span style="color: #009999">22.1</span>, <span style="color: #aa5500">&#39;SLB&#39;</span>: <span style="color: #009999">85.78</span>}</span>
+              <span class='code'><span style="color: #009999">115.83</span></span><span class='code'>{<span style="color: #aa5500">&#39;CMG&#39;</span>: <span style="color: #009999">678.88</span>, <span style="color: #aa5500">&#39;MSFT&#39;</span>: <span style="color: #009999">60.55</span>, <span style="color: #aa5500">&#39;AAPL&#39;</span>: <span style="color: #009999">115.83</span>, <span style="color: #aa5500">&#39;BAC&#39;</span>: <span style="color: #009999">22.1</span>, <span style="color: #aa5500">&#39;SLB&#39;</span>: <span style="color: #009999">85.78</span>}</span>
+              <span class='code'>{<span style="color: #aa5500">&#39;CMG&#39;</span>: <span style="color: #009999">678.88</span>, <span style="color: #aa5500">&#39;MSFT&#39;</span>: <span style="color: #009999">60.55</span>, <span style="color: #aa5500">&#39;AAPL&#39;</span>: <span style="color: #009999">115.83</span>, <span style="color: #aa5500">&#39;BAC&#39;</span>: <span style="color: #009999">22.1</span>}</span>
+              <span class='code'>[<span style="color: #009999">678.88</span>, <span style="color: #009999">60.55</span>, <span style="color: #009999">115.83</span>, <span style="color: #009999">22.1</span>]</span>
+              <span class='code'>[<span style="color: #aa5500">&#39;CMG&#39;</span>, <span style="color: #aa5500">&#39;MSFT&#39;</span>, <span style="color: #aa5500">&#39;AAPL&#39;</span>, <span style="color: #aa5500">&#39;BAC&#39;</span>]</span>
+              <span class='code'>[(<span style="color: #aa5500">&#39;CMG&#39;</span>, <span style="color: #009999">678.88</span>), (<span style="color: #aa5500">&#39;MSFT&#39;</span>, <span style="color: #009999">60.55</span>), (<span style="color: #aa5500">&#39;AAPL&#39;</span>, <span style="color: #009999">115.83</span>), (<span style="color: #aa5500">&#39;BAC&#39;</span>, <span style="color: #009999">22.1</span>)]</span>
+              <span class='code'>{<span style="color: #aa5500">&#39;GILD&#39;</span>: <span style="color: #009999">78.85</span>, <span style="color: #aa5500">&#39;BAC&#39;</span>: <span style="color: #009999">22.1</span>, <span style="color: #aa5500">&#39;CMG&#39;</span>: <span style="color: #009999">678.88</span>, <span style="color: #aa5500">&#39;AAPL&#39;</span>: <span style="color: #009999">115.83</span>, <span style="color: #aa5500">&#39;MSFT&#39;</span>: <span style="color: #009999">60.55</span>}</span>
+              <span class='code'><span style="color: #009999">5</span></span>
+              <span class='code'><span style="color: #009999">5</span></span></pre></div>
+              <p>We see that we created a dictionary that holds stock tickers and their respective stock price. If we want to access the stock price for apple we use dict['AAPL']. If we want to change the price of CMG to 678.88 then we write dict['CMG'] = 678.88. The element before the colon is called the key and the element after the colon is called the value. Each element in a dictionary is a key value pair and we can access each value by calling its respective key. We can delete an element in our dictionary by using the del method. We can obtain a list of the dictionaries values by calling dict.values() and we can obtain a list of the keys in the dictionary by calling dict.keys(). We can obtain a list of key and value tuples by calling dict.items(). If we want to add a new item into our dictionary, say GILD, we call dict.update({'GILD':78.85}). We can use the len function to count the number of items in the dictionary. We can also use the len function to count the number of elements in a list.</p>
+              <p>So, we can add items and remove them in a dictionary and a list. When should we use one over the other? A list keeps order, while a dictionary does not. If we care about preserving order then we need to use a list. If we have keys and values then we need to use a dictionary as a list just contains values.</p>
+              <p>Finally, we have a set. We use a set to store an unordered set of items. A set will not allow duplicates, while in a list we can have duplicates. Let's explore some set methods:</p>
+              <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">s = <span style="color: #00aaaa">set</span>([<span style="color: #aa5500">&#39;AAPL&#39;</span>,<span style="color: #aa5500">&#39;AAPL&#39;</span>,<span style="color: #aa5500">&#39;BAC&#39;</span>,<span style="color: #aa5500">&#39;TLT&#39;</span>,<span style="color: #aa5500">&#39;SPY&#39;</span>])
+              <span class='code'>x = <span style="color: #00aaaa">set</span>([<span style="color: #aa5500">&#39;MSFT&#39;</span>,<span style="color: #aa5500">&#39;BAC&#39;</span>,<span style="color: #aa5500">&#39;GILD&#39;</span>,<span style="color: #aa5500">&#39;VIX&#39;</span>])</span>
+              <span class='code'><span style="color: #0000aa">print</span> s</span>
+              <span class='code'><span style="color: #0000aa">print</span> x</span>
+              <span class='code'><span style="color: #0000aa">print</span> s.intersection(x)</span>
+              <span class='code'><span style="color: #0000aa">print</span> s.union(x)</span>
+              <span class='code'><span style="color: #0000aa">print</span> s.difference(x) <span style="color: #aaaaaa; font-style: italic">#in s but not x </span></span>
+              <span class='code'><span style="color: #0000aa">print</span> x.difference(s) <span style="color: #aaaaaa; font-style: italic">#in x but not s </span></span><span class='code'><span style="color: #0000aa">print</span> s.symmetric_difference(x) <span style="color: #aaaaaa; font-style: italic">#in either one but not both </span></span>
+              <span class='code'><span style="color: #0000aa">print</span> <span style="color: #00aaaa">list</span>(s) <span style="color: #aaaaaa; font-style: italic">#turning the set into a list</span></span>
+              </pre></div>
+              <p>Our output is as follows:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #00aaaa">set</span>([<span style="color: #aa5500">&#39;SPY&#39;</span>, <span style="color: #aa5500">&#39;AAPL&#39;</span>, <span style="color: #aa5500">&#39;BAC&#39;</span>, <span style="color: #aa5500">&#39;TLT&#39;</span>])
+              <span class='code'><span style="color: #00aaaa">set</span>([<span style="color: #aa5500">&#39;GILD&#39;</span>, <span style="color: #aa5500">&#39;VIX&#39;</span>, <span style="color: #aa5500">&#39;BAC&#39;</span>, <span style="color: #aa5500">&#39;MSFT&#39;</span>])</span>
+              <span class='code'><span style="color: #00aaaa">set</span>([<span style="color: #aa5500">&#39;BAC&#39;</span>])</span>
+              <span class='code'><span style="color: #00aaaa">set</span>([<span style="color: #aa5500">&#39;SPY&#39;</span>, <span style="color: #aa5500">&#39;TLT&#39;</span>, <span style="color: #aa5500">&#39;GILD&#39;</span>, <span style="color: #aa5500">&#39;AAPL&#39;</span>, <span style="color: #aa5500">&#39;BAC&#39;</span>, <span style="color: #aa5500">&#39;VIX&#39;</span>, <span style="color: #aa5500">&#39;MSFT&#39;</span>])</span>
+              <span class='code'><span style="color: #00aaaa">set</span>([<span style="color: #aa5500">&#39;SPY&#39;</span>, <span style="color: #aa5500">&#39;AAPL&#39;</span>, <span style="color: #aa5500">&#39;TLT&#39;</span>])</span>
+              <span class='code'><span style="color: #00aaaa">set</span>([<span style="color: #aa5500">&#39;GILD&#39;</span>, <span style="color: #aa5500">&#39;VIX&#39;</span>, <span style="color: #aa5500">&#39;MSFT&#39;</span>])</span>
+              <span class='code'><span style="color: #00aaaa">set</span>([<span style="color: #aa5500">&#39;SPY&#39;</span>, <span style="color: #aa5500">&#39;TLT&#39;</span>, <span style="color: #aa5500">&#39;GILD&#39;</span>, <span style="color: #aa5500">&#39;AAPL&#39;</span>, <span style="color: #aa5500">&#39;VIX&#39;</span>, <span style="color: #aa5500">&#39;MSFT&#39;</span>])</span>
+              <span class='code'>[<span style="color: #aa5500">&#39;SPY&#39;</span>, <span style="color: #aa5500">&#39;AAPL&#39;</span>, <span style="color: #aa5500">&#39;BAC&#39;</span>, <span style="color: #aa5500">&#39;TLT&#39;</span>]</span></pre></div>
+              <p>We see that we create two sets, s and x, that contain stock tickers. We can use s.intersection(x) to find the elements that s and x have in common. We can get all elements of s and x together using the union method. We can get the elemetns in s but not x using s.difference(x) and we can get the elements in x but not s using x.difference(s). We can also get the elements in either s or x but not in both using s.symmetric_difference(x). We can turn our set s into a list by casting s as a list: list(s).</p>
+              <p>We have briefly covered the basics of our data types and data structures. There are many more methods available, but I have coverd a few of the more popular/every day methods. If you would like to learn more check out the official python documentation. It is very extensive and will give you a strong foundation for python programming. Let us now move forward and create some python functions.</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">def</span> <span style="color: #00aa00">summer</span>(a,b): 
+              <span class='code'><span style="color: #0000aa">    return</span> a+b</span>
+
+              <span class='code'>s = summer(<span style="color: #009999">5</span>,<span style="color: #009999">8</span>)</span>
+              <span class='code'><span style="color: #0000aa">print</span> s</span></pre></div>
+              <p>This outputs:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #009999">13</span></pre></div>
+              <p>Let us walk through how this function works. We create a function called summer which takes in two parameters a and b. We then return a+b. We note that inside a function we need to indent by 4 spaces otherwise we will run into a syntax error. Outside the function we can call it and set a variable s to summer(5,8). We can then print s and we will get 13. We can return more than one variable. Let's change up the function to return the sum of two variables and the subtraction of the two variables.</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">def</span> <span style="color: #00aa00">summer</span>(a,b): 
+              <span class='code'><span style="color: #0000aa">    c =</span> a+b</span>
+              <span class='code'><span style="color: #0000aa">    d =</span> a-b</span>
+              <span class='code'><span style="color: #0000aa">    return</span> c,d</span>
+
+              <span class='code'>s1,s2 = summer(<span style="color: #009999">5</span>,<span style="color: #009999">8</span>)</span>
+              <span class='code'><span style="color: #0000aa">print</span> s1</span>
+              <span class='code'><span style="color: #0000aa">print</span> s2</span></pre></div>
+              <p>This outputs:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #009999">13</span>
+              <span class='code' style="color: #009999">-3</span></pre></div>
+              <p>We can call our function inside our function, which we call recursion. We know that 5! = 5 x 4 x 3 x 2 x 1 = 120. Let's write a recursive function that computes the factorial of a given number. To do this we are going to need to know about if and else statements. An if statement let's us execute certain code if a contition is met, else we can execute some other code. Let's take a look at an example of this in our recursive factorial function:</p>
+<!-- If we do not indent the code then the hilite.me works great without needing to put a span around each text with the code class -->
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">def</span> <span style="color: #00aa00">factorial</span>(a): 
+    <span style="color: #0000aa">if</span> a &lt; <span style="color: #009999">1</span>: 
+        <span style="color: #0000aa">return</span> <span style="color: #009999">1</span>
+    <span style="color: #0000aa">else</span>: 
+        s = a*factorial(a-<span style="color: #009999">1</span>)
+        <span style="color: #0000aa">return</span> s
+
+f = factorial(<span style="color: #009999">5</span>)
+<span style="color: #0000aa">print</span> f 
+</pre></div>
+            <p>The output is as follows:</p>
+            <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #009999">120</span></pre></div>
+            <p>We created a function called factorial that takes in a parameter a. If a is less than 1 then we return 1, since 1! = 1. Else, we return s = a*factorial(a-1). This is the recursive call. When we enter 5 in for a, we see that we have a > 1 so we move to the else clause. We then have s = 5*factorial(5-1) = 5*factorial(4). Then, factorial(4) becomes 4*factorial(3) which becomes 4*3*factorial(2) which becomes 4*3*2*1. So, we have factorial(5) = 5*factorial(4) = 5*4*3*2*1 = 120. We now see how to create functions and work with if and else statements. However, there is one other conditional called elif. Let's take a look at some code involving if, elif, and else and then let's  move onto loops.</p>
+            <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">our_num = <span style="color: #009999">125</span>
+<span style="color: #0000aa">if</span> our_num &lt;= <span style="color: #009999">100</span>: 
+    <span style="color: #0000aa">print</span> <span style="color: #aa5500">&#39;a&#39;</span>
+<span style="color: #0000aa">elif</span> our_num &gt; <span style="color: #009999">100</span> <span style="color: #0000aa">and</span> our_num &lt; <span style="color: #009999">150</span>: 
+    <span style="color: #0000aa">print</span> <span style="color: #aa5500">&#39;b&#39;</span>
+<span style="color: #0000aa">else</span>: 
+    <span style="color: #0000aa">print</span> <span style="color: #aa5500">&#39;c&#39;</span>
+</pre></div>
+          <p>The output is as follows:</p>
+          <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">b
+</pre></div>
+          <p>We set our_num equal to 125. We reach the if clause and see that our number is not less than or equal to 100, so we move to the elif clause. We see that our number is between 100 and 150 so we print b. We do not reach the else clause at the end. The elif allows us to check multiple conditions instead of just an if and an else. Let us now move onto loops.
+          </p> 
+            <p>Loops allow us to execute a statement or group of statements multiple times. There are two kinds of loops:</p>
+            <ol>
+            <li>For Loops: Executes a sequence of statements n times,</li>
+            <li>While Loops: Executes a statement until a condition is met.</li>
+            </ol>
+            <p>Let us first take a look at an example of a for loop:</p>
+            <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">x = [<span style="color: #009999">1</span>,<span style="color: #009999">2</span>,<span style="color: #009999">3</span>,<span style="color: #009999">4</span>,<span style="color: #009999">5</span>]
+y = []
+<span style="color: #0000aa">for</span> item <span style="color: #0000aa">in</span> x: 
+    y.append(<span style="color: #009999">2</span>*item)
+<span style="color: #0000aa">print</span> y
+
+<span style="color: #aaaaaa; font-style: italic">#We can write the same for loop above as the following</span>
+y = [<span style="color: #009999">2</span>*item <span style="color: #0000aa">for</span> item <span style="color: #0000aa">in</span> x]
+<span style="color: #0000aa">print</span> y
+</pre></div>
+            <p>The output is as follows:</p>
+            <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">[<span style="color: #009999">2</span>, <span style="color: #009999">4</span>, <span style="color: #009999">6</span>, <span style="color: #009999">8</span>, <span style="color: #009999">10</span>]
+[<span style="color: #009999">2</span>, <span style="color: #009999">4</span>, <span style="color: #009999">6</span>, <span style="color: #009999">8</span>, <span style="color: #009999">10</span>]
+</pre></div>
+            <p>We first create a list x and an empty list y. We use a for loop to iterate through the elements of x and append 2 times the element in x into a list y. We see that there are two ways to write this for loop. The second method is exactly the same as the first method but only takes up one line. When writing code, we want it to be clean. This means that we want it as short as possible, but as readable as possible. The second method is a nice concise way to write the first method.</p>
+
+            <p>We can also place a for loop inside a for loop. This is called nesting a for loop. Let's take a look at an example of this:</p>
+            <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">x = [<span style="color: #009999">1</span>,<span style="color: #009999">2</span>,<span style="color: #009999">3</span>]
+y = [<span style="color: #aa5500">&#39;a&#39;</span>,<span style="color: #aa5500">&#39;b&#39;</span>,<span style="color: #aa5500">&#39;c&#39;</span>]
+z = []
+<span style="color: #0000aa">for</span> i <span style="color: #0000aa">in</span> x: 
+    <span style="color: #0000aa">for</span> j <span style="color: #0000aa">in</span> y: 
+        z.append((i,j))
+<span style="color: #0000aa">print</span> z
+</pre></div>
+            <p>The output is as follows:</p>
+            <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">[(<span style="color: #009999">1</span>, <span style="color: #aa5500">&#39;a&#39;</span>), (<span style="color: #009999">1</span>, <span style="color: #aa5500">&#39;b&#39;</span>), (<span style="color: #009999">1</span>, <span style="color: #aa5500">&#39;c&#39;</span>), (<span style="color: #009999">2</span>, <span style="color: #aa5500">&#39;a&#39;</span>), (<span style="color: #009999">2</span>, <span style="color: #aa5500">&#39;b&#39;</span>), (<span style="color: #009999">2</span>, <span style="color: #aa5500">&#39;c&#39;</span>), (<span style="color: #009999">3</span>, <span style="color: #aa5500">&#39;a&#39;</span>), (<span style="color: #009999">3</span>, <span style="color: #aa5500">&#39;b&#39;</span>), (<span style="color: #009999">3</span>, <span style="color: #aa5500">&#39;c&#39;</span>)]
+</pre></div>
+            <p>What we did was take all combinations as tuples of elements in x and y and place them in the empty list z. We nested two for loops. First we obtain (1,'a') and add it to list z. Then we obtain (1,'b') and add it to list z. We then obtain (1,'c') and add it to list z. Now, we have indexed through y in the inner loop and we now index through x. We now get (2,'a') then (2,'b') then (2,'c') then (3,'a') then (3,'b') then (3,'c'). All of these tuples get appended into the list z.</p>
+
+            <p>Let us now take a look at an example of using a while loop:</p>
+            <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">count = <span style="color: #009999">10</span> 
+y = []
+<span style="color: #0000aa">while</span> count &gt;= <span style="color: #009999">5</span>: 
+    y.append(count)
+    count = count - <span style="color: #009999">1</span>
+<span style="color: #0000aa">print</span> y
+</pre></div>
+            <p>The output is as follows:</p>
+            <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">[<span style="color: #009999">10</span>, <span style="color: #009999">9</span>, <span style="color: #009999">8</span>, <span style="color: #009999">7</span>, <span style="color: #009999">6</span>, <span style="color: #009999">5</span>]
+</pre></div>
+            <p>We set a counter integer as 10 and created an empty list y. We note that >= means greater than or equal to. While our count variable is greater than or equal to 5 we append count into y. We then reduce count by 1. Some syntax we use in loops and conditionals are as follows:</p>
+            <ul>
+            <li> > is for greater than</li>
+            <li> < is for less than </li>
+            <li> == is for equals </li>
+            <li> >= is for greater than or equal to</li>
+            <li> <= is for less than or equal to</li>
+            </ul>
+            <p>We can also combine multiple conditionals inside our while loop, which we show below:</p>
+            <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">count = <span style="color: #009999">10</span> 
+y = []
+<span style="color: #0000aa">while</span> count &gt; <span style="color: #009999">0</span>:
+    <span style="color: #0000aa">if</span> count &gt;=<span style="color: #009999">5</span> <span style="color: #0000aa">and</span> count &lt;=<span style="color: #009999">9</span>:
+        y.append(count)
+    count = count - <span style="color: #009999">1</span>
+<span style="color: #0000aa">print</span> y
+</pre></div>
+            <p>The output is as follows:</p>
+            <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">[<span style="color: #009999">9</span>, <span style="color: #009999">8</span>, <span style="color: #009999">7</span>, <span style="color: #009999">6</span>, <span style="color: #009999">5</span>]
+</pre></div>
+            <p>We see that if our count variable becomes negative (less than zero) we stop our while loop. However, if the count variable is greater than or equal to 5 and less than or equal to 9 we append it into the list y. We can also use or in our conditionals, which is shown below:</p>
+            <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">count = <span style="color: #009999">10</span> 
+y = []
+<span style="color: #0000aa">while</span> count &gt; <span style="color: #009999">0</span>:
+    <span style="color: #0000aa">if</span> count % <span style="color: #009999">2</span> == <span style="color: #009999">0</span> <span style="color: #0000aa">or</span> count ==<span style="color: #009999">3</span>:
+        y.append(count)
+    count = count - <span style="color: #009999">1</span>
+<span style="color: #0000aa">print</span> y
+</pre></div>
+            <p>The output is as follows:</p>
+            <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">[<span style="color: #009999">10</span>, <span style="color: #009999">8</span>, <span style="color: #009999">6</span>, <span style="color: #009999">4</span>, <span style="color: #009999">3</span>, <span style="color: #009999">2</span>]
+</pre></div>
+            <p>The % in the code above is called modulo. If x % 2 is zero then we have an even number. 3 % 2 is 1 becaues 2 goes into 3 with 1 left over and 9 % 5 is 4 because 5 goes into 9 once with 4 left over. We see that if count is even or if count is equal to 3 then we add it into the list y.</p>
+            <p>We will now introduce break and continue. If we break, we exit the loop. Continue just tells us to continue doing what we are doing. An example of using break and continue within a for loop is found below:</p>
+            <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">x = [<span style="color: #009999">1</span>,<span style="color: #009999">2</span>,<span style="color: #009999">3</span>,<span style="color: #009999">4</span>,<span style="color: #009999">5</span>]
+<span style="color: #0000aa">for</span> i <span style="color: #0000aa">in</span> x: 
+    <span style="color: #0000aa">if</span> i == <span style="color: #009999">4</span>:
+        <span style="color: #0000aa">print</span> i
+        <span style="color: #0000aa">break</span> 
+    <span style="color: #0000aa">else</span>: 
+        <span style="color: #0000aa">print</span> <span style="color: #aa5500">&#39;continue&#39;</span>
+        <span style="color: #0000aa">continue</span> 
+</pre></div>
+            <p>The output is as follows:</p>
+            <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">continue</span>
+<span style="color: #0000aa">continue</span>
+<span style="color: #0000aa">continue</span>
+<span style="color: #009999">4</span>
+</pre></div>
+            <p>We see that we iterate over x. If the element we are currently on is equal to 4, we print 4 and then exit the for loop. Else, we print continue and move onto the next element. We see that we print continue, continue, continue, 4, and then end. We do not print another continue statement for element 5 in the for loop because once we hit element 4 we break and leave the for loop.</p>
+
+            <p>Python has many powerful packages. To install a package you can use pip install package_name. If you installed anaconda you should have many useful packages installed and also the pip functionality. Two packages that are particuarly useful are numpy and pandas. To install numpy type in pip install numpy and to install pandas type in pip install pandas in the terminal or command prompt. Once we have installed a package we need to import it. Let's look at how we import packages in python.</p>
+            <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">import</span> <span style="color: #00aaaa; text-decoration: underline">numpy</span> <span style="color: #0000aa">as</span> <span style="color: #00aaaa; text-decoration: underline">np</span>
+<span style="color: #0000aa">import</span> <span style="color: #00aaaa; text-decoration: underline">time</span>
+<span style="color: #0000aa">import</span> <span style="color: #00aaaa; text-decoration: underline">random</span> 
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">reg_mean</span>(x):
+    <span style="color: #0000aa">return</span> <span style="color: #00aaaa">sum</span>(x)/<span style="color: #00aaaa">len</span>(x)
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">numpy_mean</span>(x):
+    <span style="color: #0000aa">return</span> np.mean(x)
+
+x = [random.uniform(<span style="color: #009999">0</span>, <span style="color: #009999">1</span>) <span style="color: #0000aa">for</span> i <span style="color: #0000aa">in</span> <span style="color: #00aaaa">range</span>(<span style="color: #009999">10000</span>)]
+y = np.array(x)
+start = time.time()
+x1 = reg_mean(x)
+stop = time.time()
+z1 = stop - start
+<span style="color: #0000aa">print</span> stop - start 
+
+start1 = time.time()
+y1 = numpy_mean(y)
+stop1 = time.time()
+z2 = stop1 - start1
+<span style="color: #0000aa">print</span> stop1 - start1
+
+<span style="color: #0000aa">if</span> z2 &lt; z1: 
+    <span style="color: #0000aa">print</span> <span style="color: #aa5500">&#39;numpy is faster for mean operation&#39;</span>
+<span style="color: #0000aa">elif</span> z1 &lt; z1: 
+    <span style="color: #0000aa">print</span> <span style="color: #aa5500">&#39;regular python is faster for mean operation&#39;</span>
+<span style="color: #0000aa">else</span>:
+    <span style="color: #0000aa">print</span> <span style="color: #aa5500">&#39;Both operations take the same time&#39;</span>
+</pre></div>
+          <p>The output is as follows:</p>
+          <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #009999">0.00015115737915</span>
+<span style="color: #009999">0.000380039215088</span>
+numpy <span style="color: #0000aa">is</span> faster <span style="color: #0000aa">for</span> mean operation
+</pre></div>
+          <p>Once we have numpy installed we can import it. To do so we write import numpy as np. This will allow us to use the numpy package and refer to it as np instead of numpy. Numpy is a very popular package and we will cover it and pandas in the next tutorial. We also import the time and random modules which come with python. We create two functions: reg_mean() and numpy_mean(). Here, we are going to test the speed of numpy's mean function on a numpy array versus using regular python to calculate the mean of a list, where both the list and np array contain the same numbers. We first use the random module to generate 10,000 uniform random numnber between 0 and 1 and add them into a list x. We then let y be an numpy array of x. The random module is very important and is very useful. There are many different ways we can generate random numbers and a full list of ways to generate different types of random numbers can be found <a href='https://docs.python.org/2/library/random.html'>here.</a> We can use the time module to time operations. We let start be equal to time.time() and end be equal to time.time() we can then print end - start to see how many seconds our operations have taken. We call reg_mean with our list and numpy_mean with our numpy array and we see that numpy calculates the mean faster. Python has many useful third party libraries that contain many computationally inexpensive (fast) functions.
+
+          <p>We have now covered all of the basic data types and data structures with python. We have convered conditionals, loops, functions, recursion, time, and random numbers. This is a great start for any python programmer. If you are interested in learning more check out the official python documentation <a href='https://docs.python.org/2/library/index.html'>here</a> or the book How to Think Like a Computer Scientist <a href='http://openbookproject.net/thinkcs/python/english2e/'>here</a>. The following books and videos are great resources to learn more about python:</p>
+          <ul>
+          <li><a href='https://docs.python.org/2/library/'>Official Python Documentation</a></li>
+          <li><a href='http://openbookproject.net/thinkcs/python/english2e/'>How to Think Like a Computer Scientist</a></li>
+          <li><a href='https://learnpythonthehardway.org/book/'>Learn Python the Hard Way</a></li>
+          <li><a href='https://pythonprogramming.net/python-fundamental-tutorials/'>pythonprogramming.net</a></li>
+          <li><a href='https://www.fullstackpython.com/best-python-resources.html'>fullstackpython.com</a></li>
+          <li><a href='http://tdc-www.harvard.edu/Python.pdf'>Harvard Python Notes</a></li>
+          </ul>
+
+
+
+
+
+
+
+
+
+
+
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+             <!-- <center><div class='shorter' style='background:white'>
+              <p style='text-align:left'>[USER-MacBook-Pro:~ username$ python --version</p>
+              <p style='text-align:left'>Python 2.7.9</p>
+              </div></center> -->
+              <!--<center><img src='python_setup/checkpy.png' width='450px'></center> -->
+
+            
+
+              <!--<p class="preview__excerpt" itemprop="description">Getting access to historical financial data is expensive. Let's set up an environment that will help us scrape financial data from yahoo finance.</p>
+              <p>The first tool we will need is Python 2.7.9. Python version 2.7.9 is a programming langauge that is fast, easy to learn, and has tons of modules readily available. Download python version 2.7.9 from <a  href='https://www.python.org/downloads/'>here</a>. Select your correct operating system, click download, and follow the insturctions.</p> If you're not familiar with python syntax check out the python primer <a href='Python_Primer.html'>here</a> or some introduction videos <a href='https://pythonprogramming.net/python-fundamental-tutorials/'>here</a> before you proceed.
+              <p> Then, head over <a href='https://www.continuum.io/downloads'>here</a> and download the graphical installer for anaconda for python 2.7. Anaconda is a distibution that contains a bunch of python libraries that we will need.</p>
+              <p>Next, download an IDE to run your python programs. PyCharm is a great IDE and can be downloaded <a href='https://www.jetbrains.com/pycharm/'>here</a>. -->
+              
+    </div>
+
+  </main>
+  </body>

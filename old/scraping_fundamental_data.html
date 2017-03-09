@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Scraping Fundamental Data</title>
+  
+  
+  <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Inconsolata|Space+Mono:700'>
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css'>
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css'>
+
+      <link rel="stylesheet" href="css/style.css">
+
+      <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-89638118-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</head>
+
+<body>
+  <main>
+  <style>
+  a {
+  	color: brown
+  }
+  .shorter {
+    width: 450px;
+  }
+  </style>
+  <div class="preview__link" href="#" itemprop="url">
+              <span class="preview__date" itemprop="datePublished" datetime="2016-09-07T00:00:00-07:00">Jan 05, 2017</span>
+              <center><h2 class="preview__header" itemprop="name">Scraping Fundamental Data</h2></center>
+              <center><u><h4>Why Scrape Fundamental Data?</h4></u></center>
+              <p>Fundamental Data is great for qualitative analysis, but like price data the data feeds for it can be qutie costly. Yahoo Finance has a huge variety of fundamental data available. We can automate the process of looking up fundamental data by scraping it directly off thier site.</p>
+
+              <center><u><h4>Libraries We Need</h4></u></center>
+              <p>To scrape our data, we need the following libraries:</p>
+              <ol>
+              <li>urllib2 - This library contains two imports that we need, Requests and urlopen. This module comes with python, so you should not have to install it. These will help us open a Yahoo Finance link and grab data.</li>
+              <li>time - This library will allow us to put python to sleep so we don't get blocked from yahoo finance.</li>
+              </ol>
+              <center><u><h4>What Our Program Will Do</h4></u></center>
+              <p>Our program will take in a list of tickers and a list of metrics and will return the fundamental data for each stock. Additionally, we will create a directory to hold the fundamental data for each stock.</p>
+
+              <center><u><h4>Implementation</h4></u></center>
+              <p>Let us first create a python file called scrape_fundamental_data.py and import our libraries: urlib2 with the Requests and urlopen module as well as time. We do so as follows:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">from</span> <span style="color: #00aaaa; text-decoration: underline">urllib2</span> <span style="color: #0000aa">import</span> Request,urlopen
+<span style="color: #0000aa">import</span> <span style="color: #00aaaa; text-decoration: underline">time</span>
+</pre></div>
+
+
+
+              <p>We will then create our function, which we call fundamental_scraper. This will take in a list of tickers and a list of metrics.</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">from</span> <span style="color: #00aaaa; text-decoration: underline">urllib2</span> <span style="color: #0000aa">import</span> Request,urlopen
+<span style="color: #0000aa">import</span> <span style="color: #00aaaa; text-decoration: underline">time</span>
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">fundamental_scraper</span>(tickers,metrics):
+</pre></div>
+
+
+
+              <p>Yahoo finance gives us a link with code we can access in the link to grab financial data. We will create a dictionary to store these codes and pull them out of our dictioanry when we need them. The codes for the fundamental (and some technical) metrics are as follows:</p>
+              <ul>
+              <li>bid - 'b'</li>
+              <li>close - 'p'</li>
+              <li>open - 'o'</li>
+              <li>dividend_yield - 'y'</li>
+              <li>dollar_change - 'c1'</li>
+              <li>percent_change - 'p2'</li>
+              <li>days_low - 'g'</li>
+              <li>days_high - 'h'</li>
+              <li>1_year_target_price - 't8'</li>
+              <li>200_day_ma_dollar_change (moving average) - 'm5'</li>
+              <li>200_day_ma_percent_change - 'm6'</li>
+              <li>50_day_ma_dollar_change - 'm7'</li>
+              <li>50_day_ma_percent_change - 'm8'</li>
+              <li>200_day_ma - 'm4'</li>
+              <li>50_day_ma - 'm3</li>
+              <li>revenue - 's6'</li>
+              <li>52_week_high - 'k'</li>
+              <li>52_week_low - 'j'</li>
+              <li>52_week_range - 'w'</li>
+              <li>market_cap - 'j1'</li>
+              <li>float_shares - 'f6</li>
+              <li>name -'n'</li>
+              <li>symbol -'s'</li>
+              <li>exchange -'x'</li>
+              <li>shares_outstanding - 'j2'</li>
+              <li>volume -'v'</li>
+              <li>ask_size - 'a5'</li>
+              <li>bid_size - 'b6'</li>
+              <li>last_trade_size - 'k3'</li>
+              <li>average_daily_volume - 'a2'</li>
+              <li>eps - 'e'</li>
+              <li>current_eps_estimate - 'e7'</li>
+              <li>next_year_eps_estimate - 'e8'</li>
+              <li>next_quarter_eps_estimate - 'e9'</li>
+              <li>book_value - 'b4'</li>
+              <li>ebitda - 'j4'</li>
+              <li>price_to_sales - 'p5'</li>
+              <li>price_to_book - 'p6'</li>
+              <li>pe - 'r'</li>
+              <li>peg - 'r5'</li>
+              <li>short_ratio - 's7'</li>
+              </ul>
+              <p>We can create the dictionary as follows:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">from</span> <span style="color: #00aaaa; text-decoration: underline">urllib2</span> <span style="color: #0000aa">import</span> Request,urlopen
+<span style="color: #0000aa">import</span> <span style="color: #00aaaa; text-decoration: underline">time</span>
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">fundamental_scraper</span>(tickers,metrics):
+    d = {<span style="color: #aa5500">&#39;bid&#39;</span>:<span style="color: #aa5500">&#39;b&#39;</span>,<span style="color: #aa5500">&#39;close&#39;</span>:<span style="color: #aa5500">&#39;p&#39;</span>,<span style="color: #aa5500">&#39;open&#39;</span>:<span style="color: #aa5500">&#39;o&#39;</span>,<span style="color: #aa5500">&#39;dividend_yield&#39;</span>:<span style="color: #aa5500">&#39;y&#39;</span>,<span style="color: #aa5500">&#39;dollar_change&#39;</span>:<span style="color: #aa5500">&#39;c1&#39;</span>,<span style="color: #aa5500">&#39;percent_change&#39;</span>:<span style="color: #aa5500">&#39;p2&#39;</span>,
+         <span style="color: #aa5500">&#39;days_low&#39;</span>:<span style="color: #aa5500">&#39;g&#39;</span>,<span style="color: #aa5500">&#39;days_high&#39;</span>:<span style="color: #aa5500">&#39;h&#39;</span>,<span style="color: #aa5500">&#39;1_year_target_price&#39;</span>:<span style="color: #aa5500">&#39;t8&#39;</span>,<span style="color: #aa5500">&#39;200_day_ma_dollar_change&#39;</span>:<span style="color: #aa5500">&#39;m5&#39;</span>,
+         <span style="color: #aa5500">&#39;200_day_ma_percent_change&#39;</span>:<span style="color: #aa5500">&#39;m6&#39;</span>,<span style="color: #aa5500">&#39;50_day_ma_dollar_change&#39;</span>:<span style="color: #aa5500">&#39;m7&#39;</span>,<span style="color: #aa5500">&#39;50_day_ma_percent_change&#39;</span>:<span style="color: #aa5500">&#39;m8&#39;</span>,
+        <span style="color: #aa5500">&#39;200_day_ma&#39;</span>:<span style="color: #aa5500">&#39;m4&#39;</span>,<span style="color: #aa5500">&#39;50_day_ma&#39;</span>:<span style="color: #aa5500">&#39;m3&#39;</span>,<span style="color: #aa5500">&#39;revenue&#39;</span>:<span style="color: #aa5500">&#39;s6&#39;</span>,<span style="color: #aa5500">&#39;52_week_high&#39;</span>:<span style="color: #aa5500">&#39;k&#39;</span>,<span style="color: #aa5500">&#39;52_week_low&#39;</span>:<span style="color: #aa5500">&#39;j&#39;</span>,<span style="color: #aa5500">&#39;52_week_range&#39;</span>:<span style="color: #aa5500">&#39;w&#39;</span>,
+         <span style="color: #aa5500">&#39;market_cap&#39;</span>:<span style="color: #aa5500">&#39;j1&#39;</span>,<span style="color: #aa5500">&#39;float_shares&#39;</span>:<span style="color: #aa5500">&#39;f6&#39;</span>,<span style="color: #aa5500">&#39;name&#39;</span>:<span style="color: #aa5500">&#39;n&#39;</span>,<span style="color: #aa5500">&#39;symbol&#39;</span>:<span style="color: #aa5500">&#39;s&#39;</span>,<span style="color: #aa5500">&#39;exchange&#39;</span>:<span style="color: #aa5500">&#39;x&#39;</span>,<span style="color: #aa5500">&#39;shares_outstanding&#39;</span>:<span style="color: #aa5500">&#39;j2&#39;</span>,
+         <span style="color: #aa5500">&#39;volume&#39;</span>:<span style="color: #aa5500">&#39;v&#39;</span>,<span style="color: #aa5500">&#39;ask_size&#39;</span>:<span style="color: #aa5500">&#39;a5&#39;</span>,<span style="color: #aa5500">&#39;bid_size&#39;</span>:<span style="color: #aa5500">&#39;b6&#39;</span>,<span style="color: #aa5500">&#39;last_trade_size&#39;</span>:<span style="color: #aa5500">&#39;k3&#39;</span>,<span style="color: #aa5500">&#39;average_daily_volume&#39;</span>:<span style="color: #aa5500">&#39;a2&#39;</span>,<span style="color: #aa5500">&#39;eps&#39;</span>:<span style="color: #aa5500">&#39;e&#39;</span>,
+         <span style="color: #aa5500">&#39;current_eps_estimate&#39;</span>:<span style="color: #aa5500">&#39;e7&#39;</span>,<span style="color: #aa5500">&#39;next_year_eps_estimate&#39;</span>:<span style="color: #aa5500">&#39;e8&#39;</span>,<span style="color: #aa5500">&#39;next_quarter_eps_estimate&#39;</span>:<span style="color: #aa5500">&#39;e9&#39;</span>,<span style="color: #aa5500">&#39;book_value&#39;</span>:<span style="color: #aa5500">&#39;b4&#39;</span>,
+         <span style="color: #aa5500">&#39;ebitda&#39;</span>:<span style="color: #aa5500">&#39;j4&#39;</span>,<span style="color: #aa5500">&#39;price_to_sales&#39;</span>:<span style="color: #aa5500">&#39;p5&#39;</span>,<span style="color: #aa5500">&#39;price_to_book&#39;</span>:<span style="color: #aa5500">&#39;p6&#39;</span>,<span style="color: #aa5500">&#39;pe&#39;</span>:<span style="color: #aa5500">&#39;r&#39;</span>,<span style="color: #aa5500">&#39;peg&#39;</span>:<span style="color: #aa5500">&#39;r5&#39;</span>,<span style="color: #aa5500">&#39;short_ratio&#39;</span>:<span style="color: #aa5500">&#39;s7&#39;</span>}
+</pre></div>
+
+
+
+              <p>We can can pass in a list of metrics like ['pe','peg','volume'], but what if we want all metrics? We don't want to have to type all of the above metrics into a list. We can set metrics = 'all' and create a conditional to extract all values from the dictionary and all keys from the dictionary. Otherwise, we just choose the values from the dictionary that correspond to the metrics in our metrics list. We implement this as follows:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">from</span> <span style="color: #00aaaa; text-decoration: underline">urllib2</span> <span style="color: #0000aa">import</span> Request,urlopen
+<span style="color: #0000aa">import</span> <span style="color: #00aaaa; text-decoration: underline">time</span>
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">fundamental_scraper</span>(tickers,metrics):
+    d = {<span style="color: #aa5500">&#39;bid&#39;</span>:<span style="color: #aa5500">&#39;b&#39;</span>,<span style="color: #aa5500">&#39;close&#39;</span>:<span style="color: #aa5500">&#39;p&#39;</span>,<span style="color: #aa5500">&#39;open&#39;</span>:<span style="color: #aa5500">&#39;o&#39;</span>,<span style="color: #aa5500">&#39;dividend_yield&#39;</span>:<span style="color: #aa5500">&#39;y&#39;</span>,<span style="color: #aa5500">&#39;dollar_change&#39;</span>:<span style="color: #aa5500">&#39;c1&#39;</span>,<span style="color: #aa5500">&#39;percent_change&#39;</span>:<span style="color: #aa5500">&#39;p2&#39;</span>,
+         <span style="color: #aa5500">&#39;days_low&#39;</span>:<span style="color: #aa5500">&#39;g&#39;</span>,<span style="color: #aa5500">&#39;days_high&#39;</span>:<span style="color: #aa5500">&#39;h&#39;</span>,<span style="color: #aa5500">&#39;1_year_target_price&#39;</span>:<span style="color: #aa5500">&#39;t8&#39;</span>,<span style="color: #aa5500">&#39;200_day_ma_dollar_change&#39;</span>:<span style="color: #aa5500">&#39;m5&#39;</span>,
+         <span style="color: #aa5500">&#39;200_day_ma_percent_change&#39;</span>:<span style="color: #aa5500">&#39;m6&#39;</span>,<span style="color: #aa5500">&#39;50_day_ma_dollar_change&#39;</span>:<span style="color: #aa5500">&#39;m7&#39;</span>,<span style="color: #aa5500">&#39;50_day_ma_percent_change&#39;</span>:<span style="color: #aa5500">&#39;m8&#39;</span>,
+        <span style="color: #aa5500">&#39;200_day_ma&#39;</span>:<span style="color: #aa5500">&#39;m4&#39;</span>,<span style="color: #aa5500">&#39;50_day_ma&#39;</span>:<span style="color: #aa5500">&#39;m3&#39;</span>,<span style="color: #aa5500">&#39;revenue&#39;</span>:<span style="color: #aa5500">&#39;s6&#39;</span>,<span style="color: #aa5500">&#39;52_week_high&#39;</span>:<span style="color: #aa5500">&#39;k&#39;</span>,<span style="color: #aa5500">&#39;52_week_low&#39;</span>:<span style="color: #aa5500">&#39;j&#39;</span>,<span style="color: #aa5500">&#39;52_week_range&#39;</span>:<span style="color: #aa5500">&#39;w&#39;</span>,
+         <span style="color: #aa5500">&#39;market_cap&#39;</span>:<span style="color: #aa5500">&#39;j1&#39;</span>,<span style="color: #aa5500">&#39;float_shares&#39;</span>:<span style="color: #aa5500">&#39;f6&#39;</span>,<span style="color: #aa5500">&#39;name&#39;</span>:<span style="color: #aa5500">&#39;n&#39;</span>,<span style="color: #aa5500">&#39;symbol&#39;</span>:<span style="color: #aa5500">&#39;s&#39;</span>,<span style="color: #aa5500">&#39;exchange&#39;</span>:<span style="color: #aa5500">&#39;x&#39;</span>,<span style="color: #aa5500">&#39;shares_outstanding&#39;</span>:<span style="color: #aa5500">&#39;j2&#39;</span>,
+         <span style="color: #aa5500">&#39;volume&#39;</span>:<span style="color: #aa5500">&#39;v&#39;</span>,<span style="color: #aa5500">&#39;ask_size&#39;</span>:<span style="color: #aa5500">&#39;a5&#39;</span>,<span style="color: #aa5500">&#39;bid_size&#39;</span>:<span style="color: #aa5500">&#39;b6&#39;</span>,<span style="color: #aa5500">&#39;last_trade_size&#39;</span>:<span style="color: #aa5500">&#39;k3&#39;</span>,<span style="color: #aa5500">&#39;average_daily_volume&#39;</span>:<span style="color: #aa5500">&#39;a2&#39;</span>,<span style="color: #aa5500">&#39;eps&#39;</span>:<span style="color: #aa5500">&#39;e&#39;</span>,
+         <span style="color: #aa5500">&#39;current_eps_estimate&#39;</span>:<span style="color: #aa5500">&#39;e7&#39;</span>,<span style="color: #aa5500">&#39;next_year_eps_estimate&#39;</span>:<span style="color: #aa5500">&#39;e8&#39;</span>,<span style="color: #aa5500">&#39;next_quarter_eps_estimate&#39;</span>:<span style="color: #aa5500">&#39;e9&#39;</span>,<span style="color: #aa5500">&#39;book_value&#39;</span>:<span style="color: #aa5500">&#39;b4&#39;</span>,
+         <span style="color: #aa5500">&#39;ebitda&#39;</span>:<span style="color: #aa5500">&#39;j4&#39;</span>,<span style="color: #aa5500">&#39;price_to_sales&#39;</span>:<span style="color: #aa5500">&#39;p5&#39;</span>,<span style="color: #aa5500">&#39;price_to_book&#39;</span>:<span style="color: #aa5500">&#39;p6&#39;</span>,<span style="color: #aa5500">&#39;pe&#39;</span>:<span style="color: #aa5500">&#39;r&#39;</span>,<span style="color: #aa5500">&#39;peg&#39;</span>:<span style="color: #aa5500">&#39;r5&#39;</span>,<span style="color: #aa5500">&#39;short_ratio&#39;</span>:<span style="color: #aa5500">&#39;s7&#39;</span>}
+    <span style="color: #0000aa">if</span> metrics == <span style="color: #aa5500">&#39;all&#39;</span>:
+        vals = d.values()
+        metrics = d.keys()
+    <span style="color: #0000aa">else</span>:
+        vals = [d[i] <span style="color: #0000aa">for</span> i <span style="color: #0000aa">in</span> metrics]
+</pre></div>
+
+
+
+              <p>We want to save the metrics to a txt file called fundamental_metrics.txt. We also want to return a dictionary of our stock tickers with each of the metrics and their values. We can create a dictionary that has a key that is a stock ticker and a value that is a dictionary element (key and value) of the metric and metric value. To do so we need to create two empty dictionaries, let's call these d1 and d2. We can implement this and our code looks as follows:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">from</span> <span style="color: #00aaaa; text-decoration: underline">urllib2</span> <span style="color: #0000aa">import</span> Request,urlopen
+<span style="color: #0000aa">import</span> <span style="color: #00aaaa; text-decoration: underline">time</span>
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">fundamental_scraper</span>(tickers,metrics):
+    d = {<span style="color: #aa5500">&#39;bid&#39;</span>:<span style="color: #aa5500">&#39;b&#39;</span>,<span style="color: #aa5500">&#39;close&#39;</span>:<span style="color: #aa5500">&#39;p&#39;</span>,<span style="color: #aa5500">&#39;open&#39;</span>:<span style="color: #aa5500">&#39;o&#39;</span>,<span style="color: #aa5500">&#39;dividend_yield&#39;</span>:<span style="color: #aa5500">&#39;y&#39;</span>,<span style="color: #aa5500">&#39;dollar_change&#39;</span>:<span style="color: #aa5500">&#39;c1&#39;</span>,<span style="color: #aa5500">&#39;percent_change&#39;</span>:<span style="color: #aa5500">&#39;p2&#39;</span>,
+         <span style="color: #aa5500">&#39;days_low&#39;</span>:<span style="color: #aa5500">&#39;g&#39;</span>,<span style="color: #aa5500">&#39;days_high&#39;</span>:<span style="color: #aa5500">&#39;h&#39;</span>,<span style="color: #aa5500">&#39;1_year_target_price&#39;</span>:<span style="color: #aa5500">&#39;t8&#39;</span>,<span style="color: #aa5500">&#39;200_day_ma_dollar_change&#39;</span>:<span style="color: #aa5500">&#39;m5&#39;</span>,
+         <span style="color: #aa5500">&#39;200_day_ma_percent_change&#39;</span>:<span style="color: #aa5500">&#39;m6&#39;</span>,<span style="color: #aa5500">&#39;50_day_ma_dollar_change&#39;</span>:<span style="color: #aa5500">&#39;m7&#39;</span>,<span style="color: #aa5500">&#39;50_day_ma_percent_change&#39;</span>:<span style="color: #aa5500">&#39;m8&#39;</span>,
+        <span style="color: #aa5500">&#39;200_day_ma&#39;</span>:<span style="color: #aa5500">&#39;m4&#39;</span>,<span style="color: #aa5500">&#39;50_day_ma&#39;</span>:<span style="color: #aa5500">&#39;m3&#39;</span>,<span style="color: #aa5500">&#39;revenue&#39;</span>:<span style="color: #aa5500">&#39;s6&#39;</span>,<span style="color: #aa5500">&#39;52_week_high&#39;</span>:<span style="color: #aa5500">&#39;k&#39;</span>,<span style="color: #aa5500">&#39;52_week_low&#39;</span>:<span style="color: #aa5500">&#39;j&#39;</span>,<span style="color: #aa5500">&#39;52_week_range&#39;</span>:<span style="color: #aa5500">&#39;w&#39;</span>,
+         <span style="color: #aa5500">&#39;market_cap&#39;</span>:<span style="color: #aa5500">&#39;j1&#39;</span>,<span style="color: #aa5500">&#39;float_shares&#39;</span>:<span style="color: #aa5500">&#39;f6&#39;</span>,<span style="color: #aa5500">&#39;name&#39;</span>:<span style="color: #aa5500">&#39;n&#39;</span>,<span style="color: #aa5500">&#39;symbol&#39;</span>:<span style="color: #aa5500">&#39;s&#39;</span>,<span style="color: #aa5500">&#39;exchange&#39;</span>:<span style="color: #aa5500">&#39;x&#39;</span>,<span style="color: #aa5500">&#39;shares_outstanding&#39;</span>:<span style="color: #aa5500">&#39;j2&#39;</span>,
+         <span style="color: #aa5500">&#39;volume&#39;</span>:<span style="color: #aa5500">&#39;v&#39;</span>,<span style="color: #aa5500">&#39;ask_size&#39;</span>:<span style="color: #aa5500">&#39;a5&#39;</span>,<span style="color: #aa5500">&#39;bid_size&#39;</span>:<span style="color: #aa5500">&#39;b6&#39;</span>,<span style="color: #aa5500">&#39;last_trade_size&#39;</span>:<span style="color: #aa5500">&#39;k3&#39;</span>,<span style="color: #aa5500">&#39;average_daily_volume&#39;</span>:<span style="color: #aa5500">&#39;a2&#39;</span>,<span style="color: #aa5500">&#39;eps&#39;</span>:<span style="color: #aa5500">&#39;e&#39;</span>,
+         <span style="color: #aa5500">&#39;current_eps_estimate&#39;</span>:<span style="color: #aa5500">&#39;e7&#39;</span>,<span style="color: #aa5500">&#39;next_year_eps_estimate&#39;</span>:<span style="color: #aa5500">&#39;e8&#39;</span>,<span style="color: #aa5500">&#39;next_quarter_eps_estimate&#39;</span>:<span style="color: #aa5500">&#39;e9&#39;</span>,<span style="color: #aa5500">&#39;book_value&#39;</span>:<span style="color: #aa5500">&#39;b4&#39;</span>,
+         <span style="color: #aa5500">&#39;ebitda&#39;</span>:<span style="color: #aa5500">&#39;j4&#39;</span>,<span style="color: #aa5500">&#39;price_to_sales&#39;</span>:<span style="color: #aa5500">&#39;p5&#39;</span>,<span style="color: #aa5500">&#39;price_to_book&#39;</span>:<span style="color: #aa5500">&#39;p6&#39;</span>,<span style="color: #aa5500">&#39;pe&#39;</span>:<span style="color: #aa5500">&#39;r&#39;</span>,<span style="color: #aa5500">&#39;peg&#39;</span>:<span style="color: #aa5500">&#39;r5&#39;</span>,<span style="color: #aa5500">&#39;short_ratio&#39;</span>:<span style="color: #aa5500">&#39;s7&#39;</span>}
+    <span style="color: #0000aa">if</span> metrics == <span style="color: #aa5500">&#39;all&#39;</span>:
+        vals = d.values()
+        metrics = d.keys()
+    <span style="color: #0000aa">else</span>:
+        vals = [d[i] <span style="color: #0000aa">for</span> i <span style="color: #0000aa">in</span> metrics]
+    f1 = <span style="color: #00aaaa">open</span>(<span style="color: #aa5500">&#39;fundamental_metrics.txt&#39;</span>,<span style="color: #aa5500">&#39;w&#39;</span>)
+    d1 = {}
+    d2 = {}
+</pre></div>
+
+
+
+              <p>Above, d1 is the dictionary that will hold the tickers and d2 will be a dictionary that will hold the metrics and their values. We also need to create a count variable, so that every 50 requests we make, we can make our program sleep to prevent us from being blocked by yahoo finance. We then need to iterate over the range of the length of tickers. This means that if tickers =['AAPL','MSFT',GILD], then  len(tickers) is 3 and range(len(tickers)) = range(3), which will give us values 0,1,2 for each iteration of i. Inside this for loop we will write the name of the ticker we are observing (tickers[i]) to the csv file. We then need to nest a for loop for the range(len(metrics)). Here we will create our request link, and then request it. We can then open it and read, decode, and strip the content of it into a variable called content. We can then write the metric and the metric's value (the content) to the csv file under the name of the stock ticker (which is written in the first for loop). We will let pur dictionary d2 hold the metric as a key and the content as a value. Outside the nested for loop we will let d1 of the ticker (d1[ticker]) equal d2. This will let our dictionary look like dict = {'AAPL':{'pe':'13.98','peg':'1.49','eps':8.31},'GILD':{'pe':'6.86','peg':'-9.39','eps':10.81}}. We can then call dict['AAPL']['peg'] and we will get '1.49'. We can make this a float by calling float(dict['AAPL']['peg']). After this, we reset d2 to an empty dictionary and write an empty line to our file so that we can have a space before our next ticker and its data. Our code looks as follows: </p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">from</span> <span style="color: #00aaaa; text-decoration: underline">urllib2</span> <span style="color: #0000aa">import</span> Request,urlopen
+<span style="color: #0000aa">import</span> <span style="color: #00aaaa; text-decoration: underline">time</span>
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">fundamental_scraper</span>(tickers,metrics):
+    d = {<span style="color: #aa5500">&#39;bid&#39;</span>:<span style="color: #aa5500">&#39;b&#39;</span>,<span style="color: #aa5500">&#39;close&#39;</span>:<span style="color: #aa5500">&#39;p&#39;</span>,<span style="color: #aa5500">&#39;open&#39;</span>:<span style="color: #aa5500">&#39;o&#39;</span>,<span style="color: #aa5500">&#39;dividend_yield&#39;</span>:<span style="color: #aa5500">&#39;y&#39;</span>,<span style="color: #aa5500">&#39;dollar_change&#39;</span>:<span style="color: #aa5500">&#39;c1&#39;</span>,<span style="color: #aa5500">&#39;percent_change&#39;</span>:<span style="color: #aa5500">&#39;p2&#39;</span>,
+         <span style="color: #aa5500">&#39;days_low&#39;</span>:<span style="color: #aa5500">&#39;g&#39;</span>,<span style="color: #aa5500">&#39;days_high&#39;</span>:<span style="color: #aa5500">&#39;h&#39;</span>,<span style="color: #aa5500">&#39;1_year_target_price&#39;</span>:<span style="color: #aa5500">&#39;t8&#39;</span>,<span style="color: #aa5500">&#39;200_day_ma_dollar_change&#39;</span>:<span style="color: #aa5500">&#39;m5&#39;</span>,
+         <span style="color: #aa5500">&#39;200_day_ma_percent_change&#39;</span>:<span style="color: #aa5500">&#39;m6&#39;</span>,<span style="color: #aa5500">&#39;50_day_ma_dollar_change&#39;</span>:<span style="color: #aa5500">&#39;m7&#39;</span>,<span style="color: #aa5500">&#39;50_day_ma_percent_change&#39;</span>:<span style="color: #aa5500">&#39;m8&#39;</span>,
+        <span style="color: #aa5500">&#39;200_day_ma&#39;</span>:<span style="color: #aa5500">&#39;m4&#39;</span>,<span style="color: #aa5500">&#39;50_day_ma&#39;</span>:<span style="color: #aa5500">&#39;m3&#39;</span>,<span style="color: #aa5500">&#39;revenue&#39;</span>:<span style="color: #aa5500">&#39;s6&#39;</span>,<span style="color: #aa5500">&#39;52_week_high&#39;</span>:<span style="color: #aa5500">&#39;k&#39;</span>,<span style="color: #aa5500">&#39;52_week_low&#39;</span>:<span style="color: #aa5500">&#39;j&#39;</span>,<span style="color: #aa5500">&#39;52_week_range&#39;</span>:<span style="color: #aa5500">&#39;w&#39;</span>,
+         <span style="color: #aa5500">&#39;market_cap&#39;</span>:<span style="color: #aa5500">&#39;j1&#39;</span>,<span style="color: #aa5500">&#39;float_shares&#39;</span>:<span style="color: #aa5500">&#39;f6&#39;</span>,<span style="color: #aa5500">&#39;name&#39;</span>:<span style="color: #aa5500">&#39;n&#39;</span>,<span style="color: #aa5500">&#39;symbol&#39;</span>:<span style="color: #aa5500">&#39;s&#39;</span>,<span style="color: #aa5500">&#39;exchange&#39;</span>:<span style="color: #aa5500">&#39;x&#39;</span>,<span style="color: #aa5500">&#39;shares_outstanding&#39;</span>:<span style="color: #aa5500">&#39;j2&#39;</span>,
+         <span style="color: #aa5500">&#39;volume&#39;</span>:<span style="color: #aa5500">&#39;v&#39;</span>,<span style="color: #aa5500">&#39;ask_size&#39;</span>:<span style="color: #aa5500">&#39;a5&#39;</span>,<span style="color: #aa5500">&#39;bid_size&#39;</span>:<span style="color: #aa5500">&#39;b6&#39;</span>,<span style="color: #aa5500">&#39;last_trade_size&#39;</span>:<span style="color: #aa5500">&#39;k3&#39;</span>,<span style="color: #aa5500">&#39;average_daily_volume&#39;</span>:<span style="color: #aa5500">&#39;a2&#39;</span>,<span style="color: #aa5500">&#39;eps&#39;</span>:<span style="color: #aa5500">&#39;e&#39;</span>,
+         <span style="color: #aa5500">&#39;current_eps_estimate&#39;</span>:<span style="color: #aa5500">&#39;e7&#39;</span>,<span style="color: #aa5500">&#39;next_year_eps_estimate&#39;</span>:<span style="color: #aa5500">&#39;e8&#39;</span>,<span style="color: #aa5500">&#39;next_quarter_eps_estimate&#39;</span>:<span style="color: #aa5500">&#39;e9&#39;</span>,<span style="color: #aa5500">&#39;book_value&#39;</span>:<span style="color: #aa5500">&#39;b4&#39;</span>,
+         <span style="color: #aa5500">&#39;ebitda&#39;</span>:<span style="color: #aa5500">&#39;j4&#39;</span>,<span style="color: #aa5500">&#39;price_to_sales&#39;</span>:<span style="color: #aa5500">&#39;p5&#39;</span>,<span style="color: #aa5500">&#39;price_to_book&#39;</span>:<span style="color: #aa5500">&#39;p6&#39;</span>,<span style="color: #aa5500">&#39;pe&#39;</span>:<span style="color: #aa5500">&#39;r&#39;</span>,<span style="color: #aa5500">&#39;peg&#39;</span>:<span style="color: #aa5500">&#39;r5&#39;</span>,<span style="color: #aa5500">&#39;short_ratio&#39;</span>:<span style="color: #aa5500">&#39;s7&#39;</span>}
+    <span style="color: #0000aa">if</span> metrics == <span style="color: #aa5500">&#39;all&#39;</span>:
+        vals = d.values()
+        metrics = d.keys()
+    <span style="color: #0000aa">else</span>:
+        vals = [d[i] <span style="color: #0000aa">for</span> i <span style="color: #0000aa">in</span> metrics]
+    f1 = <span style="color: #00aaaa">open</span>(<span style="color: #aa5500">&#39;fundamental_metrics.txt&#39;</span>,<span style="color: #aa5500">&#39;w&#39;</span>)
+    d1 = {}
+    d2 = {}
+    count = <span style="color: #009999">1</span>
+    <span style="color: #0000aa">for</span> i <span style="color: #0000aa">in</span> <span style="color: #00aaaa">range</span>(<span style="color: #00aaaa">len</span>(tickers)):
+        f1.write(tickers[i]+<span style="color: #aa5500">&#39;\n&#39;</span>)
+        <span style="color: #0000aa">for</span> j <span style="color: #0000aa">in</span> <span style="color: #00aaaa">range</span>(<span style="color: #00aaaa">len</span>(metrics)):
+            req_link = <span style="color: #aa5500">&#39;http://finance.yahoo.com/d/quotes.csv?s=%s&amp;f=%s&#39;</span> % (tickers[i], vals[j])
+            req = Request(req_link)
+            resp = urlopen(req)
+            content = resp.read().decode().strip()
+            f1.write(metrics[j]+<span style="color: #aa5500">&#39;: &#39;</span>+<span style="color: #00aaaa">str</span>(content)+<span style="color: #aa5500">&#39;\n&#39;</span>)
+            d2[metrics[j]] = content
+        d1[tickers[i]] = d2
+        d2 = {}
+        f1.write(<span style="color: #aa5500">&#39;\n&#39;</span>)
+</pre></div>
+
+
+
+              <p>We now need to update our count variable and see if we have made more than 50 requests. We can use the modulo to check if count % 50 == 0. If it does then we use the time module and sleep for 10 seconds. With this implementation our code looks as follows:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">from</span> <span style="color: #00aaaa; text-decoration: underline">urllib2</span> <span style="color: #0000aa">import</span> Request,urlopen
+<span style="color: #0000aa">import</span> <span style="color: #00aaaa; text-decoration: underline">time</span>
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">fundamental_scraper</span>(tickers,metrics):
+    d = {<span style="color: #aa5500">&#39;bid&#39;</span>:<span style="color: #aa5500">&#39;b&#39;</span>,<span style="color: #aa5500">&#39;close&#39;</span>:<span style="color: #aa5500">&#39;p&#39;</span>,<span style="color: #aa5500">&#39;open&#39;</span>:<span style="color: #aa5500">&#39;o&#39;</span>,<span style="color: #aa5500">&#39;dividend_yield&#39;</span>:<span style="color: #aa5500">&#39;y&#39;</span>,<span style="color: #aa5500">&#39;dollar_change&#39;</span>:<span style="color: #aa5500">&#39;c1&#39;</span>,<span style="color: #aa5500">&#39;percent_change&#39;</span>:<span style="color: #aa5500">&#39;p2&#39;</span>,
+         <span style="color: #aa5500">&#39;days_low&#39;</span>:<span style="color: #aa5500">&#39;g&#39;</span>,<span style="color: #aa5500">&#39;days_high&#39;</span>:<span style="color: #aa5500">&#39;h&#39;</span>,<span style="color: #aa5500">&#39;1_year_target_price&#39;</span>:<span style="color: #aa5500">&#39;t8&#39;</span>,<span style="color: #aa5500">&#39;200_day_ma_dollar_change&#39;</span>:<span style="color: #aa5500">&#39;m5&#39;</span>,
+         <span style="color: #aa5500">&#39;200_day_ma_percent_change&#39;</span>:<span style="color: #aa5500">&#39;m6&#39;</span>,<span style="color: #aa5500">&#39;50_day_ma_dollar_change&#39;</span>:<span style="color: #aa5500">&#39;m7&#39;</span>,<span style="color: #aa5500">&#39;50_day_ma_percent_change&#39;</span>:<span style="color: #aa5500">&#39;m8&#39;</span>,
+        <span style="color: #aa5500">&#39;200_day_ma&#39;</span>:<span style="color: #aa5500">&#39;m4&#39;</span>,<span style="color: #aa5500">&#39;50_day_ma&#39;</span>:<span style="color: #aa5500">&#39;m3&#39;</span>,<span style="color: #aa5500">&#39;revenue&#39;</span>:<span style="color: #aa5500">&#39;s6&#39;</span>,<span style="color: #aa5500">&#39;52_week_high&#39;</span>:<span style="color: #aa5500">&#39;k&#39;</span>,<span style="color: #aa5500">&#39;52_week_low&#39;</span>:<span style="color: #aa5500">&#39;j&#39;</span>,<span style="color: #aa5500">&#39;52_week_range&#39;</span>:<span style="color: #aa5500">&#39;w&#39;</span>,
+         <span style="color: #aa5500">&#39;market_cap&#39;</span>:<span style="color: #aa5500">&#39;j1&#39;</span>,<span style="color: #aa5500">&#39;float_shares&#39;</span>:<span style="color: #aa5500">&#39;f6&#39;</span>,<span style="color: #aa5500">&#39;name&#39;</span>:<span style="color: #aa5500">&#39;n&#39;</span>,<span style="color: #aa5500">&#39;symbol&#39;</span>:<span style="color: #aa5500">&#39;s&#39;</span>,<span style="color: #aa5500">&#39;exchange&#39;</span>:<span style="color: #aa5500">&#39;x&#39;</span>,<span style="color: #aa5500">&#39;shares_outstanding&#39;</span>:<span style="color: #aa5500">&#39;j2&#39;</span>,
+         <span style="color: #aa5500">&#39;volume&#39;</span>:<span style="color: #aa5500">&#39;v&#39;</span>,<span style="color: #aa5500">&#39;ask_size&#39;</span>:<span style="color: #aa5500">&#39;a5&#39;</span>,<span style="color: #aa5500">&#39;bid_size&#39;</span>:<span style="color: #aa5500">&#39;b6&#39;</span>,<span style="color: #aa5500">&#39;last_trade_size&#39;</span>:<span style="color: #aa5500">&#39;k3&#39;</span>,<span style="color: #aa5500">&#39;average_daily_volume&#39;</span>:<span style="color: #aa5500">&#39;a2&#39;</span>,<span style="color: #aa5500">&#39;eps&#39;</span>:<span style="color: #aa5500">&#39;e&#39;</span>,
+         <span style="color: #aa5500">&#39;current_eps_estimate&#39;</span>:<span style="color: #aa5500">&#39;e7&#39;</span>,<span style="color: #aa5500">&#39;next_year_eps_estimate&#39;</span>:<span style="color: #aa5500">&#39;e8&#39;</span>,<span style="color: #aa5500">&#39;next_quarter_eps_estimate&#39;</span>:<span style="color: #aa5500">&#39;e9&#39;</span>,<span style="color: #aa5500">&#39;book_value&#39;</span>:<span style="color: #aa5500">&#39;b4&#39;</span>,
+         <span style="color: #aa5500">&#39;ebitda&#39;</span>:<span style="color: #aa5500">&#39;j4&#39;</span>,<span style="color: #aa5500">&#39;price_to_sales&#39;</span>:<span style="color: #aa5500">&#39;p5&#39;</span>,<span style="color: #aa5500">&#39;price_to_book&#39;</span>:<span style="color: #aa5500">&#39;p6&#39;</span>,<span style="color: #aa5500">&#39;pe&#39;</span>:<span style="color: #aa5500">&#39;r&#39;</span>,<span style="color: #aa5500">&#39;peg&#39;</span>:<span style="color: #aa5500">&#39;r5&#39;</span>,<span style="color: #aa5500">&#39;short_ratio&#39;</span>:<span style="color: #aa5500">&#39;s7&#39;</span>}
+    <span style="color: #0000aa">if</span> metrics == <span style="color: #aa5500">&#39;all&#39;</span>:
+        vals = d.values()
+        metrics = d.keys()
+    <span style="color: #0000aa">else</span>:
+        vals = [d[i] <span style="color: #0000aa">for</span> i <span style="color: #0000aa">in</span> metrics]
+    f1 = <span style="color: #00aaaa">open</span>(<span style="color: #aa5500">&#39;fundamental_metrics.txt&#39;</span>,<span style="color: #aa5500">&#39;w&#39;</span>)
+    d1 = {}
+    d2 = {}
+    count = <span style="color: #009999">1</span>
+    <span style="color: #0000aa">for</span> i <span style="color: #0000aa">in</span> <span style="color: #00aaaa">range</span>(<span style="color: #00aaaa">len</span>(tickers)):
+        f1.write(tickers[i]+<span style="color: #aa5500">&#39;\n&#39;</span>)
+        <span style="color: #0000aa">for</span> j <span style="color: #0000aa">in</span> <span style="color: #00aaaa">range</span>(<span style="color: #00aaaa">len</span>(metrics)):
+            req_link = <span style="color: #aa5500">&#39;http://finance.yahoo.com/d/quotes.csv?s=%s&amp;f=%s&#39;</span> % (tickers[i], vals[j])
+            req = Request(req_link)
+            resp = urlopen(req)
+            content = resp.read().decode().strip()
+            f1.write(metrics[j]+<span style="color: #aa5500">&#39;: &#39;</span>+<span style="color: #00aaaa">str</span>(content)+<span style="color: #aa5500">&#39;\n&#39;</span>)
+            d2[metrics[j]] = content
+        d1[tickers[i]] = d2
+        d2 = {}
+        f1.write(<span style="color: #aa5500">&#39;\n&#39;</span>)
+        count = count+<span style="color: #009999">1</span>
+        <span style="color: #0000aa">if</span> count %<span style="color: #009999">50</span> == <span style="color: #009999">0</span>:
+            time.sleep(<span style="color: #009999">10</span>)
+</pre></div>
+
+
+
+              <p>We now close our file and return our dictionary d1 which contains all metrics per ticker. Our program is finished. Our final function is as follows:</p> 
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">from</span> <span style="color: #00aaaa; text-decoration: underline">urllib2</span> <span style="color: #0000aa">import</span> Request,urlopen
+<span style="color: #0000aa">import</span> <span style="color: #00aaaa; text-decoration: underline">time</span>
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">fundamental_scraper</span>(tickers,metrics):
+    d = {<span style="color: #aa5500">&#39;bid&#39;</span>:<span style="color: #aa5500">&#39;b&#39;</span>,<span style="color: #aa5500">&#39;close&#39;</span>:<span style="color: #aa5500">&#39;p&#39;</span>,<span style="color: #aa5500">&#39;open&#39;</span>:<span style="color: #aa5500">&#39;o&#39;</span>,<span style="color: #aa5500">&#39;dividend_yield&#39;</span>:<span style="color: #aa5500">&#39;y&#39;</span>,<span style="color: #aa5500">&#39;dollar_change&#39;</span>:<span style="color: #aa5500">&#39;c1&#39;</span>,<span style="color: #aa5500">&#39;percent_change&#39;</span>:<span style="color: #aa5500">&#39;p2&#39;</span>,
+         <span style="color: #aa5500">&#39;days_low&#39;</span>:<span style="color: #aa5500">&#39;g&#39;</span>,<span style="color: #aa5500">&#39;days_high&#39;</span>:<span style="color: #aa5500">&#39;h&#39;</span>,<span style="color: #aa5500">&#39;1_year_target_price&#39;</span>:<span style="color: #aa5500">&#39;t8&#39;</span>,<span style="color: #aa5500">&#39;200_day_ma_dollar_change&#39;</span>:<span style="color: #aa5500">&#39;m5&#39;</span>,
+         <span style="color: #aa5500">&#39;200_day_ma_percent_change&#39;</span>:<span style="color: #aa5500">&#39;m6&#39;</span>,<span style="color: #aa5500">&#39;50_day_ma_dollar_change&#39;</span>:<span style="color: #aa5500">&#39;m7&#39;</span>,<span style="color: #aa5500">&#39;50_day_ma_percent_change&#39;</span>:<span style="color: #aa5500">&#39;m8&#39;</span>,
+        <span style="color: #aa5500">&#39;200_day_ma&#39;</span>:<span style="color: #aa5500">&#39;m4&#39;</span>,<span style="color: #aa5500">&#39;50_day_ma&#39;</span>:<span style="color: #aa5500">&#39;m3&#39;</span>,<span style="color: #aa5500">&#39;revenue&#39;</span>:<span style="color: #aa5500">&#39;s6&#39;</span>,<span style="color: #aa5500">&#39;52_week_high&#39;</span>:<span style="color: #aa5500">&#39;k&#39;</span>,<span style="color: #aa5500">&#39;52_week_low&#39;</span>:<span style="color: #aa5500">&#39;j&#39;</span>,<span style="color: #aa5500">&#39;52_week_range&#39;</span>:<span style="color: #aa5500">&#39;w&#39;</span>,
+         <span style="color: #aa5500">&#39;market_cap&#39;</span>:<span style="color: #aa5500">&#39;j1&#39;</span>,<span style="color: #aa5500">&#39;float_shares&#39;</span>:<span style="color: #aa5500">&#39;f6&#39;</span>,<span style="color: #aa5500">&#39;name&#39;</span>:<span style="color: #aa5500">&#39;n&#39;</span>,<span style="color: #aa5500">&#39;symbol&#39;</span>:<span style="color: #aa5500">&#39;s&#39;</span>,<span style="color: #aa5500">&#39;exchange&#39;</span>:<span style="color: #aa5500">&#39;x&#39;</span>,<span style="color: #aa5500">&#39;shares_outstanding&#39;</span>:<span style="color: #aa5500">&#39;j2&#39;</span>,
+         <span style="color: #aa5500">&#39;volume&#39;</span>:<span style="color: #aa5500">&#39;v&#39;</span>,<span style="color: #aa5500">&#39;ask_size&#39;</span>:<span style="color: #aa5500">&#39;a5&#39;</span>,<span style="color: #aa5500">&#39;bid_size&#39;</span>:<span style="color: #aa5500">&#39;b6&#39;</span>,<span style="color: #aa5500">&#39;last_trade_size&#39;</span>:<span style="color: #aa5500">&#39;k3&#39;</span>,<span style="color: #aa5500">&#39;average_daily_volume&#39;</span>:<span style="color: #aa5500">&#39;a2&#39;</span>,<span style="color: #aa5500">&#39;eps&#39;</span>:<span style="color: #aa5500">&#39;e&#39;</span>,
+         <span style="color: #aa5500">&#39;current_eps_estimate&#39;</span>:<span style="color: #aa5500">&#39;e7&#39;</span>,<span style="color: #aa5500">&#39;next_year_eps_estimate&#39;</span>:<span style="color: #aa5500">&#39;e8&#39;</span>,<span style="color: #aa5500">&#39;next_quarter_eps_estimate&#39;</span>:<span style="color: #aa5500">&#39;e9&#39;</span>,<span style="color: #aa5500">&#39;book_value&#39;</span>:<span style="color: #aa5500">&#39;b4&#39;</span>,
+         <span style="color: #aa5500">&#39;ebitda&#39;</span>:<span style="color: #aa5500">&#39;j4&#39;</span>,<span style="color: #aa5500">&#39;price_to_sales&#39;</span>:<span style="color: #aa5500">&#39;p5&#39;</span>,<span style="color: #aa5500">&#39;price_to_book&#39;</span>:<span style="color: #aa5500">&#39;p6&#39;</span>,<span style="color: #aa5500">&#39;pe&#39;</span>:<span style="color: #aa5500">&#39;r&#39;</span>,<span style="color: #aa5500">&#39;peg&#39;</span>:<span style="color: #aa5500">&#39;r5&#39;</span>,<span style="color: #aa5500">&#39;short_ratio&#39;</span>:<span style="color: #aa5500">&#39;s7&#39;</span>}
+    <span style="color: #0000aa">if</span> metrics == <span style="color: #aa5500">&#39;all&#39;</span>:
+        vals = d.values()
+        metrics = d.keys()
+    <span style="color: #0000aa">else</span>:
+        vals = [d[i] <span style="color: #0000aa">for</span> i <span style="color: #0000aa">in</span> metrics]
+    f1 = <span style="color: #00aaaa">open</span>(<span style="color: #aa5500">&#39;fundamental_metrics.txt&#39;</span>,<span style="color: #aa5500">&#39;w&#39;</span>)
+    d1 = {}
+    d2 = {}
+    count = <span style="color: #009999">1</span>
+    <span style="color: #0000aa">for</span> i <span style="color: #0000aa">in</span> <span style="color: #00aaaa">range</span>(<span style="color: #00aaaa">len</span>(tickers)):
+        f1.write(tickers[i]+<span style="color: #aa5500">&#39;\n&#39;</span>)
+        <span style="color: #0000aa">for</span> j <span style="color: #0000aa">in</span> <span style="color: #00aaaa">range</span>(<span style="color: #00aaaa">len</span>(metrics)):
+            req_link = <span style="color: #aa5500">&#39;http://finance.yahoo.com/d/quotes.csv?s=%s&amp;f=%s&#39;</span> % (tickers[i], vals[j])
+            req = Request(req_link)
+            resp = urlopen(req)
+            content = resp.read().decode().strip()
+            f1.write(metrics[j]+<span style="color: #aa5500">&#39;: &#39;</span>+<span style="color: #00aaaa">str</span>(content)+<span style="color: #aa5500">&#39;\n&#39;</span>)
+            d2[metrics[j]] = content
+        d1[tickers[i]] = d2
+        d2 = {}
+        f1.write(<span style="color: #aa5500">&#39;\n&#39;</span>)
+        count = count+<span style="color: #009999">1</span>
+        <span style="color: #0000aa">if</span> count %<span style="color: #009999">50</span> == <span style="color: #009999">0</span>:
+            time.sleep(<span style="color: #009999">10</span>)
+    f1.close()
+
+    <span style="color: #0000aa">return</span> d1
+</pre></div>
+
+
+
+
+              <p>Let us now run our program with some sample queries. Let's get the pe, peg, and average daily volume for AAPL, GILD, and MSFT. We can do so as follows:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">from</span> <span style="color: #00aaaa; text-decoration: underline">urllib2</span> <span style="color: #0000aa">import</span> Request,urlopen
+<span style="color: #0000aa">import</span> <span style="color: #00aaaa; text-decoration: underline">time</span>
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">fundamental_scraper</span>(tickers,metrics):
+    d = {<span style="color: #aa5500">&#39;bid&#39;</span>:<span style="color: #aa5500">&#39;b&#39;</span>,<span style="color: #aa5500">&#39;close&#39;</span>:<span style="color: #aa5500">&#39;p&#39;</span>,<span style="color: #aa5500">&#39;open&#39;</span>:<span style="color: #aa5500">&#39;o&#39;</span>,<span style="color: #aa5500">&#39;dividend_yield&#39;</span>:<span style="color: #aa5500">&#39;y&#39;</span>,<span style="color: #aa5500">&#39;dollar_change&#39;</span>:<span style="color: #aa5500">&#39;c1&#39;</span>,<span style="color: #aa5500">&#39;percent_change&#39;</span>:<span style="color: #aa5500">&#39;p2&#39;</span>,
+         <span style="color: #aa5500">&#39;days_low&#39;</span>:<span style="color: #aa5500">&#39;g&#39;</span>,<span style="color: #aa5500">&#39;days_high&#39;</span>:<span style="color: #aa5500">&#39;h&#39;</span>,<span style="color: #aa5500">&#39;1_year_target_price&#39;</span>:<span style="color: #aa5500">&#39;t8&#39;</span>,<span style="color: #aa5500">&#39;200_day_ma_dollar_change&#39;</span>:<span style="color: #aa5500">&#39;m5&#39;</span>,
+         <span style="color: #aa5500">&#39;200_day_ma_percent_change&#39;</span>:<span style="color: #aa5500">&#39;m6&#39;</span>,<span style="color: #aa5500">&#39;50_day_ma_dollar_change&#39;</span>:<span style="color: #aa5500">&#39;m7&#39;</span>,<span style="color: #aa5500">&#39;50_day_ma_percent_change&#39;</span>:<span style="color: #aa5500">&#39;m8&#39;</span>,
+        <span style="color: #aa5500">&#39;200_day_ma&#39;</span>:<span style="color: #aa5500">&#39;m4&#39;</span>,<span style="color: #aa5500">&#39;50_day_ma&#39;</span>:<span style="color: #aa5500">&#39;m3&#39;</span>,<span style="color: #aa5500">&#39;revenue&#39;</span>:<span style="color: #aa5500">&#39;s6&#39;</span>,<span style="color: #aa5500">&#39;52_week_high&#39;</span>:<span style="color: #aa5500">&#39;k&#39;</span>,<span style="color: #aa5500">&#39;52_week_low&#39;</span>:<span style="color: #aa5500">&#39;j&#39;</span>,<span style="color: #aa5500">&#39;52_week_range&#39;</span>:<span style="color: #aa5500">&#39;w&#39;</span>,
+         <span style="color: #aa5500">&#39;market_cap&#39;</span>:<span style="color: #aa5500">&#39;j1&#39;</span>,<span style="color: #aa5500">&#39;float_shares&#39;</span>:<span style="color: #aa5500">&#39;f6&#39;</span>,<span style="color: #aa5500">&#39;name&#39;</span>:<span style="color: #aa5500">&#39;n&#39;</span>,<span style="color: #aa5500">&#39;symbol&#39;</span>:<span style="color: #aa5500">&#39;s&#39;</span>,<span style="color: #aa5500">&#39;exchange&#39;</span>:<span style="color: #aa5500">&#39;x&#39;</span>,<span style="color: #aa5500">&#39;shares_outstanding&#39;</span>:<span style="color: #aa5500">&#39;j2&#39;</span>,
+         <span style="color: #aa5500">&#39;volume&#39;</span>:<span style="color: #aa5500">&#39;v&#39;</span>,<span style="color: #aa5500">&#39;ask_size&#39;</span>:<span style="color: #aa5500">&#39;a5&#39;</span>,<span style="color: #aa5500">&#39;bid_size&#39;</span>:<span style="color: #aa5500">&#39;b6&#39;</span>,<span style="color: #aa5500">&#39;last_trade_size&#39;</span>:<span style="color: #aa5500">&#39;k3&#39;</span>,<span style="color: #aa5500">&#39;average_daily_volume&#39;</span>:<span style="color: #aa5500">&#39;a2&#39;</span>,<span style="color: #aa5500">&#39;eps&#39;</span>:<span style="color: #aa5500">&#39;e&#39;</span>,
+         <span style="color: #aa5500">&#39;current_eps_estimate&#39;</span>:<span style="color: #aa5500">&#39;e7&#39;</span>,<span style="color: #aa5500">&#39;next_year_eps_estimate&#39;</span>:<span style="color: #aa5500">&#39;e8&#39;</span>,<span style="color: #aa5500">&#39;next_quarter_eps_estimate&#39;</span>:<span style="color: #aa5500">&#39;e9&#39;</span>,<span style="color: #aa5500">&#39;book_value&#39;</span>:<span style="color: #aa5500">&#39;b4&#39;</span>,
+         <span style="color: #aa5500">&#39;ebitda&#39;</span>:<span style="color: #aa5500">&#39;j4&#39;</span>,<span style="color: #aa5500">&#39;price_to_sales&#39;</span>:<span style="color: #aa5500">&#39;p5&#39;</span>,<span style="color: #aa5500">&#39;price_to_book&#39;</span>:<span style="color: #aa5500">&#39;p6&#39;</span>,<span style="color: #aa5500">&#39;pe&#39;</span>:<span style="color: #aa5500">&#39;r&#39;</span>,<span style="color: #aa5500">&#39;peg&#39;</span>:<span style="color: #aa5500">&#39;r5&#39;</span>,<span style="color: #aa5500">&#39;short_ratio&#39;</span>:<span style="color: #aa5500">&#39;s7&#39;</span>}
+    <span style="color: #0000aa">if</span> metrics == <span style="color: #aa5500">&#39;all&#39;</span>:
+        vals = d.values()
+        metrics = d.keys()
+    <span style="color: #0000aa">else</span>:
+        vals = [d[i] <span style="color: #0000aa">for</span> i <span style="color: #0000aa">in</span> metrics]
+    f1 = <span style="color: #00aaaa">open</span>(<span style="color: #aa5500">&#39;fundamental_metrics.txt&#39;</span>,<span style="color: #aa5500">&#39;w&#39;</span>)
+    d1 = {}
+    d2 = {}
+    count = <span style="color: #009999">1</span>
+    <span style="color: #0000aa">for</span> i <span style="color: #0000aa">in</span> <span style="color: #00aaaa">range</span>(<span style="color: #00aaaa">len</span>(tickers)):
+        f1.write(tickers[i]+<span style="color: #aa5500">&#39;\n&#39;</span>)
+        <span style="color: #0000aa">for</span> j <span style="color: #0000aa">in</span> <span style="color: #00aaaa">range</span>(<span style="color: #00aaaa">len</span>(metrics)):
+            req_link = <span style="color: #aa5500">&#39;http://finance.yahoo.com/d/quotes.csv?s=%s&amp;f=%s&#39;</span> % (tickers[i], vals[j])
+            req = Request(req_link)
+            resp = urlopen(req)
+            content = resp.read().decode().strip()
+            f1.write(metrics[j]+<span style="color: #aa5500">&#39;: &#39;</span>+<span style="color: #00aaaa">str</span>(content)+<span style="color: #aa5500">&#39;\n&#39;</span>)
+            d2[metrics[j]] = content
+        d1[tickers[i]] = d2
+        d2 = {}
+        f1.write(<span style="color: #aa5500">&#39;\n&#39;</span>)
+        count = count+<span style="color: #009999">1</span>
+        <span style="color: #0000aa">if</span> count %<span style="color: #009999">50</span> == <span style="color: #009999">0</span>:
+            time.sleep(<span style="color: #009999">10</span>)
+    f1.close()
+
+    <span style="color: #0000aa">return</span> d1
+
+<span style="color: #0000aa">if</span> __name__ == <span style="color: #aa5500">&#39;__main__&#39;</span>:
+    tickers = [<span style="color: #aa5500">&#39;AAPL&#39;</span>,<span style="color: #aa5500">&#39;GILD&#39;</span>,<span style="color: #aa5500">&#39;MSFT&#39;</span>]
+    metrics = [<span style="color: #aa5500">&#39;pe&#39;</span>,<span style="color: #aa5500">&#39;peg&#39;</span>,<span style="color: #aa5500">&#39;average_daily_volume&#39;</span>,<span style="color: #aa5500">&#39;eps&#39;</span>]
+    f = fundamental_scraper(tickers,metrics)
+    <span style="color: #0000aa">print</span> f
+    <span style="color: #0000aa">print</span> f[<span style="color: #aa5500">&#39;AAPL&#39;</span>][<span style="color: #aa5500">&#39;peg&#39;</span>]
+</pre></div>
+
+
+
+              <p>Our output is as follows:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">{<span style="color: #aa5500">&#39;GILD&#39;</span>: {<span style="color: #aa5500">&#39;average_daily_volume&#39;</span>: <span style="color: #aa5500">u&#39;9588860&#39;</span>, <span style="color: #aa5500">&#39;peg&#39;</span>: <span style="color: #aa5500">u&#39;-9.39&#39;</span>, <span style="color: #aa5500">&#39;eps&#39;</span>: <span style="color: #aa5500">u&#39;10.81&#39;</span>, <span style="color: #aa5500">&#39;pe&#39;</span>: <span style="color: #aa5500">u&#39;7.06&#39;</span>}, <span style="color: #aa5500">&#39;AAPL&#39;</span>: {<span style="color: #aa5500">&#39;average_daily_volume&#39;</span>: <span style="color: #aa5500">u&#39;32163100&#39;</span>, <span style="color: #aa5500">&#39;peg&#39;</span>: <span style="color: #aa5500">u&#39;1.48&#39;</span>, <span style="color: #aa5500">&#39;eps&#39;</span>: <span style="color: #aa5500">u&#39;8.31&#39;</span>, <span style="color: #aa5500">&#39;pe&#39;</span>: <span style="color: #aa5500">u&#39;13.96&#39;</span>}, <span style="color: #aa5500">&#39;MSFT&#39;</span>: {<span style="color: #aa5500">&#39;average_daily_volume&#39;</span>: <span style="color: #aa5500">u&#39;27784900&#39;</span>, <span style="color: #aa5500">&#39;peg&#39;</span>: <span style="color: #aa5500">u&#39;2.33&#39;</span>, <span style="color: #aa5500">&#39;eps&#39;</span>: <span style="color: #aa5500">u&#39;2.09&#39;</span>, <span style="color: #aa5500">&#39;pe&#39;</span>: <span style="color: #aa5500">u&#39;29.84&#39;</span>}}
+<span style="color: #009999">1.48</span>
+</pre></div>
+
+              <p>From above, we see that we can access the peg of AAPL through f['AAPL']['peg'], which gives us 1.48.</p>
+
+              <p>We can look at our fundamental_metrics.txt and we see the following:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">AAPL
+pe: <span style="color: #009999">13.96</span>
+peg: <span style="color: #009999">1.48</span>
+average_daily_volume: <span style="color: #009999">32163100</span>
+eps: <span style="color: #009999">8.31</span>
+
+GILD
+pe: <span style="color: #009999">7.06</span>
+peg: -<span style="color: #009999">9.39</span>
+average_daily_volume: <span style="color: #009999">9588860</span>
+eps: <span style="color: #009999">10.81</span>
+
+MSFT
+pe: <span style="color: #009999">29.84</span>
+peg: <span style="color: #009999">2.33</span>
+average_daily_volume: <span style="color: #009999">27784900</span>
+eps: <span style="color: #009999">2.09</span>
+</pre></div>
+
+
+              <p>We can run our program and request all metrics as follows:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">from</span> <span style="color: #00aaaa; text-decoration: underline">urllib2</span> <span style="color: #0000aa">import</span> Request,urlopen
+<span style="color: #0000aa">import</span> <span style="color: #00aaaa; text-decoration: underline">time</span>
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">fundamental_scraper</span>(tickers,metrics):
+    d = {<span style="color: #aa5500">&#39;bid&#39;</span>:<span style="color: #aa5500">&#39;b&#39;</span>,<span style="color: #aa5500">&#39;close&#39;</span>:<span style="color: #aa5500">&#39;p&#39;</span>,<span style="color: #aa5500">&#39;open&#39;</span>:<span style="color: #aa5500">&#39;o&#39;</span>,<span style="color: #aa5500">&#39;dividend_yield&#39;</span>:<span style="color: #aa5500">&#39;y&#39;</span>,<span style="color: #aa5500">&#39;dollar_change&#39;</span>:<span style="color: #aa5500">&#39;c1&#39;</span>,<span style="color: #aa5500">&#39;percent_change&#39;</span>:<span style="color: #aa5500">&#39;p2&#39;</span>,
+         <span style="color: #aa5500">&#39;days_low&#39;</span>:<span style="color: #aa5500">&#39;g&#39;</span>,<span style="color: #aa5500">&#39;days_high&#39;</span>:<span style="color: #aa5500">&#39;h&#39;</span>,<span style="color: #aa5500">&#39;1_year_target_price&#39;</span>:<span style="color: #aa5500">&#39;t8&#39;</span>,<span style="color: #aa5500">&#39;200_day_ma_dollar_change&#39;</span>:<span style="color: #aa5500">&#39;m5&#39;</span>,
+         <span style="color: #aa5500">&#39;200_day_ma_percent_change&#39;</span>:<span style="color: #aa5500">&#39;m6&#39;</span>,<span style="color: #aa5500">&#39;50_day_ma_dollar_change&#39;</span>:<span style="color: #aa5500">&#39;m7&#39;</span>,<span style="color: #aa5500">&#39;50_day_ma_percent_change&#39;</span>:<span style="color: #aa5500">&#39;m8&#39;</span>,
+        <span style="color: #aa5500">&#39;200_day_ma&#39;</span>:<span style="color: #aa5500">&#39;m4&#39;</span>,<span style="color: #aa5500">&#39;50_day_ma&#39;</span>:<span style="color: #aa5500">&#39;m3&#39;</span>,<span style="color: #aa5500">&#39;revenue&#39;</span>:<span style="color: #aa5500">&#39;s6&#39;</span>,<span style="color: #aa5500">&#39;52_week_high&#39;</span>:<span style="color: #aa5500">&#39;k&#39;</span>,<span style="color: #aa5500">&#39;52_week_low&#39;</span>:<span style="color: #aa5500">&#39;j&#39;</span>,<span style="color: #aa5500">&#39;52_week_range&#39;</span>:<span style="color: #aa5500">&#39;w&#39;</span>,
+         <span style="color: #aa5500">&#39;market_cap&#39;</span>:<span style="color: #aa5500">&#39;j1&#39;</span>,<span style="color: #aa5500">&#39;float_shares&#39;</span>:<span style="color: #aa5500">&#39;f6&#39;</span>,<span style="color: #aa5500">&#39;name&#39;</span>:<span style="color: #aa5500">&#39;n&#39;</span>,<span style="color: #aa5500">&#39;symbol&#39;</span>:<span style="color: #aa5500">&#39;s&#39;</span>,<span style="color: #aa5500">&#39;exchange&#39;</span>:<span style="color: #aa5500">&#39;x&#39;</span>,<span style="color: #aa5500">&#39;shares_outstanding&#39;</span>:<span style="color: #aa5500">&#39;j2&#39;</span>,
+         <span style="color: #aa5500">&#39;volume&#39;</span>:<span style="color: #aa5500">&#39;v&#39;</span>,<span style="color: #aa5500">&#39;ask_size&#39;</span>:<span style="color: #aa5500">&#39;a5&#39;</span>,<span style="color: #aa5500">&#39;bid_size&#39;</span>:<span style="color: #aa5500">&#39;b6&#39;</span>,<span style="color: #aa5500">&#39;last_trade_size&#39;</span>:<span style="color: #aa5500">&#39;k3&#39;</span>,<span style="color: #aa5500">&#39;average_daily_volume&#39;</span>:<span style="color: #aa5500">&#39;a2&#39;</span>,<span style="color: #aa5500">&#39;eps&#39;</span>:<span style="color: #aa5500">&#39;e&#39;</span>,
+         <span style="color: #aa5500">&#39;current_eps_estimate&#39;</span>:<span style="color: #aa5500">&#39;e7&#39;</span>,<span style="color: #aa5500">&#39;next_year_eps_estimate&#39;</span>:<span style="color: #aa5500">&#39;e8&#39;</span>,<span style="color: #aa5500">&#39;next_quarter_eps_estimate&#39;</span>:<span style="color: #aa5500">&#39;e9&#39;</span>,<span style="color: #aa5500">&#39;book_value&#39;</span>:<span style="color: #aa5500">&#39;b4&#39;</span>,
+         <span style="color: #aa5500">&#39;ebitda&#39;</span>:<span style="color: #aa5500">&#39;j4&#39;</span>,<span style="color: #aa5500">&#39;price_to_sales&#39;</span>:<span style="color: #aa5500">&#39;p5&#39;</span>,<span style="color: #aa5500">&#39;price_to_book&#39;</span>:<span style="color: #aa5500">&#39;p6&#39;</span>,<span style="color: #aa5500">&#39;pe&#39;</span>:<span style="color: #aa5500">&#39;r&#39;</span>,<span style="color: #aa5500">&#39;peg&#39;</span>:<span style="color: #aa5500">&#39;r5&#39;</span>,<span style="color: #aa5500">&#39;short_ratio&#39;</span>:<span style="color: #aa5500">&#39;s7&#39;</span>}
+    <span style="color: #0000aa">if</span> metrics == <span style="color: #aa5500">&#39;all&#39;</span>:
+        vals = d.values()
+        metrics = d.keys()
+    <span style="color: #0000aa">else</span>:
+        vals = [d[i] <span style="color: #0000aa">for</span> i <span style="color: #0000aa">in</span> metrics]
+    f1 = <span style="color: #00aaaa">open</span>(<span style="color: #aa5500">&#39;fundamental_metrics.txt&#39;</span>,<span style="color: #aa5500">&#39;w&#39;</span>)
+    d1 = {}
+    d2 = {}
+    count = <span style="color: #009999">1</span>
+    <span style="color: #0000aa">for</span> i <span style="color: #0000aa">in</span> <span style="color: #00aaaa">range</span>(<span style="color: #00aaaa">len</span>(tickers)):
+        f1.write(tickers[i]+<span style="color: #aa5500">&#39;\n&#39;</span>)
+        <span style="color: #0000aa">for</span> j <span style="color: #0000aa">in</span> <span style="color: #00aaaa">range</span>(<span style="color: #00aaaa">len</span>(metrics)):
+            req_link = <span style="color: #aa5500">&#39;http://finance.yahoo.com/d/quotes.csv?s=%s&amp;f=%s&#39;</span> % (tickers[i], vals[j])
+            req = Request(req_link)
+            resp = urlopen(req)
+            content = resp.read().decode().strip()
+            f1.write(metrics[j]+<span style="color: #aa5500">&#39;: &#39;</span>+<span style="color: #00aaaa">str</span>(content)+<span style="color: #aa5500">&#39;\n&#39;</span>)
+            d2[metrics[j]] = content
+        d1[tickers[i]] = d2
+        d2 = {}
+        f1.write(<span style="color: #aa5500">&#39;\n&#39;</span>)
+        count = count+<span style="color: #009999">1</span>
+        <span style="color: #0000aa">if</span> count %<span style="color: #009999">50</span> == <span style="color: #009999">0</span>:
+            time.sleep(<span style="color: #009999">10</span>)
+    f1.close()
+
+    <span style="color: #0000aa">return</span> d1
+
+<span style="color: #0000aa">if</span> __name__ == <span style="color: #aa5500">&#39;__main__&#39;</span>:
+    tickers = [<span style="color: #aa5500">&#39;AAPL&#39;</span>,<span style="color: #aa5500">&#39;GILD&#39;</span>,<span style="color: #aa5500">&#39;MSFT&#39;</span>]
+    metrics = <span style="color: #aa5500">&#39;all&#39;</span>
+    f = fundamental_scraper(tickers,metrics)
+    <span style="color: #0000aa">print</span> f
+    <span style="color: #0000aa">print</span> f[<span style="color: #aa5500">&#39;GILD&#39;</span>][<span style="color: #aa5500">&#39;revenue&#39;</span>]
+</pre></div>
+
+
+
+              <p>Our output is as follows:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">{<span style="color: #aa5500">&#39;GILD&#39;</span>: {<span style="color: #aa5500">&#39;revenue&#39;</span>: <span style="color: #aa5500">u&#39;31.58B&#39;</span>, <span style="color: #aa5500">&#39;average_daily_volume&#39;</span>: <span style="color: #aa5500">u&#39;9588860&#39;</span>, <span style="color: #aa5500">&#39;eps&#39;</span>: <span style="color: #aa5500">u&#39;10.81&#39;</span>, <span style="color: #aa5500">&#39;dollar_change&#39;</span>: <span style="color: #aa5500">u&#39;+2.22&#39;</span>, <span style="color: #aa5500">&#39;200_day_ma_percent_change&#39;</span>: <span style="color: #aa5500">u&#39;-2.13%&#39;</span>, <span style="color: #aa5500">&#39;200_day_ma&#39;</span>: <span style="color: #aa5500">u&#39;78.04&#39;</span>, <span style="color: #aa5500">&#39;close&#39;</span>: <span style="color: #aa5500">u&#39;74.16&#39;</span>, <span style="color: #aa5500">&#39;dividend_yield&#39;</span>: <span style="color: #aa5500">u&#39;2.63&#39;</span>, <span style="color: #aa5500">&#39;price_to_sales&#39;</span>: <span style="color: #aa5500">u&#39;3.09&#39;</span>, <span style="color: #aa5500">&#39;open&#39;</span>: <span style="color: #aa5500">u&#39;74.53&#39;</span>, <span style="color: #aa5500">&#39;ebitda&#39;</span>: <span style="color: #aa5500">u&#39;20.38B&#39;</span>, <span style="color: #aa5500">&#39;price_to_book&#39;</span>: <span style="color: #aa5500">u&#39;5.81&#39;</span>, <span style="color: #aa5500">&#39;52_week_range&#39;</span>: <span style="color: #aa5500">u&#39;&quot;70.83 - 103.10&quot;&#39;</span>, <span style="color: #aa5500">&#39;float_shares&#39;</span>: <span style="color: #aa5500">u&#39;1308378000&#39;</span>, <span style="color: #aa5500">&#39;52_week_high&#39;</span>: <span style="color: #aa5500">u&#39;103.10&#39;</span>, <span style="color: #aa5500">&#39;50_day_ma&#39;</span>: <span style="color: #aa5500">u&#39;73.97&#39;</span>, <span style="color: #aa5500">&#39;pe&#39;</span>: <span style="color: #aa5500">u&#39;7.06&#39;</span>, <span style="color: #aa5500">&#39;ask_size&#39;</span>: <span style="color: #aa5500">u&#39;200&#39;</span>, <span style="color: #aa5500">&#39;50_day_ma_dollar_change&#39;</span>: <span style="color: #aa5500">u&#39;2.41&#39;</span>, <span style="color: #aa5500">&#39;peg&#39;</span>: <span style="color: #aa5500">u&#39;-9.39&#39;</span>, <span style="color: #aa5500">&#39;1_year_target_price&#39;</span>: <span style="color: #aa5500">u&#39;95.19&#39;</span>, <span style="color: #aa5500">&#39;symbol&#39;</span>: <span style="color: #aa5500">u&#39;&quot;GILD&quot;&#39;</span>, <span style="color: #aa5500">&#39;book_value&#39;</span>: <span style="color: #aa5500">u&#39;12.76&#39;</span>, <span style="color: #aa5500">&#39;market_cap&#39;</span>: <span style="color: #aa5500">u&#39;100.63B&#39;</span>, <span style="color: #aa5500">&#39;percent_change&#39;</span>: <span style="color: #aa5500">u&#39;&quot;+2.99%&quot;&#39;</span>, <span style="color: #aa5500">&#39;exchange&#39;</span>: <span style="color: #aa5500">u&#39;&quot;NMS&quot;&#39;</span>, <span style="color: #aa5500">&#39;bid&#39;</span>: <span style="color: #aa5500">u&#39;76.36&#39;</span>, <span style="color: #aa5500">&#39;volume&#39;</span>: <span style="color: #aa5500">u&#39;14914161&#39;</span>, <span style="color: #aa5500">&#39;current_eps_estimate&#39;</span>: <span style="color: #aa5500">u&#39;11.47&#39;</span>, <span style="color: #aa5500">&#39;days_high&#39;</span>: <span style="color: #aa5500">u&#39;76.98&#39;</span>, <span style="color: #aa5500">&#39;200_day_ma_dollar_change&#39;</span>: <span style="color: #aa5500">u&#39;-1.66&#39;</span>, <span style="color: #aa5500">&#39;shares_outstanding&#39;</span>: <span style="color: #aa5500">u&#39;1317456000&#39;</span>, <span style="color: #aa5500">&#39;50_day_ma_percent_change&#39;</span>: <span style="color: #aa5500">u&#39;+3.26%&#39;</span>, <span style="color: #aa5500">&#39;name&#39;</span>: <span style="color: #aa5500">u&#39;&quot;Gilead Sciences, Inc.&quot;&#39;</span>, <span style="color: #aa5500">&#39;next_quarter_eps_estimate&#39;</span>: <span style="color: #aa5500">u&#39;2.60&#39;</span>, <span style="color: #aa5500">&#39;short_ratio&#39;</span>: <span style="color: #aa5500">u&#39;1.65&#39;</span>, <span style="color: #aa5500">&#39;days_low&#39;</span>: <span style="color: #aa5500">u&#39;74.38&#39;</span>, <span style="color: #aa5500">&#39;52_week_low&#39;</span>: <span style="color: #aa5500">u&#39;70.83&#39;</span>, <span style="color: #aa5500">&#39;next_year_eps_estimate&#39;</span>: <span style="color: #aa5500">u&#39;10.78&#39;</span>, <span style="color: #aa5500">&#39;bid_size&#39;</span>: <span style="color: #aa5500">u&#39;1800&#39;</span>, <span style="color: #aa5500">&#39;last_trade_size&#39;</span>: <span style="color: #aa5500">u&#39;943417&#39;</span>}, <span style="color: #aa5500">&#39;AAPL&#39;</span>: {<span style="color: #aa5500">&#39;revenue&#39;</span>: <span style="color: #aa5500">u&#39;215.64B&#39;</span>, <span style="color: #aa5500">&#39;average_daily_volume&#39;</span>: <span style="color: #aa5500">u&#39;32163100&#39;</span>, <span style="color: #aa5500">&#39;eps&#39;</span>: <span style="color: #aa5500">u&#39;8.31&#39;</span>, <span style="color: #aa5500">&#39;dollar_change&#39;</span>: <span style="color: #aa5500">u&#39;-0.13&#39;</span>, <span style="color: #aa5500">&#39;200_day_ma_percent_change&#39;</span>: <span style="color: #aa5500">u&#39;+6.71%&#39;</span>, <span style="color: #aa5500">&#39;200_day_ma&#39;</span>: <span style="color: #aa5500">u&#39;108.72&#39;</span>, <span style="color: #aa5500">&#39;close&#39;</span>: <span style="color: #aa5500">u&#39;116.15&#39;</span>, <span style="color: #aa5500">&#39;dividend_yield&#39;</span>: <span style="color: #aa5500">u&#39;1.97&#39;</span>, <span style="color: #aa5500">&#39;price_to_sales&#39;</span>: <span style="color: #aa5500">u&#39;2.87&#39;</span>, <span style="color: #aa5500">&#39;open&#39;</span>: <span style="color: #aa5500">u&#39;115.85&#39;</span>, <span style="color: #aa5500">&#39;ebitda&#39;</span>: <span style="color: #aa5500">u&#39;70.53B&#39;</span>, <span style="color: #aa5500">&#39;price_to_book&#39;</span>: <span style="color: #aa5500">u&#39;4.83&#39;</span>, <span style="color: #aa5500">&#39;52_week_range&#39;</span>: <span style="color: #aa5500">u&#39;&quot;89.47 - 118.69&quot;&#39;</span>, <span style="color: #aa5500">&#39;float_shares&#39;</span>: <span style="color: #aa5500">u&#39;5313329000&#39;</span>, <span style="color: #aa5500">&#39;52_week_high&#39;</span>: <span style="color: #aa5500">u&#39;118.69&#39;</span>, <span style="color: #aa5500">&#39;50_day_ma&#39;</span>: <span style="color: #aa5500">u&#39;113.43&#39;</span>, <span style="color: #aa5500">&#39;pe&#39;</span>: <span style="color: #aa5500">u&#39;13.96&#39;</span>, <span style="color: #aa5500">&#39;ask_size&#39;</span>: <span style="color: #aa5500">u&#39;9600&#39;</span>, <span style="color: #aa5500">&#39;50_day_ma_dollar_change&#39;</span>: <span style="color: #aa5500">u&#39;2.59&#39;</span>, <span style="color: #aa5500">&#39;peg&#39;</span>: <span style="color: #aa5500">u&#39;1.48&#39;</span>, <span style="color: #aa5500">&#39;1_year_target_price&#39;</span>: <span style="color: #aa5500">u&#39;132.14&#39;</span>, <span style="color: #aa5500">&#39;symbol&#39;</span>: <span style="color: #aa5500">u&#39;&quot;AAPL&quot;&#39;</span>, <span style="color: #aa5500">&#39;book_value&#39;</span>: <span style="color: #aa5500">u&#39;24.03&#39;</span>, <span style="color: #aa5500">&#39;market_cap&#39;</span>: <span style="color: #aa5500">u&#39;618.65B&#39;</span>, <span style="color: #aa5500">&#39;percent_change&#39;</span>: <span style="color: #aa5500">u&#39;&quot;-0.11%&quot;&#39;</span>, <span style="color: #aa5500">&#39;exchange&#39;</span>: <span style="color: #aa5500">u&#39;&quot;NMS&quot;&#39;</span>, <span style="color: #aa5500">&#39;bid&#39;</span>: <span style="color: #aa5500">u&#39;115.97&#39;</span>, <span style="color: #aa5500">&#39;volume&#39;</span>: <span style="color: #aa5500">u&#39;21118116&#39;</span>, <span style="color: #aa5500">&#39;current_eps_estimate&#39;</span>: <span style="color: #aa5500">u&#39;9.01&#39;</span>, <span style="color: #aa5500">&#39;days_high&#39;</span>: <span style="color: #aa5500">u&#39;116.51&#39;</span>, <span style="color: #aa5500">&#39;200_day_ma_dollar_change&#39;</span>: <span style="color: #aa5500">u&#39;7.30&#39;</span>, <span style="color: #aa5500">&#39;shares_outstanding&#39;</span>: <span style="color: #aa5500">u&#39;5332312000&#39;</span>, <span style="color: #aa5500">&#39;50_day_ma_percent_change&#39;</span>: <span style="color: #aa5500">u&#39;+2.28%&#39;</span>, <span style="color: #aa5500">&#39;name&#39;</span>: <span style="color: #aa5500">u&#39;&quot;Apple Inc.&quot;&#39;</span>, <span style="color: #aa5500">&#39;next_quarter_eps_estimate&#39;</span>: <span style="color: #aa5500">u&#39;2.13&#39;</span>, <span style="color: #aa5500">&#39;short_ratio&#39;</span>: <span style="color: #aa5500">u&#39;1.45&#39;</span>, <span style="color: #aa5500">&#39;days_low&#39;</span>: <span style="color: #aa5500">u&#39;115.75&#39;</span>, <span style="color: #aa5500">&#39;52_week_low&#39;</span>: <span style="color: #aa5500">u&#39;89.47&#39;</span>, <span style="color: #aa5500">&#39;next_year_eps_estimate&#39;</span>: <span style="color: #aa5500">u&#39;10.08&#39;</span>, <span style="color: #aa5500">&#39;bid_size&#39;</span>: <span style="color: #aa5500">u&#39;100&#39;</span>, <span style="color: #aa5500">&#39;last_trade_size&#39;</span>: <span style="color: #aa5500">u&#39;1804596&#39;</span>}, <span style="color: #aa5500">&#39;MSFT&#39;</span>: {<span style="color: #aa5500">&#39;revenue&#39;</span>: <span style="color: #aa5500">u&#39;85.39B&#39;</span>, <span style="color: #aa5500">&#39;average_daily_volume&#39;</span>: <span style="color: #aa5500">u&#39;27784900&#39;</span>, <span style="color: #aa5500">&#39;eps&#39;</span>: <span style="color: #aa5500">u&#39;2.09&#39;</span>, <span style="color: #aa5500">&#39;dollar_change&#39;</span>: <span style="color: #aa5500">u&#39;-0.28&#39;</span>, <span style="color: #aa5500">&#39;200_day_ma_percent_change&#39;</span>: <span style="color: #aa5500">u&#39;+7.73%&#39;</span>, <span style="color: #aa5500">&#39;200_day_ma&#39;</span>: <span style="color: #aa5500">u&#39;57.83&#39;</span>, <span style="color: #aa5500">&#39;close&#39;</span>: <span style="color: #aa5500">u&#39;62.58&#39;</span>, <span style="color: #aa5500">&#39;dividend_yield&#39;</span>: <span style="color: #aa5500">u&#39;2.51&#39;</span>, <span style="color: #aa5500">&#39;price_to_sales&#39;</span>: <span style="color: #aa5500">u&#39;5.70&#39;</span>, <span style="color: #aa5500">&#39;open&#39;</span>: <span style="color: #aa5500">u&#39;62.48&#39;</span>, <span style="color: #aa5500">&#39;ebitda&#39;</span>: <span style="color: #aa5500">u&#39;26.96B&#39;</span>, <span style="color: #aa5500">&#39;price_to_book&#39;</span>: <span style="color: #aa5500">u&#39;6.92&#39;</span>, <span style="color: #aa5500">&#39;52_week_range&#39;</span>: <span style="color: #aa5500">u&#39;&quot;48.03 - 64.10&quot;&#39;</span>, <span style="color: #aa5500">&#39;float_shares&#39;</span>: <span style="color: #aa5500">u&#39;7588275000&#39;</span>, <span style="color: #aa5500">&#39;52_week_high&#39;</span>: <span style="color: #aa5500">u&#39;64.10&#39;</span>, <span style="color: #aa5500">&#39;50_day_ma&#39;</span>: <span style="color: #aa5500">u&#39;61.66&#39;</span>, <span style="color: #aa5500">&#39;pe&#39;</span>: <span style="color: #aa5500">u&#39;29.84&#39;</span>, <span style="color: #aa5500">&#39;ask_size&#39;</span>: <span style="color: #aa5500">u&#39;600&#39;</span>, <span style="color: #aa5500">&#39;50_day_ma_dollar_change&#39;</span>: <span style="color: #aa5500">u&#39;0.64&#39;</span>, <span style="color: #aa5500">&#39;peg&#39;</span>: <span style="color: #aa5500">u&#39;2.33&#39;</span>, <span style="color: #aa5500">&#39;1_year_target_price&#39;</span>: <span style="color: #aa5500">u&#39;65.36&#39;</span>, <span style="color: #aa5500">&#39;symbol&#39;</span>: <span style="color: #aa5500">u&#39;&quot;MSFT&quot;&#39;</span>, <span style="color: #aa5500">&#39;book_value&#39;</span>: <span style="color: #aa5500">u&#39;9.04&#39;</span>, <span style="color: #aa5500">&#39;market_cap&#39;</span>: <span style="color: #aa5500">u&#39;484.40B&#39;</span>, <span style="color: #aa5500">&#39;percent_change&#39;</span>: <span style="color: #aa5500">u&#39;&quot;-0.45%&quot;&#39;</span>, <span style="color: #aa5500">&#39;exchange&#39;</span>: <span style="color: #aa5500">u&#39;&quot;NMS&quot;&#39;</span>, <span style="color: #aa5500">&#39;bid&#39;</span>: <span style="color: #aa5500">u&#39;62.25&#39;</span>, <span style="color: #aa5500">&#39;volume&#39;</span>: <span style="color: #aa5500">u&#39;21339969&#39;</span>, <span style="color: #aa5500">&#39;current_eps_estimate&#39;</span>: <span style="color: #aa5500">u&#39;2.98&#39;</span>, <span style="color: #aa5500">&#39;days_high&#39;</span>: <span style="color: #aa5500">u&#39;62.75&#39;</span>, <span style="color: #aa5500">&#39;200_day_ma_dollar_change&#39;</span>: <span style="color: #aa5500">u&#39;4.47&#39;</span>, <span style="color: #aa5500">&#39;shares_outstanding&#39;</span>: <span style="color: #aa5500">u&#39;7775350000&#39;</span>, <span style="color: #aa5500">&#39;50_day_ma_percent_change&#39;</span>: <span style="color: #aa5500">u&#39;+1.03%&#39;</span>, <span style="color: #aa5500">&#39;name&#39;</span>: <span style="color: #aa5500">u&#39;&quot;Microsoft Corporation&quot;&#39;</span>, <span style="color: #aa5500">&#39;next_quarter_eps_estimate&#39;</span>: <span style="color: #aa5500">u&#39;0.72&#39;</span>, <span style="color: #aa5500">&#39;short_ratio&#39;</span>: <span style="color: #aa5500">u&#39;2.02&#39;</span>, <span style="color: #aa5500">&#39;days_low&#39;</span>: <span style="color: #aa5500">u&#39;62.12&#39;</span>, <span style="color: #aa5500">&#39;52_week_low&#39;</span>: <span style="color: #aa5500">u&#39;48.03&#39;</span>, <span style="color: #aa5500">&#39;next_year_eps_estimate&#39;</span>: <span style="color: #aa5500">u&#39;3.26&#39;</span>, <span style="color: #aa5500">&#39;bid_size&#39;</span>: <span style="color: #aa5500">u&#39;100&#39;</span>, <span style="color: #aa5500">&#39;last_trade_size&#39;</span>: <span style="color: #aa5500">u&#39;2685688&#39;</span>}}
+<span style="color: #009999">31.58</span>B
+</pre></div>
+
+
+
+              <p>Our fundamental_metrics.txt is as follows:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">AAPL
+market_cap: <span style="color: #009999">618.65</span>B
+percent_change: <span style="color: #aa5500">&quot;-0.11%&quot;</span>
+revenue: <span style="color: #009999">215.64</span>B
+average_daily_volume: <span style="color: #009999">32163100</span>
+ask_size: <span style="color: #009999">9600</span>
+bid: <span style="color: #009999">115.97</span>
+next_quarter_eps_estimate: <span style="color: #009999">2.13</span>
+short_ratio: <span style="color: #009999">1.45</span>
+dollar_change: -<span style="color: #009999">0.13</span>
+current_eps_estimate: <span style="color: #009999">9.01</span>
+<span style="color: #009999">200</span>_day_ma_percent_change: +<span style="color: #009999">6.71</span>%
+<span style="color: #009999">200</span>_day_ma: <span style="color: #009999">108.72</span>
+dividend_yield: <span style="color: #009999">1.97</span>
+close: <span style="color: #009999">116.15</span>
+price_to_sales: <span style="color: #009999">2.87</span>
+<span style="color: #00aaaa">open</span>: <span style="color: #009999">115.85</span>
+<span style="color: #009999">50</span>_day_ma_dollar_change: <span style="color: #009999">2.59</span>
+exchange: <span style="color: #aa5500">&quot;NMS&quot;</span>
+shares_outstanding: <span style="color: #009999">5332312000</span>
+volume: <span style="color: #009999">21118116</span>
+<span style="color: #009999">50</span>_day_ma_percent_change: +<span style="color: #009999">2.28</span>%
+peg: <span style="color: #009999">1.48</span>
+ebitda: <span style="color: #009999">70.53</span>B
+name: <span style="color: #aa5500">&quot;Apple Inc.&quot;</span>
+price_to_book: <span style="color: #009999">4.83</span>
+<span style="color: #009999">52</span>_week_range: <span style="color: #aa5500">&quot;89.47 - 118.69&quot;</span>
+float_shares: <span style="color: #009999">5313329000</span>
+<span style="color: #009999">52</span>_week_high: <span style="color: #009999">118.69</span>
+<span style="color: #009999">50</span>_day_ma: <span style="color: #009999">113.43</span>
+eps: <span style="color: #009999">8.31</span>
+next_year_eps_estimate: <span style="color: #009999">10.08</span>
+days_low: <span style="color: #009999">115.75</span>
+<span style="color: #009999">52</span>_week_low: <span style="color: #009999">89.47</span>
+pe: <span style="color: #009999">13.96</span>
+days_high: <span style="color: #009999">116.51</span>
+<span style="color: #009999">200</span>_day_ma_dollar_change: <span style="color: #009999">7.30</span>
+book_value: <span style="color: #009999">24.03</span>
+<span style="color: #009999">1</span>_year_target_price: <span style="color: #009999">132.14</span>
+symbol: <span style="color: #aa5500">&quot;AAPL&quot;</span>
+last_trade_size: <span style="color: #009999">1804596</span>
+bid_size: <span style="color: #009999">100</span>
+
+GILD
+market_cap: <span style="color: #009999">100.63</span>B
+percent_change: <span style="color: #aa5500">&quot;+2.99%&quot;</span>
+revenue: <span style="color: #009999">31.58</span>B
+average_daily_volume: <span style="color: #009999">9588860</span>
+ask_size: <span style="color: #009999">200</span>
+bid: <span style="color: #009999">76.36</span>
+next_quarter_eps_estimate: <span style="color: #009999">2.60</span>
+short_ratio: <span style="color: #009999">1.65</span>
+dollar_change: +<span style="color: #009999">2.22</span>
+current_eps_estimate: <span style="color: #009999">11.47</span>
+<span style="color: #009999">200</span>_day_ma_percent_change: -<span style="color: #009999">2.13</span>%
+<span style="color: #009999">200</span>_day_ma: <span style="color: #009999">78.04</span>
+dividend_yield: <span style="color: #009999">2.63</span>
+close: <span style="color: #009999">74.16</span>
+price_to_sales: <span style="color: #009999">3.09</span>
+<span style="color: #00aaaa">open</span>: <span style="color: #009999">74.53</span>
+<span style="color: #009999">50</span>_day_ma_dollar_change: <span style="color: #009999">2.41</span>
+exchange: <span style="color: #aa5500">&quot;NMS&quot;</span>
+shares_outstanding: <span style="color: #009999">1317456000</span>
+volume: <span style="color: #009999">14914161</span>
+<span style="color: #009999">50</span>_day_ma_percent_change: +<span style="color: #009999">3.26</span>%
+peg: -<span style="color: #009999">9.39</span>
+ebitda: <span style="color: #009999">20.38</span>B
+name: <span style="color: #aa5500">&quot;Gilead Sciences, Inc.&quot;</span>
+price_to_book: <span style="color: #009999">5.81</span>
+<span style="color: #009999">52</span>_week_range: <span style="color: #aa5500">&quot;70.83 - 103.10&quot;</span>
+float_shares: <span style="color: #009999">1308378000</span>
+<span style="color: #009999">52</span>_week_high: <span style="color: #009999">103.10</span>
+<span style="color: #009999">50</span>_day_ma: <span style="color: #009999">73.97</span>
+eps: <span style="color: #009999">10.81</span>
+next_year_eps_estimate: <span style="color: #009999">10.78</span>
+days_low: <span style="color: #009999">74.38</span>
+<span style="color: #009999">52</span>_week_low: <span style="color: #009999">70.83</span>
+pe: <span style="color: #009999">7.06</span>
+days_high: <span style="color: #009999">76.98</span>
+<span style="color: #009999">200</span>_day_ma_dollar_change: -<span style="color: #009999">1.66</span>
+book_value: <span style="color: #009999">12.76</span>
+<span style="color: #009999">1</span>_year_target_price: <span style="color: #009999">95.19</span>
+symbol: <span style="color: #aa5500">&quot;GILD&quot;</span>
+last_trade_size: <span style="color: #009999">943417</span>
+bid_size: <span style="color: #009999">1800</span>
+
+MSFT
+market_cap: <span style="color: #009999">484.40</span>B
+percent_change: <span style="color: #aa5500">&quot;-0.45%&quot;</span>
+revenue: <span style="color: #009999">85.39</span>B
+average_daily_volume: <span style="color: #009999">27784900</span>
+ask_size: <span style="color: #009999">600</span>
+bid: <span style="color: #009999">62.25</span>
+next_quarter_eps_estimate: <span style="color: #009999">0.72</span>
+short_ratio: <span style="color: #009999">2.02</span>
+dollar_change: -<span style="color: #009999">0.28</span>
+current_eps_estimate: <span style="color: #009999">2.98</span>
+<span style="color: #009999">200</span>_day_ma_percent_change: +<span style="color: #009999">7.73</span>%
+<span style="color: #009999">200</span>_day_ma: <span style="color: #009999">57.83</span>
+dividend_yield: <span style="color: #009999">2.51</span>
+close: <span style="color: #009999">62.58</span>
+price_to_sales: <span style="color: #009999">5.70</span>
+<span style="color: #00aaaa">open</span>: <span style="color: #009999">62.48</span>
+<span style="color: #009999">50</span>_day_ma_dollar_change: <span style="color: #009999">0.64</span>
+exchange: <span style="color: #aa5500">&quot;NMS&quot;</span>
+shares_outstanding: <span style="color: #009999">7775350000</span>
+volume: <span style="color: #009999">21339969</span>
+<span style="color: #009999">50</span>_day_ma_percent_change: +<span style="color: #009999">1.03</span>%
+peg: <span style="color: #009999">2.33</span>
+ebitda: <span style="color: #009999">26.96</span>B
+name: <span style="color: #aa5500">&quot;Microsoft Corporation&quot;</span>
+price_to_book: <span style="color: #009999">6.92</span>
+<span style="color: #009999">52</span>_week_range: <span style="color: #aa5500">&quot;48.03 - 64.10&quot;</span>
+float_shares: <span style="color: #009999">7588275000</span>
+<span style="color: #009999">52</span>_week_high: <span style="color: #009999">64.10</span>
+<span style="color: #009999">50</span>_day_ma: <span style="color: #009999">61.66</span>
+eps: <span style="color: #009999">2.09</span>
+next_year_eps_estimate: <span style="color: #009999">3.26</span>
+days_low: <span style="color: #009999">62.12</span>
+<span style="color: #009999">52</span>_week_low: <span style="color: #009999">48.03</span>
+pe: <span style="color: #009999">29.84</span>
+days_high: <span style="color: #009999">62.75</span>
+<span style="color: #009999">200</span>_day_ma_dollar_change: <span style="color: #009999">4.47</span>
+book_value: <span style="color: #009999">9.04</span>
+<span style="color: #009999">1</span>_year_target_price: <span style="color: #009999">65.36</span>
+symbol: <span style="color: #aa5500">&quot;MSFT&quot;</span>
+last_trade_size: <span style="color: #009999">2685688</span>
+bid_size: <span style="color: #009999">100</span>
+</pre></div>
+
+<p>We now can automate the process of looking up financial data and can store financial records.</p>
+
+<p>The above code (scrape_fundamental_data.py) can be downloaded from <a href='https://github.com/ad1m/derivative_code'>here</a>.</p>
+
+
+
+              <!--<p>We first need to import four libraries: pandas_datareader.data, os, datetime, and time. We use the pandas_datareader to use pandas functionality to pull data from yahoo finance. We will use the os module to create a directory for our stock data if it does not already exist. We use the datetime module to obtain the current date if the user wants to download all data, and we use the time module to pause our python program so that we do not send too many data pulling requests to yahoo finance. Let us first create a python file called data_scraper.py and import the four libraries as follows:</p> 
+
+              
+        <p>The above code (data_scraper.py) can be downloaded from <a href='https://github.com/ad1m/derivative_code'>here</a>.</p> -->
+
+
+        
+
+
+
+
+
+
+
+              
+    </div>
+
+  </main>
+  </body>

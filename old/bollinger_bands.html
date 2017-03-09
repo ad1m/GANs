@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Bollinger Bands</title>
+  
+  
+  <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Inconsolata|Space+Mono:700'>
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css'>
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css'>
+
+      <link rel="stylesheet" href="css/style.css">
+      <script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+      <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-89638118-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</head>
+
+<body>
+  <main>
+  <style>
+  a {
+  	color: brown
+  }
+  .shorter {
+    width: 450px;
+  }
+  </style>
+  <div class="preview__link" href="#" itemprop="url">
+              <span class="preview__date" itemprop="datePublished" datetime="2016-09-07T00:00:00-07:00">Jan 08, 2017</span>
+              <center><h2 class="preview__header" itemprop="name">Bollinger Bands</h2></center>
+              <center><u><h4>What Will We Learn?</h4></u></center>
+              <p>We will learn how to write code to compute and plot bollinger bands.</p>
+              <!--<p>Previously we constructed Quantitative financial metrics are important determinants of portfolio performance. There are a variety of financial metrics and we will code a bunch of them in this lesson. We will calculate total return, cumulative return, daily returns, average daily returns, volatilitility  </p> -->
+              <center><u><h4>Libraries We Need</h4></u></center>
+              <p>We need the following libraries for our program:
+              <ol>
+              <li>pandas: We will use the pandas dataframe to hold our adjusted close prices and a pandas series to hold our portfolio value. To install pandas go to your terminal or command prompt and use pip install pandas to download the pandas package on your machine. If you installed tha anaconda distribution then you have pandas installed.</li>
+              <li>panda_datareader: We will use this to scrape our adjusted close prices into a dictionary, which we will then turn into a dataframe. To download this library go to your terminal or command prompt and type in pip install pandas-datareader. If you installed the anaconda distribution then you have this library on your machine.</li>
+              <li>Matplotlib: This allows us to plot and is used in a previous portfolio construction file we will need to import. Additionally, we need this to plot our bollinger bands. If you installed the anaconda distribution you have matplotlib. If not go to your terminal or command prompt and type in pip install matplotlib.</li>
+              </ol>
+              <center><u><h4>Files We Need</h4></u></center>
+              <p>In a previous lesson, we wrote code to construct a portfolio in a python file called Portfolio_Constructor.py. We will import this code and its libraries into our new file. If you do not have the portfolio constructor code you can download Portfolio_Constructor.py from <a href='https://github.com/ad1m/derivative_code'>here</a>. Note, please place this file in the same directory as the new file that we are about to write. If you would like to learn more about how the Portfolio_Constructor code works you can check out the lesson <a href='portfolio_value.html'>here</a>.</p>
+
+              <center><u><h4>What Our Program Will Do</h4></u></center>
+              <p>We will write code to compute the bollinger bands of a particular equity and plot it along with the equitie's adjusted close price.</p>
+
+              <center><u><h4>Implementation</h4></u></center>
+              <p>Bollinger Bands are trend lines that are plotted two standard deviations above and below a simple moving average. They are a popular technical analysis technique and provide signals of when to buy and when to sell. When the trend line crosses below the bottom band and starts to cross above the lower band, it is noted that one should buy. When the trend line crosses above the upper band and then starts to cross downwards from the upper band it is noted that one should sell. Bollinger bands also tell us about volatility. When the bands are contracted and small, the market is quiet with regards to the particular equity being examined. When the bands become large and bulge out, the markets are loud and thigns are going on with this particular equity.</p>
+              <p>Let's write some code to create these bollinger bands. We start by creating a file called Technical_Indicators.py and import the Portfolio_Constructor file and matplotlib.pyplot as follows:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">from</span> <span style="color: #00aaaa; text-decoration: underline">Portfolio_Constructor</span> <span style="color: #0000aa">import</span> *
+<span style="color: #0000aa">import</span> <span style="color: #00aaaa; text-decoration: underline">matplotlib.pyplot</span> <span style="color: #0000aa">as</span> <span style="color: #00aaaa; text-decoration: underline">plt</span>
+</pre></div>
+
+              <p>Let us now create a function called bollinger_bands which will take in a dataframe of adjusted close prices, a lookback period, and a plot variable that initially is set equal to no. We first extract the symbol out of the dataframe header so that we can place the stock ticker in the legend. We then use pandas to calculate the rolling mean and rolling standard deviation of our dataframe. The upper bollinger band is then the rolling mean + 2 * (rolling standard deviation) and the lower bollinger band is the rolling mean - 2 * (rolling standard deviation). We then rename the lower band, upper band, and rolling mean headers so that they have proper lables when we plot them. Our code looks as follows:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">from</span> <span style="color: #00aaaa; text-decoration: underline">Portfolio_Constructor</span> <span style="color: #0000aa">import</span> *
+<span style="color: #0000aa">import</span> <span style="color: #00aaaa; text-decoration: underline">matplotlib.pyplot</span> <span style="color: #0000aa">as</span> <span style="color: #00aaaa; text-decoration: underline">plt</span>
+
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">bollinger_bands</span>(df,lookback,plot=<span style="color: #aa5500">&#39;no&#39;</span>):
+    sym = <span style="color: #00aaaa">list</span>(df.columns.values)[<span style="color: #009999">0</span>]
+    rolling_mean = df.rolling(window=lookback,center=<span style="color: #00aaaa">False</span>).mean()
+    rolling_std = df.rolling(window=lookback,center=<span style="color: #00aaaa">False</span>).std()
+    upper_band = rolling_mean + <span style="color: #009999">2</span>*rolling_std
+    lower_band = rolling_mean - <span style="color: #009999">2</span>*rolling_std
+    lower_band.rename(columns={sym:<span style="color: #aa5500">&#39;lower band&#39;</span>}, inplace=<span style="color: #00aaaa">True</span>)
+    upper_band.rename(columns={sym:<span style="color: #aa5500">&#39;upper band&#39;</span>}, inplace=<span style="color: #00aaaa">True</span>)
+    rolling_mean.rename(columns={sym:<span style="color: #aa5500">&#39;mean&#39;</span>}, inplace=<span style="color: #00aaaa">True</span>)
+</pre></div>
+
+              <p>Let us now create a plot for our bollinger bands. If the plot variable is specified as yes then we will plot the dataframe of the ajusted close prices with legend set equal to the stock symbol with a blue trend line. The title of our plot will be Bollinger Bands. We will also plot the rolling mean in gold which is our simple moving average. We plot the upper and lower bands in cyan. We set the x axis label to Date and the y axis label to Price. We then position the legend at the upper left and change the font size. We save the figure and show the plot. We finally return the simple moving average, upper bollinger band, and lower bollinger band. Our completed code looks as follows:</p>
+              <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">from</span> <span style="color: #00aaaa; text-decoration: underline">Portfolio_Constructor</span> <span style="color: #0000aa">import</span> *
+<span style="color: #0000aa">import</span> <span style="color: #00aaaa; text-decoration: underline">matplotlib.pyplot</span> <span style="color: #0000aa">as</span> <span style="color: #00aaaa; text-decoration: underline">plt</span>
+
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">bollinger_bands</span>(df,lookback,plot=<span style="color: #aa5500">&#39;no&#39;</span>):
+    sym = <span style="color: #00aaaa">list</span>(df.columns.values)[<span style="color: #009999">0</span>]
+    rolling_mean = df.rolling(window=lookback,center=<span style="color: #00aaaa">False</span>).mean()
+    rolling_std = df.rolling(window=lookback,center=<span style="color: #00aaaa">False</span>).std()
+    upper_band = rolling_mean + <span style="color: #009999">2</span>*rolling_std
+    lower_band = rolling_mean - <span style="color: #009999">2</span>*rolling_std
+    lower_band.rename(columns={sym:<span style="color: #aa5500">&#39;lower band&#39;</span>}, inplace=<span style="color: #00aaaa">True</span>)
+    upper_band.rename(columns={sym:<span style="color: #aa5500">&#39;upper band&#39;</span>}, inplace=<span style="color: #00aaaa">True</span>)
+    rolling_mean.rename(columns={sym:<span style="color: #aa5500">&#39;SMA&#39;</span>}, inplace=<span style="color: #00aaaa">True</span>)
+
+    <span style="color: #0000aa">if</span> plot == <span style="color: #aa5500">&#39;yes&#39;</span>:
+        ax = df.plot(title=<span style="color: #aa5500">&quot;Bollinger Bands&quot;</span>, label=sym,color = <span style="color: #aa5500">&#39;blue&#39;</span>)
+        rolling_mean.plot(ax=ax, color=<span style="color: #aa5500">&#39;gold&#39;</span>)
+        upper_band.plot(ax=ax, color = <span style="color: #aa5500">&#39;cyan&#39;</span>)
+        lower_band.plot(ax=ax, color = <span style="color: #aa5500">&#39;cyan&#39;</span>)
+        ax.set_xlabel(<span style="color: #aa5500">&quot;Date&quot;</span>)
+        ax.set_ylabel(<span style="color: #aa5500">&quot;Price&quot;</span>)
+        ax.legend(loc=<span style="color: #aa5500">&#39;upper left&#39;</span>, prop={<span style="color: #aa5500">&#39;size&#39;</span>:<span style="color: #009999">8</span>})
+        plt.savefig(sym+<span style="color: #aa5500">&#39;_BollingerBands.png&#39;</span>)
+        plt.show()
+    <span style="color: #0000aa">return</span> rolling_mean,upper_band,lower_band
+</pre></div>
+            <p>Let us now run our code with the tickers GILD and AAPL from 2015-01-01 to 2016-12-20 with a 20 day lookback:</p>
+            <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">from</span> <span style="color: #00aaaa; text-decoration: underline">Portfolio_Constructor</span> <span style="color: #0000aa">import</span> *
+<span style="color: #0000aa">import</span> <span style="color: #00aaaa; text-decoration: underline">matplotlib.pyplot</span> <span style="color: #0000aa">as</span> <span style="color: #00aaaa; text-decoration: underline">plt</span>
+
+
+<span style="color: #0000aa">def</span> <span style="color: #00aa00">bollinger_bands</span>(df,lookback,plot=<span style="color: #aa5500">&#39;no&#39;</span>):
+    sym = <span style="color: #00aaaa">list</span>(df.columns.values)[<span style="color: #009999">0</span>]
+    rolling_mean = df.rolling(window=lookback,center=<span style="color: #00aaaa">False</span>).mean()
+    rolling_std = df.rolling(window=lookback,center=<span style="color: #00aaaa">False</span>).std()
+    upper_band = rolling_mean + <span style="color: #009999">2</span>*rolling_std
+    lower_band = rolling_mean - <span style="color: #009999">2</span>*rolling_std
+    lower_band.rename(columns={sym:<span style="color: #aa5500">&#39;lower band&#39;</span>}, inplace=<span style="color: #00aaaa">True</span>)
+    upper_band.rename(columns={sym:<span style="color: #aa5500">&#39;upper band&#39;</span>}, inplace=<span style="color: #00aaaa">True</span>)
+    rolling_mean.rename(columns={sym:<span style="color: #aa5500">&#39;SMA&#39;</span>}, inplace=<span style="color: #00aaaa">True</span>)
+
+    <span style="color: #0000aa">if</span> plot == <span style="color: #aa5500">&#39;yes&#39;</span>:
+        ax = df.plot(title=<span style="color: #aa5500">&quot;Bollinger Bands&quot;</span>, label=sym,color = <span style="color: #aa5500">&#39;blue&#39;</span>)
+        rolling_mean.plot(ax=ax, color=<span style="color: #aa5500">&#39;gold&#39;</span>)
+        upper_band.plot(ax=ax, color = <span style="color: #aa5500">&#39;cyan&#39;</span>)
+        lower_band.plot(ax=ax, color = <span style="color: #aa5500">&#39;cyan&#39;</span>)
+        ax.set_xlabel(<span style="color: #aa5500">&quot;Date&quot;</span>)
+        ax.set_ylabel(<span style="color: #aa5500">&quot;Price&quot;</span>)
+        ax.legend(loc=<span style="color: #aa5500">&#39;upper left&#39;</span>, prop={<span style="color: #aa5500">&#39;size&#39;</span>:<span style="color: #009999">8</span>})
+        plt.savefig(sym+<span style="color: #aa5500">&#39;_BollingerBands.png&#39;</span>)
+        plt.show()
+    <span style="color: #0000aa">return</span> rolling_mean,upper_band,lower_band
+
+<span style="color: #0000aa">if</span> __name__ == <span style="color: #aa5500">&#39;__main__&#39;</span>:
+    tickers = [<span style="color: #aa5500">&#39;GILD&#39;</span>,<span style="color: #aa5500">&#39;AAPL&#39;</span>]
+    shares = <span style="color: #009999">100</span>
+    start = <span style="color: #aa5500">&#39;2015-01-01&#39;</span>
+    end = <span style="color: #aa5500">&#39;2016-12-20&#39;</span>
+    df = get_adjusted_close(tickers,start,end)
+    lookback = <span style="color: #009999">20</span>
+    <span style="color: #0000aa">for</span> i <span style="color: #0000aa">in</span> tickers:
+        df1 = df[i].to_frame()
+        bollinger_bands(df1,lookback,plot=<span style="color: #aa5500">&#39;yes&#39;</span>)
+</pre></div>
+
+
+           <p>Our plot for GILD is as follows:</p>
+            <center><img src='images/BollingerBands/GILD_BollingerBands.png'></center>
+            <p>The above plot is also saved to GILD_BollingerBands.png.</p>
+            <p>The plot for AAPL is as follows:</p>
+            <center><img src='images/BollingerBands/AAPL_BollingerBands.png'></center>
+            <p>The above plot is also saved to AAPL_BollingerBands.png.</p>
+
+            <p>We now written code to create our first technical indicator. In the next lesson we will edit our file to create more technical indicators, which we will combine to write our first trading strategy.</p>
+	<p>The above code (Technical_Indicators.py) can be downloaded from <a href='https://github.com/ad1m/derivative_code'>here</a>.</p>
+
+        <!--<p>With the above function we have an automated way of pulling stock data. All we need to do is place the tickers as strings into the tickers list and provide a start date, end date, and optional all_data parameter and we have stock data within seconds!</p>
+        <p>The above code (data_scraper.py) can be downloaded from <a href='https://github.com/ad1m/derivative_code'>here</a>.</p> -->
+
+
+        
+
+
+
+
+
+
+
+              
+    </div>
+
+  </main>
+  </body>
