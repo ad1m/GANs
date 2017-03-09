@@ -10,17 +10,15 @@
 <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css'>
 
       <link rel="stylesheet" href="css/style.css">
-
-      <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-89638118-1', 'auto');
-  ga('send', 'pageview');
-
+      <script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
 </script>
+
 </head>
 
 <body>
@@ -32,11 +30,32 @@
   .shorter {
     width: 450px;
   }
+  ul.a {
+    list-style-type: circle;
+    margin: 0; 
+    padding: 10px;
+  }
   </style>
   <div class="preview__link" href="#" itemprop="url">
               <span class="preview__date" itemprop="datePublished" datetime="2016-09-07T00:00:00-07:00">Dec 29, 2016</span>
+              <center><h2 class="preview__header" itemprop="name">Motivation</h2></center>
+              <p>Imagine you have a bunch of images, say pictures of people's faces. You pass this data into an algorithm and this algorithm is able to generate pictures of faces like the real ones used as training data in the algorithm. However, the facial images the algorithm generates are not replicas of the individual images used in training. What if you could generate videos?</p>
               <center><h2 class="preview__header" itemprop="name">What are GANs?</h2></center>
-              <p>Generative Adversarial Networs, commonly referred to as GANs, are an unsupervised learning technique capable of generating realistic synthetic data. These are models that can learn to create data that is similar to the data taken as input into the model. </p>
+              <p>Generative Adversarial Networks, commonly referred to as GANs, are an unsupervised learning technique capable of generating realistic synthetic data. These are models that can learn to create data that is similar to the data taken as input into the model.</p> 
+              <p>There are two types classes of models in machine learning:</p>
+              <ul class="a" style="margin-top:-10px">
+              <li><b>Discriminative: </b>Discriminative models do not care about how the data was generated. They simply categorize a given signal. Here, the boundary between classes is learned. A discriminative model concerns the specification of the conditional probability $p(y|x)$. This conditional probability is learned directly. Some exampls of discriminative models are Logistic Regression, Support Vector Machines, Boosting, Conditional Random Fields, Linear Regression, Neural Networks, and Random Forests.</li>
+              <br>
+              <li><b>Generative: </b>Generative models model how the data was generated in order to categorize a signal. This type of model cares how data was generated to categorize that signal. It tries to answer, "Which category is most likely to generate the signal based on generation assumptions?" Here, the distribution of individual classes is modeled. The generative model concerns the specification of the joing probability $p(x,y)$. The data $X$ and label $Y$ are taken into a model and we learn $p(x|y)$ and $p(y)$. We can then learn $p(y|x)$ indirectly as we know that $p(y|x) \propto p(x|y)p(y)$.</li>
+              </ul>
+              <br>
+              <p>We can better understand these two types of models with the figure below:</p>
+              <br>
+              <center><img src="images/DVGM.png" style="width:500px;"><p>Image 1: Generative V.S. Discriminative Models</center>
+              <br>
+              <p>In the above image, we are trying to classify whether the red triangle will be in the blue class or the yellow class. We see that using a discriminative model, we will model a decision boundary and the red triangle will end up in the blue class. When using a generative model, we do not simply draw a boundary between the classess. Here the data in each class is modeled and we see that it is also assigned to the blue class. Some examples of generative models are Gaussian Mixture Models, Hidden Markov Models, Naive Bayes, Latenet Dirichlet Allocation, and the Restricted Boltzmann Machine.</p>
+              <p>There is a simple test to tell whether a model is generative or discriminative. If the model can generate a new set of training data, including all features and labels, given the condition that all unknown parameters in the model are known then the model is generative. Otherwise, it is discriminative. If we look at a Naive Bayes model we see that it can generate feature data and label data. Support Vector Machiens, on the otherhand, cannot generate data in any feature space.</p>
+              <p>A generative adversarial network is capable of generating realistic synthetic data, as previously mentioned, and hence we see that it is indeed a generative model. The standard way to determine a generative model having training data $X$ is to use maximum-likelihood. Here there are many calculations involving marginal probabilities, partition functions, and the likes. Adversarial training allows us to train a generative model without the need for all of these intractable calculations.</p>
 
               <br>
               <center><h2 class="preview__header" itemprop="name">History</h2></center>
@@ -46,6 +65,17 @@
 
               <br>
               <center><h2 class="preview__header" itemprop="name">How GANs Work</h2></center>
+
+              <br>
+              <center><h2 class="preview__header" itemprop="name">Sources</h2></center>
+              <ul>
+              <li>Image 1: Generative vs Discriminative Models: http://www.evolvingai.org/fooling</li>
+              <li>Generative V.S. Discriminative Model Test: https://www.quora.com/What-are-the-differences-between-generative-and-discriminative-machine-learning</li>
+              <li>Ian Goodfellow Youtube Video: https://www.youtube.com/watch?v=HN9NRhm9waY</li>
+              <li>Sirajology Youtube Video: https://www.youtube.com/watch?v=deyOX6Mt_As</li>
+              <li>What is Adversarial: https://www.quora.com/What-are-Generative-Adversarial-Networks</li>
+              <li>Spongebob Example: https://medium.com/@awjuliani/generative-adversarial-networks-explained-with-a-classic-spongebob-squarepants-episode-54deab2fce39#.p5r3bajpz</li>
+              </ul>
 
 
 
