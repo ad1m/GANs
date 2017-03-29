@@ -37,12 +37,42 @@ MathJax.Hub.Config({
   }
   </style>
   <div class="preview__link" href="#" itemprop="url">
-              <span class="preview__date" itemprop="datePublished" datetime="2016-09-07T00:00:00-07:00">Dec 29, 2016</span>
+              <span class="preview__date" itemprop="datePublished" datetime="2016-09-07T00:00:00-07:00">Mar 09, 2017
+              </span>
               <center><h2 class="preview__header" itemprop="name">Motivation</h2></center>
-              <p>Imagine you have a bunch of images, say pictures of people's faces. You pass this data into an algorithm and this algorithm is able to generate pictures of faces like the real ones used as training data in the algorithm. However, the facial images the algorithm generates are not replicas of the individual images used in training. What if you could generate videos?</p>
-              <center><h2 class="preview__header" itemprop="name">What are GANs?</h2></center>
-              <p>Generative Adversarial Networks, commonly referred to as GANs, are an unsupervised learning technique capable of generating realistic synthetic data. These are models that can learn to create data that is similar to the data taken as input into the model.</p> 
-              <p>There are two types classes of models in machine learning:</p>
+              <p>Imagine we have an unlabeled dataset, a collection of facial images, and a black box algorithm. We pass these images into the algorithm and the algorithm is able to learn a probability distribution of the dataset. 
+
+              <center><img src="images/intro_pipeline.png" style="width:500px;"><p>Image 1: Generating New Faces</p></center>
+              
+              Once this probability distribution is learned , the algorithm is able to generate synthetic samples from the dataset that were not part of the original training data. This algorithm will be able to input the facial images and generate synthetic facial images like the real ones used as training data. We could pass in pictures of all employees in a company and generate the facial image of a new employee. We could pass in images of homes and create new houses. We could even pass in short videos clips and generate synthetic videos. To generate this synthetic data, we can use what is called a Generative Adversarial Network.</p>
+
+              <center><h2 class="preview__header" itemprop="name">History</h2></center>
+              <p>In 1992 Jürgen Schmidhuber from the University of Colorado proposed a principle, based on two opposing forces, for unsupervised learning of distributed non-redundant internal representations in his paper <a href="ftp://ftp.idsia.ch/pub/juergen/factorial.pdf">Learning Factorial Codes By Predictability Minimization</a>. Here, each hidden unit in a neural network is trained to be different from the output of a second network, which predicts the value of that hidden unit given the value of all of the other hidden units. In 2014 Ian Goodfellow and his tem proposed a new framework for estimating generative models via an adversarial process in their paper <a href="https://arxiv.org/pdf/1406.2661.pdf">Generative Adversarial Nets</a>. Here, Goodfellow describe a generatibe model that captures the data distribution is trained simulatneously with a discriminative model that estimates the probability that a sample came from the training data rather than the the generative model hence giving rise to Generative Adversarial Networks (GANs). At the 2016 conference on Neural Information Processing Systems (NIPS), Schmidhuber interrupted the lecture on Generative Adversarial networks given by Ian Goodfellow. He claimed that he did very similar work previously, which was overlooked. Goodfellow handled this interruption well, and proceeded with his talk; however, this situation sparked social media interest. </p>
+              <center><img src="images/twitter.png" style="width:300px; height:400px;"><br><img src="images/twitter_comment.png" style="width:300px;"><p>Image 2: Ian/Jürger Twitter Comments</p></center>
+              <p>Viewers jested about the interruption on Twitter and Reddit and soon news started to spread.</p>
+              <center><img src="images/reddit.png" style="width:350px; "><br><p>Image 3: Reddit Discussions</p></center>
+              <!--<p>Eventually, a Quora post popped up and Goodfellow responded to it.</p> -->
+              <center><img src="images/Quora.png" style="width:300px; height:400px;"><p>Image 4: Goodfellow responds on Quora</p></center>
+              <p>Goodfellow's paper was revised and Schmidhuber was cited. However, Goodfellow explicitly denoted three key differences between the two works:
+              <ul class="a">
+              <li>With Goodfellow's GANs, the competition between the networks is the sole training criterion, and is sufficient on its own to train the network. Predictability minimization is only a regularizer that encourages the hidden units of a neural network to be sta- tistically independent while they accomplish some other task; it is not a primary training criterion.</li>
+              <li>The nature of the competition is different. In predictability minimization, two networks’ outputs are compared, with one network trying to make the outputs similar and the other trying to make the 2 outputs different. The output in question is a single scalar. In GANs, one network produces a rich, high dimensional vector that is used as the input to another network, and attempts to choose an input that the other network does not know how to process. </li>
+              <li>The specification of the learning process is different. Predictability minimization is described as an optimization problem with an objective function to be minimized, and learning approaches the minimum of the objective function. GANs are based on a minimax game rather than an optimization problem, and have a value function that one agent seeks to maximize and the other seeks to minimize. The game terminates at a saddle point that is a minimum with respect to one player’s strategy and a maximum with respect to the other player’s strategy.</li>
+              </ul>
+              Since then, things have cooled off between Goodfellow and Schmidhuber and the two plan to write a paper together. Goodfellow is still researching and presenting on GANs and is planning to showcase his recent work on GANs at the 2017 GPU Technology Conference. Ian Goodfellow is still credited for inventing the General Adversarial Network
+              </p>
+              <br>
+              <center><h2 class="preview__header" itemprop="name">Prerqusites</h2></center>
+              <p>In order to fullt understand Generative Adversarial Networks, there are a few topics we should have some knowledge of.</p>
+              <!--<center><h2 class="preview__header" itemprop="name">Motivation</h2></center> -->
+              <!--<p>Imagine you have a bunch of images, say pictures of people's faces. -->
+              <!--<center><img src="images/faces.png" style="width:350px; height: 300px"><p>Image 1: Generative V.S. Discriminative Models</p></center> -->
+              <!--You pass these images into an algorithm and this algorithm is able to generate synthetic realistic faces that are not replicas of the images passed into the algorithm. --> <!--generate pictures of faces like the real ones used as training data in the algorithm.  However, the facial images the algorithm generates are not replicas of the individual images used in training. They are new faces. --> <!--This process is shown below:
+              <center><img src="images/intro_pipeline.png" style="width:500px;"><p>Image 1: Generating New Faces</p></center>
+              </p>
+              For example, we could take images of all employees in a company and generate the facial image of a new employee or we could pass in images of homes and create new houses. We could even go as far to generate everything from synthetic short videos to robot behavior. To generate this synthetic data, we can use what is called a Generative Adversarial Network.</p> -->
+              <!--<center><h2 class="preview__header" itemprop="name">What are GANs?</h2></center>
+              <p>Generative Adversarial Networks, commonly referred to as GANs, are an unsupervised learning technique capable of generating realistic synthetic data. By unsupervised, we mean that the algorithm can draw inferences from the input data without labeled responses. GANs can take this input data and learn to create data that is similar to the data taken as input. To fully understand GANs, we need to understand what a generative model is. In machine learning there are two types of models:</p> 
               <ul class="a" style="margin-top:-10px">
               <li><b>Discriminative: </b>Discriminative models do not care about how the data was generated. They simply categorize a given signal. Here, the boundary between classes is learned. A discriminative model concerns the specification of the conditional probability $p(y|x)$. This conditional probability is learned directly. Some exampls of discriminative models are Logistic Regression, Support Vector Machines, Boosting, Conditional Random Fields, Linear Regression, Neural Networks, and Random Forests.</li>
               <br>
@@ -51,7 +81,7 @@ MathJax.Hub.Config({
               <br>
               <p>We can better understand these two types of models with the figure below:</p>
               <br>
-              <center><img src="images/DVGM.png" style="width:500px;"><p>Image 1: Generative V.S. Discriminative Models</center>
+              <center><img src="images/DVGM.png" style="width:500px;"><p>Image 1: Generative V.S. Discriminative Models</p></center>
               <br>
               <p>In the above image, we are trying to classify whether the red triangle will be in the blue class or the yellow class. We see that using a discriminative model, we will model a decision boundary and the red triangle will end up in the blue class. When using a generative model, we do not simply draw a boundary between the classess. Here the data in each class is modeled and we see that it is also assigned to the blue class. Some examples of generative models are Gaussian Mixture Models, Hidden Markov Models, Naive Bayes, Latenet Dirichlet Allocation, and the Restricted Boltzmann Machine.</p>
               <p>There is a simple test to tell whether a model is generative or discriminative. If the model can generate a new set of training data, including all features and labels, given the condition that all unknown parameters in the model are known then the model is generative. Otherwise, it is discriminative. If we look at a Naive Bayes model we see that it can generate feature data and label data. Support Vector Machiens, on the otherhand, cannot generate data in any feature space.</p>
@@ -66,7 +96,7 @@ MathJax.Hub.Config({
               <br>
               <center><h2 class="preview__header" itemprop="name">How GANs Work</h2></center>
 
-              <br>
+              <br> -->
               <center><h2 class="preview__header" itemprop="name">Sources</h2></center>
               <ul>
               <li>Image 1: Generative vs Discriminative Models: http://www.evolvingai.org/fooling</li>
@@ -75,6 +105,10 @@ MathJax.Hub.Config({
               <li>Sirajology Youtube Video: https://www.youtube.com/watch?v=deyOX6Mt_As</li>
               <li>What is Adversarial: https://www.quora.com/What-are-Generative-Adversarial-Networks</li>
               <li>Spongebob Example: https://medium.com/@awjuliani/generative-adversarial-networks-explained-with-a-classic-spongebob-squarepants-episode-54deab2fce39#.p5r3bajpz</li>
+              <li>Twitter Image: https://twitter.com/goodfellow_ian/status/824686195837841408?lang=en</li>
+              <li>http://beamandrew.github.io/deeplearning/2016/12/12/nips-2016.html</li>
+              <li>https://arxiv.org/pdf/1406.2661.pdf</li>
+              <li>Reddit: https://www.reddit.com/r/MachineLearning/comments/5go4sa/n_whats_happening_at_nips_2016_jurgen_schmidhuber/?st=j0sxc3w4&sh=0ec5480b#bottom-comments</li>
               </ul>
 
 

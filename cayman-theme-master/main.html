@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Part 1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/cayman.css">
+    <script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+      });
+    </script>
+  </head>
+  <body>
+
+    <style>
+    #right_div {
+    float: right;
+    border: 0px solid black;
+    text-align: center;
+}
+</style>
+
+
+    <section class="page-header">
+      <h1 class="project-name">Generative Adversarial Networks</h1>
+      <h2 class="project-tagline">Part 1: Motivation, History, & Application</h2>
+      <!--<a href="#" class="btn">View on GitHub</a>
+      <a href="#" class="btn">Download .zip</a>
+      <a href="#" class="btn">Download .tar.gz</a> -->
+    </section>
+
+    <section class="main-content">
+    <h1>Motivation</h1>
+    <p>Imagine we have an unlabeled dataset, a collection of facial images, and a black box algorithm. We pass these images into the algorithm and the algorithm is able to learn a probability distribution of the dataset. </p>
+    <center><img src="../images/intro_pipeline.png" style="width:500px;"><p>Image 1: Generating New Faces</p></center>
+
+    <p>Once this probability distribution is learned , the algorithm is able to generate synthetic samples from the dataset that were not part of the original training data. This algorithm will be able to input the facial images and generate synthetic facial images like the real ones used as training data.</p>
+    <p>We could pass in pictures of all employees in a company and generate the facial image of a new employee. We could pass in images of homes and create new houses. We could even pass in short videos clips and generate synthetic videos. To generate this synthetic data, we can use what is called a Generative Adversarial Network.
+    <blockquote>
+    <p>
+    “There are many interesting recent development in deep learning…The most important one, in my opinion, is adversarial training (also called GAN for Generative Adversarial Networks). This, and the variations that are now being proposed is the most interesting idea in the last 10 years in ML, in my opinion.”</p>
+    <p> – Yann LeCun
+    </p>
+    </blockquote>
+    </p>
+
+    <h1>History</h1>
+    <p>In 1992 Artificial Intelligence researcher Jürgen Schmidhuber from the University of Colorado proposed a principle, based on two opposing forces, for unsupervised learning of distributed non-redundant internal representations in his paper <a href="ftp://ftp.idsia.ch/pub/juergen/factorial.pdf">Learning Factorial Codes By Predictability Minimization</a>. Here, each hidden unit in a neural network is trained to be different from the output of a second network, which predicts the value of that hidden unit given the value of all of the other hidden units.</p>
+    <p>In 2014 Ian Goodfellow and his tem proposed a new framework for estimating generative models via an adversarial process in their paper <a href="https://arxiv.org/pdf/1406.2661.pdf">Generative Adversarial Nets</a>. Here, Goodfellow describe a generative model that captures the data distribution which is trained simulatneously with a discriminative model that estimates the probability that a sample came from the training data rather than the the generative model, hence giving rise to Generative Adversarial Networks (GANs).</p> 
+    <p>Goodfellow submitted this paper at the 2014 Neural Information Processing Systems (NIPS) conference. The crowd was very interested, but the following was questioned in the <a href="https://media.nips.cc/nipsbooks/nipspapers/paper_files/nips27/reviews/1384.html">Export Reviews, Discussions, Author Feedback and Meta-Reviews</a>:
+    <blockquote>
+    <p>Finally, how is the submission related to the first work on "adversarial" MLPs for modeling data distributions through estimating conditional probabilities, which was called "predictability minimisation" or PM (Schmidhuber, NECO 1992)? The new approach seems similar in many ways. Both approaches use "adversarial" MLPs to estimate certain probabilities and to learn to encode distributions. A difference is that the new system learns to generate a non-trivial distribution in response to statistically independent, random inputs, while good old PM learns to generate statistically independent, random outputs in response to a non-trivial distribution (by extracting mutually independent, factorial features encoding the distribution). Hence the new system essentially inverts the direction of PM - is this the main difference? Should it perhaps be called "inverse PM"?</p>
+    <p>- Assigned_Reviewer_19</p>
+    </blockquote>
+    Goodfellow responded with:
+    <blockquote>
+    <p>PM regularizes the hidden units of a generative model to be statistically independent from each other.
+    GANs express no preference about how the hidden units are distributed. We used independent priors in
+    the experiments for this paper, but that's not an essential part of the approach. PM involves competition
+    between two MLPs but the idea of competition is more qualitative than formal--each network has its own
+    objective function qualitatively designed to make them compete, while GANs play a minimax game on a single
+    value function. Nearly all forms of engineering involve competition between two forces of some kind,
+    whether it is mechanical systems exploiting Newton's 3rd law or Boltzmann machines inducing competition
+    between the positive and negative phase of learning.</p>
+    <p> - Ian Goodfellow</p>
+    </blockquote>
+    Assigned reviewer 19 was Jürgen Schmidhuber. Schmidhuber believed that his paper and Goodfellow's paper were quite similar, claiming that Generative Adversarial Networks were the inverse of his predictability minimisation. It was clear that Goodfellow did not think the two had much in common. Goodfellow noted that the competition between two forces was not unique to predictability minimisation paper, that nearly all forms of engineering involve this competition between two forces, and hence was not a major factor in claiming the similarity between predictability minimisation and general adversarial networks.
+    </p>
+    <p>Two years later, at the 2016 NIPS conference, Schmidhuber interrupted the lecture on Generative Adversarial networks being given by Ian Goodfellow. He walked up to the microphone while Goodfellow was speaking and exclaimed that he had previously done very similar work, which was overlooked and not given credit. Goodfellow handled this interruption well, and proceeded with his talk; however, this situation sparked social media interest outside the conference. </p>
+    <center><img src="../images/twitter.png" style="width:300px; height:400px;"><br><img src="../images/twitter_comment.png" style="width:300px;"><p>Image 2: Ian/Jürger Twitter Comments</p></center>
+    <p>Some people took to Goodfellow's side, claiming that Schmidhuber had no right to interupt a conference talk and disturb viewers. Others took to Schmidhuber's side seeing similarity in the two works, believing that Schmidhuber did inspire GANs. Others thought the entire situation was comical and jested about what was going on.</p>
+    <center><img src="../images/reddit.png" style="width:350px; "><br><p>Image 3: Reddit Discussions</p></center>
+    <br>
+    <!--<p>Eventually, a Quora post popped up and Goodfellow responded to it.</p> -->
+    <div id="right_div">
+    <figure><img src="../images/Quora.png" style="width:300px; height:400px;"><p>Image 4: Quora Post</p></figure></div>
+    <p>Eventually, a Quora post popped up and Goodfellow responded to it. Here, he tried to explain the complicated nature of the Schmidhuber situation. He noted that Schmidhuber did not claim credit for the invention of GANs, but wanted the name to be changed to inverse PM. He explained that there is no good way to have situations like this mediated and had asked NIPS if Jürgen could file a complaint as to whether his publication was unfair to the preceeding Learning Factorial Codes By Predictability Minimization paper. He noted that he did not see any significant connection between the two papers as Schmidhuber's paper was about predictability minimization and his was on generative adversarial networks.</p>
+    <p>Soon after Goodfellow revised his paper, citing Schmidhuber and explicitly denoting three key differences between the two works:
+    <ul class="a">
+        <li>With Goodfellow's GANs, the competition between the networks is the sole training criterion, and is sufficient on its own to train the network. Predictability minimization is only a regularizer that encourages the hidden units of a neural network to be sta- tistically independent while they accomplish some other task; it is not a primary training criterion.</li>
+        <li>The nature of the competition is different. In predictability minimization, two networks’ outputs are compared, with one network trying to make the outputs similar and the other trying to make the 2 outputs different. The output in question is a single scalar. In GANs, one network produces a rich, high dimensional vector that is used as the input to another network, and attempts to choose an input that the other network does not know how to process. </li>
+        <li>The specification of the learning process is different. Predictability minimization is described as an optimization problem with an objective function to be minimized, and learning approaches the minimum of the objective function. GANs are based on a minimax game rather than an optimization problem, and have a value function that one agent seeks to maximize and the other seeks to minimize. The game terminates at a saddle point that is a minimum with respect to one player’s strategy and a maximum with respect to the other player’s strategy.</li>
+      </ul>
+      Since then, things have cooled off between Goodfellow and Schmidhuber and the two plan to write a paper together. Goodfellow is still researching and presenting on GANs and is planning to showcase his recent work on GANs at the 2017 GPU Technology Conference. Ian Goodfellow is still credited for inventing the General Adversarial Network. Currently some professionals in academia see the work as dissimilar while others find the two works more similar than different.</p>
+
+    <h1>Prerequisites</h1>
+    <p>Before discussing the technacalities of Generative Adversarial Networks, let us briefly cover some prerequisites. If you are comfortable with the field of machine learning, please feel free to skip this section. </p>
+    <h4><u>Machine Learning:</u></h4>
+    <p>Machine Learning is a type of Artificial Intelligence that provides computers with the ability to learn without being explicitly programmed. It is a method of teaching computers to make and improve predictions or behaviors based on some data. In this field, we explore the study and construction of algorithms that can learn from and make predictions on this data. Machine learning tasks are classified into three broad categories:</p>
+    <p>
+    <ul>
+    <li><b>Supervised Learning: </b>Our data has input variables, $x$, and output variables, $y$. Here we use an algorithm to learn the mapping from the input function to the output in the form $y=f(x)$. We want to approximate the mapping function so well such that when we query a new input $x$ sample we can predict the output $y$ for that sample. When we train the algorithm our data essentially has a teacher to supervise the learning process.</li>
+    <li><b>Unsupervised Learning: </b>Our data only has an input $x$ and no corresponding output label $y$. Here, we want to model the structure or distribution in the data to learn more from it. Unsupervied algorithms ahve to discover and present the structure in the data without a teacher.</li>
+    <li><b>Semi-Supervised Learning: </b>Here, we have some input $x$ data that has associated output $y$ labels and some $x$ data that does not. For instance, we might have a collection of photos where some photos have a caption and some do not.</li>
+    <li><b>Reinforcement Learning: </b>Here our program interacts with a dynamic environment in which we must perform a certain goal. The program is given feedbak in terms of rewards and punishments. For instance, we might try and navigate a robot through a maze. When training it we punish it when it makes an incorrect turn and reward it when it makes a correct turn.</li>
+    </ul>
+    </p>
+    <p>We can further categorize machine learning tasks considering the output of the system:</p>
+    <p>
+    <ul>
+    <li><b>Classification: </b>The output variable is from a class. For instance the output variable could be round, square, or triangular.</li>
+    <li><b>Regression: </b>The output variable is a real number. We usually use supervised learning for regression.</li>
+    <li><b>Clustering: </b>We seek to discover groupings in the data. For instance we want to cluster customers based on purchasing data that we have.</li>
+    <li><b>Density Estimation: </b>Constructing an estimate based on observed data of an unobservable probability density function.</li>
+    <li><b>Dimensionality Reduction: </b>We want to reduce the dimensionality of our dataset by reducing the number of random variables under consideration. However, we want to preserve it's true predictive nature with the reduced feature representation.</li>
+    </ul>
+    </p>
+
+    <h4><u>Generative vs Discriminative Models:</u></h4>
+    <h4><u>Deep Learning:</u></h4>
+    <p>Deep learning is a subfield of machine learning that is concerned with algorithms, Artificial Neural Networks (ANNs), inspired by the structure and function of the brain. These ANNs are generally presented as systems of interconnected neurons which exchange messages between each other. The neural network model mimics a neuron which contains the dendrites, nucleus, axon, and terminal axon. The neurons transmit information via synapse between the dendrites of one terminal and the axon of another. Computer scientists inherited this idea from the brain starting in the 1940's. However, during that time, computing power was limited and expensive and thus neural networks did not showcase their power. Recently, in 2011, neural networks resurfaced as computing power became stronger and cheaper.</p>
+    <h4><u>Neural Networks</u></h4>
+    <p>Neural Networks are the focus of deep learning. An artificial neural network looks as follows:</p>
+    <figure><center><img src="../images/ann.jpg" style="width:320px; height:230px;"><p>Image 5: ANN</p></center></figure>
+    <p>Above we have an input layer, the hidden layer, and the output layer. The circles are our nodes, or neurons. The lines connecting them are the weights and information being lassed along. If we have a single hidden layer we have an artifical neural network. If we have more than one hidden layer then we have a deep neural network. So, we have the input data that is randomly weighted. This data is passed into the hiddenn layer. Here the weights are summed and an activation function like the sigmoid activation is applied on the sum. We feed forward through the neural network from the input to the layers to the output. We then go backwards and begin adusting th weights to minimize our loss function. This is called forward/backward propogation.</p>
+    <h4><u>Convolutional Neural Networks</u></h4>
+    <p>A convolutional neural network is a neural network comprised of one or more convolutional layers and followed by one or more pooling layers and fully connected layers.</p>
+    <p>Convolutional layers essentially take a weighted sliding window over the input to create a new output. A pooling layers function is to progressively reduce the spatial size of the representation to reduce the amount of parameters and computation in the network, and hence to also control overfitting. We see an example as follows:</p>
+    <figure><center><img src="../images/convolution.jpg" style="width:320px; height:230px;"><p>Image 6: Convolution</p></center></figure>
+    <p>Here we take a 3 x 3 sliding window over our 7 x 7 matrix and perform a weighted sum to generate a new value. We slide this window over all locations in the matrix.</p>
+    <p>In a rectified linear unit (RELU) layer .....</p>
+    <p>A pooling layer's function is to progressively reduce the spatial size of the representation to reduce the amount of parameters and computation in the network, and hence to also control overfitting. We see an example of max pooling as follows:</p>
+    <p><figure><center><img src="../images/maxpool.jpeg" style="width:380px; height:230px;"><p>Image 6: Convolution</p></center></figure></p>
+    <p>Here we divide a 4 x 4 matrix up into 2 x 2 cells and take the maximum value from each cell.</p>
+    <p>In a fully connected layer, after several convolutional and max pooling layers, all neurons in the previous layer (whether it be fully connected, pooling, or convolutional) are connected to to every single neuron it has. Fully connected layers are not spatially located anymore (you can visualize them as one-dimensional), so there can be no convolutional layers after a fully connected layer.</p>
+    <p>An example of a convolutional architecture would be</p>
+    <p>
+    <ul>
+    <li>Input</li>
+    <li>Convolutional Layer</li>
+    <li>Rectified Linear Unit Layer</li>
+    <li>Pooling Layer</li>
+    <li>Fully Connected Layer</li>
+    </ul>
+    </p>
+    <h4><u>Adversarial Networks</u></h4>
+    <h4><u>Batch Normalization</u></h4>
+    <h4><u>Zero-Sum Game</u></h4>
+    <h4><u>Nash Equilibrium</u></h4>
+    <h4><u></u></h4>
+
+
+    <h1>What are Generative Adversarial Networks (GANs)?</h1>
+    <h1>References</h1>
+    <p>
+    <ol>
+    <li>http://machinelearningmastery.com/supervised-and-unsupervised-machine-learning-algorithms/</li>
+    <li>https://en.wikipedia.org/wiki/Machine_learning</li>
+    <li>http://stats.stackexchange.com/questions/114385/what-is-the-difference-between-convolutional-neural-networks-restricted-boltzma</li>
+    </ol>
+    </p>
+      <!--<a id="user-content-header-1" class="anchor" href="#header-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Header 1</h1>
+
+      <p>This is a normal paragraph following a header. Bacon ipsum dolor sit amet t-bone doner shank drumstick, pork belly porchetta chuck sausage brisket ham hock rump pig. Chuck kielbasa leberkas, pork bresaola ham hock filet mignon cow shoulder short ribs biltong.</p>
+      <p>Text can be <strong>bold</strong>, <em>italic</em>, or <del>strikethrough</del>. <a href="https://github.com">Links</a> should be blue with no underlines (unless hovered over).</p>
+
+      <p>There should be whitespace between paragraphs. There should be whitespace between paragraphs. There should be whitespace between paragraphs. There should be whitespace between paragraphs.</p>
+
+      <p>There should be whitespace between paragraphs. There should be whitespace between paragraphs. There should be whitespace between paragraphs. There should be whitespace between paragraphs.</p>
+
+      <blockquote>
+      <p>There should be no margin above this first sentence.</p>
+
+      <p>Blockquotes should be a lighter gray with a gray border along the left side.</p>
+
+      <p>There should be no margin below this final sentence.</p>
+      </blockquote>
+
+      <h1>
+      <a id="user-content-header-1" class="anchor" href="#header-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Header 1</h1>
+
+      <p>This is a normal paragraph following a header. Bacon ipsum dolor sit amet t-bone doner shank drumstick, pork belly porchetta chuck sausage brisket ham hock rump pig. Chuck kielbasa leberkas, pork bresaola ham hock filet mignon cow shoulder short ribs biltong.</p>
+
+      <h2>
+      <a id="user-content-header-2" class="anchor" href="#header-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Header 2</h2>
+
+      <blockquote>
+      <p>This is a blockquote following a header. Bacon ipsum dolor sit amet t-bone doner shank drumstick, pork belly porchetta chuck sausage brisket ham hock rump pig. Chuck kielbasa leberkas, pork bresaola ham hock filet mignon cow shoulder short ribs biltong.</p>
+      </blockquote>
+
+      <h3>
+      <a id="user-content-header-3" class="anchor" href="#header-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>Header 3</h3>
+
+      <pre><code>This is a code block following a header.</code></pre>
+
+      <h4>
+      <a id="user-content-header-4" class="anchor" href="#header-4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Header 4</h4>
+
+      <ul class="task-list">
+      <li>This is an unordered list following a header.</li>
+      <li>This is an unordered list following a header.</li>
+      <li>This is an unordered list following a header.</li>
+      </ul>
+
+      <h5>
+      <a id="user-content-header-5" class="anchor" href="#header-5" aria-hidden="true"><span class="octicon octicon-link"></span></a>Header 5</h5>
+
+      <ol class="task-list">
+      <li>This is an ordered list following a header.</li>
+      <li>This is an ordered list following a header.</li>
+      <li>This is an ordered list following a header.</li>
+      </ol>
+
+      <h6>
+      <a id="user-content-header-6" class="anchor" href="#header-6" aria-hidden="true"><span class="octicon octicon-link"></span></a>Header 6</h6>
+
+      <table>
+      <thead>
+      <tr>
+      <th>What</th>
+      <th>Follows</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>A table</td>
+      <td>A header</td>
+      </tr>
+      <tr>
+      <td>A table</td>
+      <td>A header</td>
+      </tr>
+      <tr>
+      <td>A table</td>
+      <td>A header</td>
+      </tr>
+      </tbody>
+      </table>
+
+      <hr>
+
+      <p>There's a horizontal rule above and below this.</p>
+
+      <hr>
+
+      <p>Here is an unordered list:</p>
+
+      <ul class="task-list">
+      <li>Salt-n-Pepa</li>
+      <li>Bel Biv DeVoe</li>
+      <li>Kid 'N Play</li>
+      </ul>
+
+      <p>And an ordered list:</p>
+
+      <ol class="task-list">
+      <li>Michael Jackson</li>
+      <li>Michael Bolton</li>
+      <li>Michael Bublé</li>
+      </ol>
+
+      <p>And an unordered task list:</p>
+
+      <ul class="task-list">
+      <li class="task-list-item">
+      <input type="checkbox" class="task-list-item-checkbox" checked="" disabled=""> Create a sample markdown document</li>
+      <li class="task-list-item">
+      <input type="checkbox" class="task-list-item-checkbox" checked="" disabled=""> Add task lists to it</li>
+      <li class="task-list-item">
+      <input type="checkbox" class="task-list-item-checkbox" disabled=""> Take a vacation</li>
+      </ul>
+
+      <p>And a "mixed" task list:</p>
+
+      <ul class="task-list">
+      <li class="task-list-item">
+      <input type="checkbox" class="task-list-item-checkbox" disabled=""> Steal underpants</li>
+      <li>?</li>
+      <li class="task-list-item">
+      <input type="checkbox" class="task-list-item-checkbox" disabled=""> Profit!</li>
+      </ul>
+
+      <p>And a nested list:</p>
+
+      <ul class="task-list">
+      <li>Jackson 5
+
+      <ul class="task-list">
+      <li>Michael</li>
+      <li>Tito</li>
+      <li>Jackie</li>
+      <li>Marlon</li>
+      <li>Jermaine</li>
+      </ul>
+      </li>
+      <li>TMNT
+
+      <ul class="task-list">
+      <li>Leonardo</li>
+      <li>Michelangelo</li>
+      <li>Donatello</li>
+      <li>Raphael</li>
+      </ul>
+      </li>
+      </ul>
+
+      <p>Definition lists can be used with HTML syntax. Definition terms are bold and italic.</p>
+
+      <dl>
+          <dt>Name</dt>
+          <dd>Godzilla</dd>
+          <dt>Born</dt>
+          <dd>1952</dd>
+          <dt>Birthplace</dt>
+          <dd>Japan</dd>
+          <dt>Color</dt>
+          <dd>Green</dd>
+      </dl>
+
+      <hr>
+
+      <p>Tables should have bold headings and alternating shaded rows.</p>
+
+      <table>
+      <thead>
+      <tr>
+      <th>Artist</th>
+      <th>Album</th>
+      <th>Year</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>Michael Jackson</td>
+      <td>Thriller</td>
+      <td>1982</td>
+      </tr>
+      <tr>
+      <td>Prince</td>
+      <td>Purple Rain</td>
+      <td>1984</td>
+      </tr>
+      <tr>
+      <td>Beastie Boys</td>
+      <td>License to Ill</td>
+      <td>1986</td>
+      </tr>
+      </tbody>
+      </table>
+
+      <p>If a table is too wide, it should condense down and/or scroll horizontally.</p>
+
+      <table>
+      <thead>
+      <tr>
+      <th>Artist</th>
+      <th>Album</th>
+      <th>Year</th>
+      <th>Label</th>
+      <th>Awards</th>
+      <th>Songs</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>Michael Jackson</td>
+      <td>Thriller</td>
+      <td>1982</td>
+      <td>Epic Records</td>
+      <td>Grammy Award for Album of the Year, American Music Award for Favorite Pop/Rock Album, American Music Award for Favorite Soul/R&amp;B Album, Brit Award for Best Selling Album, Grammy Award for Best Engineered Album, Non-Classical</td>
+      <td>Wanna Be Startin' Somethin', Baby Be Mine, The Girl Is Mine, Thriller, Beat It, Billie Jean, Human Nature, P.Y.T. (Pretty Young Thing), The Lady in My Life</td>
+      </tr>
+      <tr>
+      <td>Prince</td>
+      <td>Purple Rain</td>
+      <td>1984</td>
+      <td>Warner Brothers Records</td>
+      <td>Grammy Award for Best Score Soundtrack for Visual Media, American Music Award for Favorite Pop/Rock Album, American Music Award for Favorite Soul/R&amp;B Album, Brit Award for Best Soundtrack/Cast Recording, Grammy Award for Best Rock Performance by a Duo or Group with Vocal</td>
+      <td>Let's Go Crazy, Take Me With U, The Beautiful Ones, Computer Blue, Darling Nikki, When Doves Cry, I Would Die 4 U, Baby I'm a Star, Purple Rain</td>
+      </tr>
+      <tr>
+      <td>Beastie Boys</td>
+      <td>License to Ill</td>
+      <td>1986</td>
+      <td>Mercury Records</td>
+      <td>noawardsbutthistablecelliswide</td>
+      <td>Rhymin &amp; Stealin, The New Style, She's Crafty, Posse in Effect, Slow Ride, Girls, (You Gotta) Fight for Your Right, No Sleep Till Brooklyn, Paul Revere, Hold It Now, Hit It, Brass Monkey, Slow and Low, Time to Get Ill</td>
+      </tr>
+      </tbody>
+      </table>
+
+      <hr>
+
+      <p>Code snippets like <code>var foo = "bar";</code> can be shown inline.</p>
+
+      <p>Also, <code>this should vertically align</code> <del><code>with this</code></del> <del>and this</del>.</p>
+
+      <p>Code can also be shown in a block element.</p>
+
+      <pre><code>var foo = "bar";
+</code></pre>
+
+      <p>Code can also use syntax highlighting.</p>
+
+      <div class="highlight highlight-Javascript"><pre><span class="pl-k">var</span> foo <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>;</pre></div>
+
+      <pre><code>Long, single-line code blocks should not wrap. They should horizontally scroll if they are too long. This line should be long enough to demonstrate this.</code></pre>
+
+      <div class="highlight highlight-Javascript"><pre><span class="pl-k">var</span> foo <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>The same thing is true for code with syntax highlighting. A single line of code should horizontally scroll if it is really long.<span class="pl-pds">"</span></span>;</pre></div>
+
+      <p>Inline code inside table cells should still be distinguishable.</p>
+
+      <table>
+      <thead>
+      <tr>
+      <th>Language</th>
+      <th>Code</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>Javascript</td>
+      <td><code>var foo = "bar";</code></td>
+      </tr>
+      <tr>
+      <td>Ruby</td>
+      <td><code>foo = "bar"</code></td>
+      </tr>
+      </tbody>
+      </table>
+
+      <hr>
+
+      <p>Small images should be shown at their actual size.</p>
+
+      <p><a href="https://camo.githubusercontent.com/16a9d5241f679b6429fc0597f10816dd2665bbb2/687474703a2f2f706c6163656b697474656e2e636f6d2f672f3330302f3230302f" target="_blank"><img src="https://camo.githubusercontent.com/16a9d5241f679b6429fc0597f10816dd2665bbb2/687474703a2f2f706c6163656b697474656e2e636f6d2f672f3330302f3230302f" alt="" data-canonical-src="https://placekitten.com/g/300/200/" style="max-width:100%;"></a></p>
+
+      <p>Large images should always scale down and fit in the content container.</p>
+
+      <p><a href="https://camo.githubusercontent.com/afe46418285497605cf4f6376b75f8c818658fb1/687474703a2f2f706c6163656b697474656e2e636f6d2f672f313230302f3830302f" target="_blank"><img src="https://camo.githubusercontent.com/afe46418285497605cf4f6376b75f8c818658fb1/687474703a2f2f706c6163656b697474656e2e636f6d2f672f313230302f3830302f" alt="" data-canonical-src="https://placekitten.com/g/1200/800/" style="max-width:100%;"></a></p>
+
+      <pre><code>This is the final element on the page and there should be no margin below this.</code></pre>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/jasonlong/cayman-theme">Cayman</a> is maintained by <a href="https://github.com/jasonlong">jasonlong</a>.</span>
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+      </footer> -->
+
+    </section>
+
+  </body>
+</html>
