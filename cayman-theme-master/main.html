@@ -114,6 +114,16 @@
     </p>
 
     <h4><u>Generative vs Discriminative Models:</u></h4>
+    <p>Generative models model how the data was generated in order to categorize a signal. This type of model cares how data was generated to categorize that signal. It tries to answer, "Which category is most likely to generate the signal based on generation assumptions?" Here, the distribution of individual classes is modeled. The generative model concerns the specification of the joing probability $p(x,y)$. The data $X$ and label $Y$ are taken into a model and we learn $p(x|y)$ and $p(y)$. We can then learn $p(y|x)$ indirectly as we know that $p(y|x) \propto p(x|y)p(y)$.</p>
+    <p>Discriminative models do not care about how the data was generated. They simply categorize a given signal. Here, the boundary between classes is learned. A discriminative model concerns the specification of the conditional probability $p(y|x)$. This conditional probability is learned directly. Some exampls of discriminative models are Logistic Regression, Support Vector Machines, Boosting, Conditional Random Fields, Linear Regression, Neural Networks, and Random Forests.</p>
+    <p>We can better understand these two types of models with the figure below:</p>
+    <br>
+    <center><img src="../images/DVGM.png" style="width:500px;"><p>Image 1: Generative V.S. Discriminative Models</p></center>
+    <br>
+    <p>In the above image, we are trying to classify whether the red triangle will be in the blue class or the yellow class. We see that using a discriminative model, we will model a decision boundary and the red triangle will end up in the blue class. When using a generative model, we do not simply draw a boundary between the classess. Here the data in each class is modeled and we see that it is also assigned to the blue class. Some examples of generative models are Gaussian Mixture Models, Hidden Markov Models, Naive Bayes, Latenet Dirichlet Allocation, and the Restricted Boltzmann Machine.</p>
+    <p>There is a simple test to tell whether a model is generative or discriminative. If the model can generate a new set of training data, including all features and labels, given the condition that all unknown parameters in the model are known then the model is generative. Otherwise, it is discriminative. If we look at a Naive Bayes model we see that it can generate feature data and label data. Support Vector Machiens, on the otherhand, cannot generate data in any feature space.</p>
+
+
     <h4><u>Deep Learning:</u></h4>
     <p>Deep learning is a subfield of machine learning that is concerned with algorithms, Artificial Neural Networks (ANNs), inspired by the structure and function of the brain. These ANNs are generally presented as systems of interconnected neurons which exchange messages between each other. The neural network model mimics a neuron which contains the dendrites, nucleus, axon, and terminal axon. The neurons transmit information via synapse between the dendrites of one terminal and the axon of another. Computer scientists inherited this idea from the brain starting in the 1940's. However, during that time, computing power was limited and expensive and thus neural networks did not showcase their power. Recently, in 2011, neural networks resurfaced as computing power became stronger and cheaper.</p>
     <h4><u>Neural Networks</u></h4>
@@ -125,35 +135,49 @@
     <p>Convolutional layers essentially take a weighted sliding window over the input to create a new output. A pooling layers function is to progressively reduce the spatial size of the representation to reduce the amount of parameters and computation in the network, and hence to also control overfitting. We see an example as follows:</p>
     <figure><center><img src="../images/convolution.jpg" style="width:320px; height:230px;"><p>Image 6: Convolution</p></center></figure>
     <p>Here we take a 3 x 3 sliding window over our 7 x 7 matrix and perform a weighted sum to generate a new value. We slide this window over all locations in the matrix.</p>
-    <p>In a rectified linear unit (RELU) layer .....</p>
+    <p>In a rectified linear unit (RELU) layer any input value less than zero is set to zero and any value greater than or equal to zero retains its value. A RELU layer takes the function $$f(x) = \begin{cases} x, x \geq 0 \\ 0, x < 0 \end{cases}$$
+    and graphically looks as follows:
+    <figure><center><img src="../images/relu.png" style="width:320px; height:230px;"><p>Image 7: RELU Layer</p></center></figure>
+
+    </p>
     <p>A pooling layer's function is to progressively reduce the spatial size of the representation to reduce the amount of parameters and computation in the network, and hence to also control overfitting. We see an example of max pooling as follows:</p>
-    <p><figure><center><img src="../images/maxpool.jpeg" style="width:380px; height:230px;"><p>Image 6: Convolution</p></center></figure></p>
+    <p><figure><center><img src="../images/maxpool.jpeg" style="width:380px; height:230px;"><p>Image 8: Convolution</p></center></figure></p>
     <p>Here we divide a 4 x 4 matrix up into 2 x 2 cells and take the maximum value from each cell.</p>
-    <p>In a fully connected layer, after several convolutional and max pooling layers, all neurons in the previous layer (whether it be fully connected, pooling, or convolutional) are connected to to every single neuron it has. Fully connected layers are not spatially located anymore (you can visualize them as one-dimensional), so there can be no convolutional layers after a fully connected layer.</p>
-    <p>An example of a convolutional architecture would be</p>
+    <p>In a fully connected layer, after several convolutional and max pooling layers, all neurons in the previous layer (whether it be fully connected, pooling, or convolutional) are connected to to every single neuron it has. Fully connected layers are not spatially located anymore (you can visualize them as one-dimensional), so there can be no convolutional layers after a fully connected layer. The output from the convolutional layer represents high-level features in the data. This output could be flattened and connected to the output layer, but adding a fully-connected layer is usually a cheap way of learning non-linear combinations of the features. So the convolutional layers procide a meaningful low-dimensional invariant feature space and the fully connected layer is learning a possibly non-linear function in that space. </p>
+    <p>An example of a convolutional neural network architecture would be</p>
     <p>
     <ul>
     <li>Input</li>
     <li>Convolutional Layer</li>
-    <li>Rectified Linear Unit Layer</li>
-    <li>Pooling Layer</li>
+    <li>Max Pooling Layer</li>
+    <li>Convolutional Layer</li>
+    <li>Max Pooling Layer</li>
     <li>Fully Connected Layer</li>
     </ul>
     </p>
-    <h4><u>Adversarial Networks</u></h4>
     <h4><u>Batch Normalization</u></h4>
-    <h4><u>Zero-Sum Game</u></h4>
-    <h4><u>Nash Equilibrium</u></h4>
-    <h4><u></u></h4>
+    <p>In 2015 Sergey Ioffe and Christian Szegedy released a paper called <a href="https://arxiv.org/pdf/1502.03167.pdf">Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift</a>. Training a deep neural network is complicated by the fact that the distribution of each layer's inputs changes during training as the parameters of the previous layers change. This slows down training by requiring lower learning rates and careful parameter initialization. This phenomenon is referred to as internal covariate shift.</p>
+    <p>Batch normalization is a technique to provide any layer in a neural network with inputs that are zero mean/unit variance. The mean and variance are measured over the whole mini-batch, independently for each activation. A learned offset $\beta$ and multiplicative factor $\gamma$ are then applied. This allows us to use much higher learning rates and be less careful about initialization. It also prevents the vanishing gradient, makes it easier to get out of local minima, and acts as a regularizer, in some cases eliminating the need for a dropout layer. We can observe the formal algorithm for the batch normalization transform applied to activation $x$ over a mini-batch from the paper below:</p>
+    <p><figure><center><img src="../images/batch_normalization.png" style="width:350px; height:250px;"><p>Image 9: Batch Normalization Algorithm</p></center></figure></p>
 
+    <h4><u>Zero-Sum Game</u></h4>
+    <p>In game theory, a zero-sum game is a mathematical representation of a situation in which each participant's gain or loss of utility is exactly balanced by the losses or gains of the utility of the other participants. Here, if the total gains of the participants are added up and the total losses are subtracted, the sum will always be zero. So, zero-sum games are basically situations where if one person wins the other participant or participants lose. This is sometimes called a win lose or lose win situation.</p>
+    <p>For instance, say Mike and Fred bet on the outcome of a tennis match. There is no draw in tennis so one of the betters must win and one of them must lose. Here, we see that tennis itself is a zero-sum game. The bet between the two participants is also a zero-sum situation. If Mike wins then Fred loses. If Fred wins then Mike loses. </p>
+    <h4><u>Nash Equilibrium</u></h4>
+    <p>Nash Equilibrium is a concept of game theory where the optimal outcome of a game is one where no player has an incentive to deviate from his chosen strategy after considering an opponent's choice. In Nash Equilibrium, each player's strategy is optimal when considering the decisions of other players. Every player wins because everyone gets the outcome they desire. 
+
+    <br><br>
+    <p>We now have a solid grasp of some key concepts that will appear in Generative Adversarial Networks. Let us now proceed to talk about GANs.</p>
 
     <h1>What are Generative Adversarial Networks (GANs)?</h1>
     <h1>References</h1>
     <p>
     <ol>
     <li>http://machinelearningmastery.com/supervised-and-unsupervised-machine-learning-algorithms/</li>
-    <li>https://en.wikipedia.org/wiki/Machine_learning</li>
+    <li>Machine Learning Categories: https://en.wikipedia.org/wiki/Machine_learning</li>
     <li>http://stats.stackexchange.com/questions/114385/what-is-the-difference-between-convolutional-neural-networks-restricted-boltzma</li>
+    <li>Fully Connected Layer: http://stats.stackexchange.com/questions/182102/what-do-the-fully-connected-layers-do-in-cnns</li>
+    <li>Batch Normalization: https://standardfrancis.wordpress.com/2015/04/16/batch-normalization/</li>
     </ol>
     </p>
       <!--<a id="user-content-header-1" class="anchor" href="#header-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Header 1</h1>
