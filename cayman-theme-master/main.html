@@ -170,22 +170,62 @@
     <p>We now have a solid grasp of some key concepts that will appear in Generative Adversarial Networks. Let us now proceed to talk about GANs.</p>
 
     <h1>What are Generative Adversarial Networks (GANs)?</h1>
+
+    <h4><u>Why Are GANs Exciting:</u></h4>
+    <p>Take a look at the image below:</p>
+    <p><figure><center><img src="../images/sofa.png" style="width:450px; height:250px;"><p></p></center></figure></p>
+    <p>Within fractions of a second, the human brain can realize that this image is a sofa. If a human is asked to draw a sofa, they easily can. Ask a computer what this image is and it will have no idea. To a computer, this image of a sofa is a matrix of numbers that has color values for each picture. Ask a computer to draw you a sofa and you will most likely not be presented with an image of a sofa. The computer does not understand what is actually in the images. However, what if we showed the computer tens of thousands of images of sofas. Then, the computer might be able to generate a sofa when asked to do so. With generative adversarial networks we can feed thousands and thousands of (sofa) images into the model and train the computer to understand the concepts without explicitly teaching them the semantics of these concepts. This is exciting researchers as it is a huge leap from what current systems are doing.</p>
+
+
     <h4><u>The GAN Framework:</u></h4>
     <p>Generative Adversarial Networks are a branch of unsupervised machine learning where two neural networks compete against each other in a zero-sum game framework. We essentially have a game between two players: the generator and the discriminator. The generator creates samples that come from the same distribution as the training data. The generator is generating "fake" or "synthetic" data. The discriminator examines the synthetic generated samples and the real samples and tries to determine whether they are real or fake. The generator neural network is trained to produce fake data that better fools the discriminator neural network. The discriminator neural network is trained to better distinguish real data from fake data. Here the two networks control each others loss functions. An equilibrium occurs if the first network learns to perfectly model the true distribution. At this point, the discriminator can do no better than chance at predicting whether the data is fake or real. It is important to note that GANs are generative models. They take the training set, consisting of samples drawn from the distribution $p_{\text{data}}$ and learn to represent an estimate of that distribution, $p_{\text{model}}$. GANs then generate samples from  $p_{\text{model}}$.</p>
 
 
     <h4><u>Simplified GAN Framework:</u></h4>
     <p>Let's look at a simple example to better understand GANs. The basic idea is that we have two neural networks and we make them fight against each other so that they both become stronger. The first neural network is called the discriminator and second neural network is called the generator. Let's say that the discriminator is a police officer and the generator is a criminal. The criminal is trying to counterfit money and the police officer is trying to decide whether the money is real or fake.</p>
-    <p><figure><center><img src="../images/young_gnd.png" style="width:450px; height:350px;"><p>Image 11: Discriminator and Generator</p></center></figure></p>
+    <p><figure><center><img src="../images/young_gnd.png" style="width:450px; height:350px;"></center></figure></p>
     <p>You might be looking at the above image and be like, "hmmm this is strange, why are the discriminator and generator both childen?" Well, at first the discriminator is a brand new police officer. This police officer at first does not know what counterfit money looks like. The generator is a brand new counterfitter and has not yet mastered any skills to generate fake money. At first the generator might generate some fake money like this:</p>
-    <p><figure><center><img src="../images/badmoney1.png" style="width:440px"><p>Image 12: Fake Money Generation 1</p></center></figure></p>
+    <p><figure><center><img src="../images/badmoney1.png" style="width:440px"></center></figure></p>
     <p>We look at the above and are like "Wow that is a terrible fake!" However, the discriminator knows nothing about fake money and is a beginner just like the counterfitter, so he thinks it's real and lets it pass. We now tell the discriminator, "No that is fake money." We show him an image of real money and he now looks for details in this image so that he can tell real money from fake money in the future. He might now realize that real money has numbers in all the corners. The generator keeps generating fake money that looks like the money above, but it is all getting rejected as fake. Now, we tell the generator that the discriminator knows there needs to be numbers at all the corners to trick the discriminator. The counterfitter now starts to create bills like:</p>
-    <p><figure><center><img src="../images/fm2.png" style="width:440px"><p>Image 12: Fake Money Generation 2</p></center></figure></p>
+    <p><figure><center><img src="../images/fm2.png" style="width:440px"></center></figure></p>
+    <p>Now, the discriminator is fooled again and starts accepting these bills. The discriminator will again look for new ways to tell if a bill is fake. Now, it might find for instance that a bill needs a face on it. The generator will keep generating images, just like above, and the discriminator now will recognizing these as fake. The generator's loss will increase and it will find a way to make better fake images. The entire process will repeat until both the generator and discriminator are experts.</p> 
 
-    <h4><u>Why Are They Exciting:</u></h4>
-    <p>Take a look at the image below:</p>
-    <p><figure><center><img src="../images/sofa.png" style="width:450px; height:250px;"><p>Image 10: Sofa</p></center></figure></p>
-    <p>Within fractions of a second, the human brain can realize that this image is a sofa. If a human is asked to draw a sofa, they easily can. Ask a computer what this image is and it will have no idea. To a computer, this image of a sofa is a matrix of numbers that has color values for each picture. Ask a computer to draw you a sofa and you will most likely not be presented with an image of a sofa. The computer does not understand what is actually in the images. However, what if we showed the computer tens of thousands of images of sofas. Then, the computer might be able to generate a sofa when asked to do so. With generative adversarial networks we can feed thousands and thousands of (sofa) images into the model and train the computer to understand the concepts without explicitly teaching them the semantics of these concepts. This is exciting researchers as it is a huge leap from what current systems are doing.</p>
+    <p><figure><center><img src="../images/exper_gan_dg.png" style="width:440px"></center></figure></p>
+  
+    <p>Once an expert, the generator will be generating images like: </p>
+    <p><figure><center><img src="../images/dollar.jpeg"><p></p></center></figure></p>
+    <p>The discriminator and generator eventually become experts and the discriminator is looking for the tiniest details while the generator is generating increadible counterfits.Now the images that are being generated should imprese the human eye.</p>
+
+    <h4><u>Mathematical GAN Framework:</u></h4>
+    <p>Now that we have simplified the understanding of GANs, let us talk about the mathematics behind GANs.</p>
+    <h5><b><font color='gray'>Definition:</font></b></h5>
+    <p>Let us represent the discriminator as a function $D$ and the generator as the function $G$. $D$ takes in $x$ as an input and uses $\theta^{(D)}$ as parameters. $G$ takes in $z$ as input and uses $\theta^{(G)}$ as parameters. Here we let $x,z$ both be latent variables.</p>
+    <h5><b><font color='gray'>Cost Functions:</font></b></h5>
+    <p>The discriminator and the generator both have cost functions. The discriminator wants to minimize $J^{(D)}\left(\theta^{(D)},\theta^{(G)}\right)$ and must do so while only controlling $\theta^{(D)}$. The generator wants to minimize $J^{(G)}\left(\theta^{(D)},\theta^{(G)}\right)$ and must do so while only controlling $\theta^{(G)}$. Each player's cost function depends on the other's parameters, but each player cannot control the other's parameters. The solution is represented as a Nash Equilibrium, which is $\left(\theta^{(D)},\theta^{(G)}\right)$ which is a local minimum of $J^{(D)}$ with respect to $\theta^{(D)}$ and a local minimum of $J^{(G)}$ with respect to $\theta^{(G)}$.</p>
+    <p>Let us be more clear about the cost functions. The cost function used for the discriminator is:</p>
+    <p>$$J^{(D)}\left(\theta^{(D)},\theta^{(G)}\right) = -\frac{1}{2}\mathbb{E}_{x \sim p_{\text{data}}}\text{log}D(x) - \frac{1}{2}\mathbb{E}_z \text{log}(1-D(G(z)))$$</p>
+    <p>This is similar to the standard cross entropy cost that is minimized when training a standard binary classifier with a sigmoid output.</p>
+    <p>We know that we have a zero-sum game so the sum of all player's costs must equate to zero. Thus, we cans tate the cost function of the generator as:</p>
+    <p>$$J^{(G)} = -J^{(D)}$$</p>
+    <p>We see this is the case if we are using the case of minimax. If, for instance, we are in a heuristic non-saturating game then the equation above does not perform well. Instead, the cost function becomes:</p>
+    <p>$$J^{(G)} = -\frac{1}{2}\mathbb{E}_{z} \text{log}D(G(z))$$</p>
+    <p>In this game, the generator maximizes the log probability of the discriminator being mistaken. In the case of the minimax game, the generator minimizes the log-probability of the discriminator being correct.</p>  
+    <h5><b><font color='gray'>GAN Training:</font></b></h5>
+    <p>When the generative adversarial network is trained, there is a simultaneous process of stochastic gradient descent (other papers have explored other methods). With each step a minibatch of $x$ values from the dataset and a minibatch of $z$ values from the model's proior over latent variables are sampled. Then, two gradient steps are made at the same time. $\theta^{(D)}$ is updated to reduce $J{(D)}$ and $\theta^{(G)}$ is updated to reduce $J^{(G)}$.</p>
+
+    <h5><b><font color='gray'>GAN Pipeline:</font></b></h5>
+    <p>As mentioned previously there are two scenarios in our game.</p>
+    <ol>
+    <li>$x$ training examples are randomly sampled from the training set and used as input for the discriminator, which is a differentiable function $D$. The discriminator outputs a probability that $x$ is real or fake, which is denoted as $D(x)$. The goal here is for $D(x) = 1$ or as close to 1 as possible.</li>
+    <li>Input noise $z$ is passed into the generator randomly (noise usually comes from a random uniform distribution) from the model's prior over latenet variables. The generator $G$ creates a fake sample denoted as $G(z)$. This $G(z)$ is then passed to the discriminator. The generator wants $D(G(z))$ to be near 1 while the discriminator tries to make $D(G(z))$ near 0.</li>
+    </ol>
+    <p>The Nash equilibrium of this fame corresponds to $G(z)$ being drawn from the same distribution as the training data and $D(x) = 0.5$ $\forall$ $x$.</p>
+
+    <h1>Deep Convolutional Generative Adversarial Networks (DCGANs):</h1>
+
+
+    <h1>Improving Performance of GANs:</h1>
+
     <h1>References</h1>
     <p>
     <ol>
