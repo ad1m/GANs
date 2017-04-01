@@ -29,8 +29,12 @@
 
 
     <section class="page-header">
+      <br>
+      <br>
       <h1 class="project-name">Generative Adversarial Networks</h1>
       <h2 class="project-tagline">Part 1: Motivation, History, & Application</h2>
+      <br>
+      <br>
       <!--<a href="#" class="btn">View on GitHub</a>
       <a href="#" class="btn">Download .zip</a>
       <a href="#" class="btn">Download .tar.gz</a> -->
@@ -106,7 +110,7 @@
     <p>
     <ul>
     <li><b>Classification: </b>The output variable is from a class. For instance the output variable could be round, square, or triangular.</li>
-    <li><b>Regression: </b>The output variable is a real number. We usually use supervised learning for regression.</li>
+    <li><b>Regression: </b>The output variable is a real number.</li>
     <li><b>Clustering: </b>We seek to discover groupings in the data. For instance we want to cluster customers based on purchasing data that we have.</li>
     <li><b>Density Estimation: </b>Constructing an estimate based on observed data of an unobservable probability density function.</li>
     <li><b>Dimensionality Reduction: </b>We want to reduce the dimensionality of our dataset by reducing the number of random variables under consideration. However, we want to preserve it's true predictive nature with the reduced feature representation.</li>
@@ -114,13 +118,13 @@
     </p>
 
     <h4><u>Generative vs Discriminative Models:</u></h4>
-    <p>Generative models model how the data was generated in order to categorize a signal. This type of model cares how data was generated to categorize that signal. It tries to answer, "Which category is most likely to generate the signal based on generation assumptions?" Here, the distribution of individual classes is modeled. The generative model concerns the specification of the joing probability $p(x,y)$. The data $X$ and label $Y$ are taken into a model and we learn $p(x|y)$ and $p(y)$. We can then learn $p(y|x)$ indirectly as we know that $p(y|x) \propto p(x|y)p(y)$.</p>
+    <p>Generative models model how the data was generated in order to categorize a signal. This type of model cares how data was generated to categorize that signal. It tries to answer, "Which category is most likely to generate the signal based on generation assumptions?" Here, the distribution of individual classes is modeled. The generative model concerns the specification of the joing probability $p(x,y)$. The data $X$ and label $Y$ are taken into a model and we learn $p(x|y)$ and $p(y)$. We can then learn $p(y|x)$ indirectly as we know that $p(y|x) \propto p(x|y)p(y)$. Some examples of generative models are Gaussian Mixture Models, Hidden Markov Models, Naive Bayes, Latenet Dirichlet Allocation, and the Restricted Boltzmann Machine.</p>
     <p>Discriminative models do not care about how the data was generated. They simply categorize a given signal. Here, the boundary between classes is learned. A discriminative model concerns the specification of the conditional probability $p(y|x)$. This conditional probability is learned directly. Some exampls of discriminative models are Logistic Regression, Support Vector Machines, Boosting, Conditional Random Fields, Linear Regression, Neural Networks, and Random Forests.</p>
-    <p>We can better understand these two types of models with the figure below:</p>
+    <p>We can better observe these two types of models with the figure below:</p>
     <br>
     <center><img src="../images/DVGM.png" style="width:500px;"><p>Image 1: Generative V.S. Discriminative Models</p></center>
     <br>
-    <p>In the above image, we are trying to classify whether the red triangle will be in the blue class or the yellow class. We see that using a discriminative model, we will model a decision boundary and the red triangle will end up in the blue class. When using a generative model, we do not simply draw a boundary between the classess. Here the data in each class is modeled and we see that it is also assigned to the blue class. Some examples of generative models are Gaussian Mixture Models, Hidden Markov Models, Naive Bayes, Latenet Dirichlet Allocation, and the Restricted Boltzmann Machine.</p>
+    <!--<p>In the above image, we are trying to classify whether the red triangle will be in the blue class or the yellow class. We see that using a discriminative model, we will model a decision boundary and the red triangle will end up in the blue class. When using a generative model, we do not simply draw a boundary between the classess. Here the data in each class is modeled and we see that it is also assigned to the blue class.</p> -->
     <p>There is a simple test to tell whether a model is generative or discriminative. If the model can generate a new set of training data, including all features and labels, given the condition that all unknown parameters in the model are known then the model is generative. Otherwise, it is discriminative. If we look at a Naive Bayes model we see that it can generate feature data and label data. Support Vector Machiens, on the otherhand, cannot generate data in any feature space.</p>
 
 
@@ -133,15 +137,15 @@
     <h4><u>Convolutional Neural Networks</u></h4>
     <p>A convolutional neural network is a neural network comprised of one or more convolutional layers and followed by one or more pooling layers and fully connected layers.</p>
     <p>Convolutional layers essentially take a weighted sliding window over the input to create a new output. A pooling layers function is to progressively reduce the spatial size of the representation to reduce the amount of parameters and computation in the network, and hence to also control overfitting. We see an example as follows:</p>
-    <figure><center><img src="../images/convolution.jpg" style="width:320px; height:230px;"><p>Image 6: Convolution</p></center></figure>
+    <figure><center><img src="../images/convolution.jpg" style="width:320px; height:230px;"></center></figure>
     <p>Here we take a 3 x 3 sliding window over our 7 x 7 matrix and perform a weighted sum to generate a new value. We slide this window over all locations in the matrix.</p>
     <p>In a rectified linear unit (RELU) layer any input value less than zero is set to zero and any value greater than or equal to zero retains its value. A RELU layer takes the function $$f(x) = \begin{cases} x, x \geq 0 \\ 0, x < 0 \end{cases}$$
-    and graphically looks as follows:
-    <figure><center><img src="../images/relu.png" style="width:320px; height:230px;"><p>Image 7: RELU Layer</p></center></figure>
+    This activation function will be applied in an elementwise fashion. It is graphically depicted as follows:
+    <figure><center><img src="../images/relu.png" style="width:320px; height:250px;"></center></figure>
 
     </p>
     <p>A pooling layer's function is to progressively reduce the spatial size of the representation to reduce the amount of parameters and computation in the network, and hence to also control overfitting. We see an example of max pooling as follows:</p>
-    <p><figure><center><img src="../images/maxpool.jpeg" style="width:380px; height:230px;"><p>Image 8: Convolution</p></center></figure></p>
+    <p><figure><center><img src="../images/maxpool.jpeg" style="width:400px; height:230px;"></center></figure></p>
     <p>Here we divide a 4 x 4 matrix up into 2 x 2 cells and take the maximum value from each cell.</p>
     <p>In a fully connected layer, after several convolutional and max pooling layers, all neurons in the previous layer (whether it be fully connected, pooling, or convolutional) are connected to to every single neuron it has. Fully connected layers are not spatially located anymore (you can visualize them as one-dimensional), so there can be no convolutional layers after a fully connected layer. The output from the convolutional layer represents high-level features in the data. This output could be flattened and connected to the output layer, but adding a fully-connected layer is usually a cheap way of learning non-linear combinations of the features. So the convolutional layers procide a meaningful low-dimensional invariant feature space and the fully connected layer is learning a possibly non-linear function in that space. </p>
     <p>An example of a convolutional neural network architecture would be</p>
@@ -158,7 +162,7 @@
     <h4><u>Batch Normalization</u></h4>
     <p>In 2015 Sergey Ioffe and Christian Szegedy released a paper called <a href="https://arxiv.org/pdf/1502.03167.pdf">Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift</a>. Training a deep neural network is complicated by the fact that the distribution of each layer's inputs changes during training as the parameters of the previous layers change. This slows down training by requiring lower learning rates and careful parameter initialization. This phenomenon is referred to as internal covariate shift.</p>
     <p>Batch normalization is a technique to provide any layer in a neural network with inputs that are zero mean/unit variance. The mean and variance are measured over the whole mini-batch, independently for each activation. A learned offset $\beta$ and multiplicative factor $\gamma$ are then applied. This allows us to use much higher learning rates and be less careful about initialization. It also prevents the vanishing gradient, makes it easier to get out of local minima, and acts as a regularizer, in some cases eliminating the need for a dropout layer. We can observe the formal algorithm for the batch normalization transform applied to activation $x$ over a mini-batch from the paper below:</p>
-    <p><figure><center><img src="../images/batch_normalization.png" style="width:350px; height:250px;"><p>Image 9: Batch Normalization Algorithm</p></center></figure></p>
+    <p><figure><center><img src="../images/batch_normalization.png" style="width:350px; height:250px;"></center></figure></p>
 
     <h4><u>Zero-Sum Game</u></h4>
     <p>In game theory, a zero-sum game is a mathematical representation of a situation in which each participant's gain or loss of utility is exactly balanced by the losses or gains of the utility of the other participants. Here, if the total gains of the participants are added up and the total losses are subtracted, the sum will always be zero. So, zero-sum games are basically situations where if one person wins the other participant or participants lose. This is sometimes called a win lose or lose win situation.</p>
@@ -219,12 +223,82 @@
     <li>$x$ training examples are randomly sampled from the training set and used as input for the discriminator, which is a differentiable function $D$. The discriminator outputs a probability that $x$ is real or fake, which is denoted as $D(x)$. The goal here is for $D(x) = 1$ or as close to 1 as possible.</li>
     <li>Input noise $z$ is passed into the generator randomly (noise usually comes from a random uniform distribution) from the model's prior over latenet variables. The generator $G$ creates a fake sample denoted as $G(z)$. This $G(z)$ is then passed to the discriminator. The generator wants $D(G(z))$ to be near 1 while the discriminator tries to make $D(G(z))$ near 0.</li>
     </ol>
-    <p>The Nash equilibrium of this fame corresponds to $G(z)$ being drawn from the same distribution as the training data and $D(x) = 0.5$ $\forall$ $x$.</p>
+    <p>Ian Goodfellow, in his <a href="https://arxiv.org/pdf/1701.00160.pdf">NIPS 2016 Generative Adversarial Networks Tutorial</a> offers a nice diagram of these two game scenarios:</p>
+    <p><figure><center><img src="../images/IGFS2.png" style="width:400px"></center></figure></p>
+    <p>The Nash equilibrium of this game corresponds to $G(z)$ being drawn from the same distribution as the training data and $D(x) = 0.5$ $\forall$ $x$.</p>
 
     <h1>Deep Convolutional Generative Adversarial Networks (DCGANs):</h1>
-
+    <p>In 2016 Alec Radford, Luke Metz, and Soumith Chintala in 2016 submitted <a href="https://arxiv.org/pdf/1511.06434.pdf">Unsupervised Representation Learning With Deep Convolutional Generative Adversarial Networks</a> at the International Conference on Learning Representations (ICLR). For computer vision tasks, deep convolutional neural networks have had great success. In this paper, Radford proposed the following architecture:</p>
+    <p><figure><center><img src="../images/dc1.png" style="width:400px"></center></figure></p>
+    <p>In this specific diagram, 100 random numbers from a uniform distribution (latent variables) are passed in and a 64 x 64 x 3 image is produced. The yellow networks in the above image are deconvolutional layers, the reverse of convolutional layers, and the green layer is a fully connected layer. The above image serves as the paper's implementation of the generator. For the discriminator, a 64 x 64 x 3 image is taken as input and passed through 3 conovlutional layers and then a fully connected layer. A probability is outputted of the image being real or fake. This discriminator architecture, not shown in the original paper, would look as follows:</p>
+    <p><figure><center><img src="../images/dc2.png" style="width:300px"></center></figure></p>
+    <p>Radford provides the following architecture guidelines in the conference paper:</p>
+    <ul>
+    <li>Replace any pooling layers with strided convolutions (discriminator) and fractional-strided convolutions (generator).</li>
+    <li>Use batchnorm in both the generator and the discriminator.</li>
+    <li>Remove fully connected hidden layers for deeper architectures.</li>
+    <li>Use ReLU activation in generator for all layers except for the output, which uses Tanh.</li>
+    <li>Use LeakyReLU activation in the discriminator for all layers.</li>
+    </ul>
+    <p>Radford proposes that this architectural topology of DCGANs makes them stable to train in most settings compared to the traditional GAN.</p>
 
     <h1>Improving Performance of GANs:</h1>
+    Training a generative adversarial network can be computationally taxing and there can be a high degree of unstability. However, there are some tricks to combat these problems:</p>
+    <ol>
+    <li>Normalize Inputs between -1 and 1</li>
+    <li>Use tanh as last layer in the generator output</li>
+    <li>Try sampling from a gaussian distribution</li>
+    <li>Use batchnormalization</li>
+    <li>Use a LeakyReLU layer instead of a sparse gradient like ReLU or MaxPool</li>
+    <li>Use a DCGAN model</li>
+    <li>Use the Adam optimizer</li>
+    </ol>
+    <p>A full list of tips and tricks can be found <a href="https://github.com/soumith/ganhacks">here</a>.
+
+    <h1>Applications: </h1>
+    <ol>
+    <li>Fashion - Fashion designers could use GANs to design new articles of clothing </li>
+    <li>Art - Generate new art or assist user in drawing art</li>
+    <li>Text-to-Image Synthesis - Generate an image for what you would like to see</li>
+    <li>Resolution - Improve the resolution of an image</li>
+    <li>Video - Generate short clips and possibly full movies</li>
+    <li>iGAN - An interactive system to manipulate visual content without artistic skills, interactive photo editing</li>
+    <li>Encryption - Creating new encryption methods</li>
+    <li>Law Enforcement - Creating facial images of suspected criminals</li>
+    <li>Healthcare - Generating synthetic patient data used for research in databases like the MIHN FHIR server
+    </ol>
+
+    <h1>Research:</h1>
+    <p>Generative Adversarial Networks are the hot topic right now and there is still a lot to be discovered.</p>
+
+    <h1>Building our own GAN:</h1>
+    <p>Now that we understand what a generative adversarial network is and how it works, let's proceed by creating our own GAN. We will specifically implement a DCGAN and generate facial images like we described in the motivating example. For this post click the button below.</p>
+    <style>
+      .myButton {
+        background-color:#44c767;
+        -moz-border-radius:28px;
+        -webkit-border-radius:28px;
+        border-radius:28px;
+        border:1px solid #18ab29;
+        display:inline-block;
+        cursor:pointer;
+        color:#ffffff;
+        font-family:Arial;
+        font-size:17px;
+        padding:16px 31px;
+        text-decoration:none;
+        text-shadow:0px 1px 0px #2f6627;
+      }
+    .myButton:hover {
+      background-color:#5cbf2a;
+      }
+    .myButton:active {
+      position:relative;
+      top:1px;
+      }
+  </style>
+  <center><a href="#" class="myButton">Let's Build A GAN</a></center>
+
 
     <h1>References</h1>
     <p>
