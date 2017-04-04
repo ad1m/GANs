@@ -1,0 +1,3 @@
+README: 
+
+The GAN_tutorial_code.ipynb file is where the code for our DCGAN model lives. Please use this iPython notebook to view the code. All other files within this directory are for visuals in the iPython notebook. 
