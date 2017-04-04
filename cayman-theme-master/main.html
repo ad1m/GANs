@@ -32,7 +32,8 @@
       <br>
       <br>
       <h1 class="project-name">Generative Adversarial Networks</h1>
-      <h2 class="project-tagline">Part 1: Motivation, History, & Application</h2>
+      <h2 class="project-tagline">Part 1: Motivation, History, Theory, & Application</h2>
+      <h3 class="project-tagline">By: Adam Lieberman</h3>
       <br>
       <br>
       <!--<a href="#" class="btn">View on GitHub</a>
@@ -255,21 +256,94 @@
     </ol>
     <p>A full list of tips and tricks can be found <a href="https://github.com/soumith/ganhacks">here</a>.
 
-    <h1>Applications: </h1>
+    <h1>Applications & Current Research: </h1>
     <ol>
-    <li>Fashion - Fashion designers could use GANs to design new articles of clothing </li>
-    <li>Art - Generate new art or assist user in drawing art</li>
-    <li>Text-to-Image Synthesis - Generate an image for what you would like to see</li>
-    <li>Resolution - Improve the resolution of an image</li>
-    <li>Video - Generate short clips and possibly full movies</li>
-    <li>iGAN - An interactive system to manipulate visual content without artistic skills, interactive photo editing</li>
-    <li>Encryption - Creating new encryption methods</li>
-    <li>Law Enforcement - Creating facial images of suspected criminals</li>
-    <li>Healthcare - Generating synthetic patient data used for research in databases like the MIHN FHIR server
+    <li>Fashion - Generative Adversarial Networks can be used to produce photorealistic articles of clothing. This can help inspire fashion designers to create and design new clothing trends. GANs can be trained to learn to represent the attributes of style without ever being explicitly told what the representations should look like. Recently, Donggeun Yoo, Namik Kim, Sunggyun Park, Anthony S. Paek, and In So Kweon published their paper <a href="https://arxiv.org/pdf/1603.07442v3.pdf">Pixel-Level Domain Transfer</a>. In this paper they use a variation of generative adversarial networks to input a target image consiting of a dressed person and output a synthetic piece of clothing from the input image. Their goal looks as follows:<br><br>
+    <center><img src="../images/clothing_generation0.png"></center><br><br>
+    Here, an image of a person wearing clothing is inputted and a desired article of clothing resembling the input clothing is desired to be the output. After running the experiment, Yoo and his team arrived at results like the following:<br><br>
+    <center><img src="../images/clothing_generation.png" style="height:400px"></center><br><br>
+    Here, they found that they were able to generate clothing based on a desired input. GANs could be potentially groundbreaking in the fashion industry and help designers to great extents.
+    </li><br>
+
+    <li>Art - GANs can be used to generate art and help assist users in generating art. Adam Geitgey, in his <a href="https://medium.com/@ageitgey/abusing-generative-adversarial-networks-to-make-8-bit-pixel-art-e45d9b96cee7">7 part Machine Learning is Fun series</a>, used generative adversarial networks to generate 8-bit pixel art from video games. He used input images that look like: <br><br>
+    <center><img src="../images/art_input.png" style="height:400px"></center><br><br>
+    and was able to train his network to produce images like:<br><br><br>
+    <center><img src="../images/art_output.png" style="height:400px"></center><br><br>
+    GANs can also be used to assist users in generating art. A research prototype called <a href="https://github.com/junyanz/iGAN">iGAN</a>, developed by UC Berkley and Adobe CTL, do just this. The user draws some shapes and colors with a few strokes and the GAN produces photo-realistic samples that best satisfy the user edits in real time. For example:<br><br>
+    <center><img src="../images/iGAN0.png" style="height:400px"></center><br>
+    Here we see that the user attempts to draw mountains and the GAN produces them. We can see this process in real time as follows:<br><br><br>
+    <center><img src="../images/iGAN1.gif" style="height:400px"></center><br><br>
+    This can greatly assist artists and aspiring artists to produce high-quality sketeches in short periods of time.
+
+    </li><br>
+    <li>Text-to-Image Synthesis - Scott Reed, Zeynep Akata, Xinchen Yan, and Lakanugen Logeswaran, in their paper <a href="https://arxiv.org/pdf/1605.05396.pdf">Generative Adversarial Text to Image Synthesis</a>, described an automatic synthesis of realistic from text. They used GANs to enter in keywords and create images based off of these keywords. For example:<br><br>
+    <center><img src="../images/test_text_to_synthesis.png" style="height:350px"></center><br><br>
+    This work bridged the advances in text and image modeling, by translating visual concepts from characters to pixels. Thier model was able to plausibly generate images of birds and flowers from detailed text descriptions. After this paper was released, individual users like <a href="https://github.com/paarthneekhara/text-to-image">Paarth Neekhara</a> built open sourced models to perform this text to image synthesis. After training for 200 epochs on a GPU he arrived at fairly accurate results like the following:<br><br>
+    <center><img src="../images/t2i.png" style="height:350px"></center><br>
+    Text to Image synthesis has worked great for birds and flowers and now researchers are training on other types of images to add variety to the current systems.
+    </li><br>
+    <li>Super Resolution - Christian Ledig, Lucas Theis, Ferenc Husza ́r, Jose Caballero, Andrew Cunningham, Alejandro Acosta, Andrew Aitken, Alykhan Tejani, Johannes Totz, Zehan Wang, and Wenzhe Shi, all from Twitter, published <a href="https://arxiv.org/pdf/1609.04802.pdf">Photo-Realistic Single Image Super-Resolution Using a Generative Adversarial Network</a> in 2016. The goal of this paper was to estimate a high-resolution image from a low-resolution image, the task of super-resolution. The team build SRGAN, a generative adversarial network for image super-resolution. They were able to infer photo-realistic natural images for 4 x upscaling factors. For example:
+    <br><br>
+    <center><img src="../images/pr.png" style="height:350px"></center><br>
+    Ian Goodfellow, creator of the GAN, made note of this success in his tutorial lecture on generative adversarial networks.</li><br>
+
+    <li>Video - Carl Vondrick, Hamed Pirsiavash, and Antonio Torralba were able to <a href="http://web.mit.edu/vondrick/tinyvideo/">Generate Videos with Scene Dynamics</a> in their 2016 NIPS paper. Here, they used large amounts of unlabeled video to elarn a model of scene dynamics for video recognition and video generation using generative adversarial networks. They were able to generate videos such as:
+    <br><br>
+    <center><img src="../images/beach_1.gif" style="height:100px;"></center><br>
+    by feeding in videos of beach scenes. The above video is not real, it is a hallucinated video from the GAN.
+    </li><br>
+
+
+    <li>Encryption - Martín Abadi and David G. Andersen, from Google Brain, released <a href="https://openreview.net/pdf?id=S1HEBe_Jl">Learning to Protect Communications with Adversarial Neural Cryptography</a>. Here, three neural networks were set up: Alice, Bob, and Eve. The goal was to limit what Eve could learn by eavesdropping on Alice and Bob. In GAN fashion, the researchers wanted Alice and Bob to defeat the best possible version of Eve. All in all, the networks were able to encrypt and protect communications.</li><br>
+    <li>Law Enforcement - Generative Adversarial Networks are great for creating synthetic facial images. They have great importance in law enforcement. Traditionally, if a crime is committed, a witness is asked to describe the suspected criminal and a sketch is drawn by hand. GANs can quickly produce sketches based on facial features given by the witness similar to how iGAN works.</li><br>
+    <li>Healthcare - There are synthetic patient record databases like the MIHN FHIR server used for research in academia and in industry. This data is meant to mimic real data by giving patients certain diagnoses and conditions and presrcibing them medications. Instead of being done by hand, GANs could input authentic patient records and generate synthetic patient data used in these databases.</li><br>
+    <li>Speech Enhancement - In <a href="https://arxiv.org/pdf/1703.09452.pdf">SEGAN: Speech Enhancement Generative Adversarial Network</a>, Santiago Pascual, Antonio Bonafonte, and Joan Serra used generative adversarial networks to create SEGAN for speach enhancement. The model works as an encoder-decoder fully-convolutional structure, which makes it fast to operate for denoising wave- form chunks. The results show that, not only the method is viable, but it can also represent an effective alternative to current approaches.</li><br>
+    <li>Generating Pokemon - Yota Ishida used a pokemon go dataset as input to a generative adversarial network. He was able to reconstruct synthetic pokemon as follows:<br><br>
+    <center><img src="../images/pokemon.png" style="height:200px;"></center><br>
+    Ian Goodfellow also used this example in his NIPS tutorial as it shows how we can use GANs not only for serious research efforts but also as a means of generating images of our interest.
+    </li>
+
     </ol>
 
-    <h1>Research:</h1>
+    <h1>Research Problems:</h1>
     <p>Generative Adversarial Networks are the hot topic right now and there is still a lot to be discovered.</p>
+    <h4>Non-Convergence:</h4>
+    Currently there are research efforts in trying to solve the non-convergence issue. There is no current theoretical arguement that a generative adversarial network should converge nor a theoretical arguement that one should not converge. In terms of practice they do not always converge. On small problems, they sometimes converge and sometimes do not converge. On large problems, like the ImageNet at resolution 128 x 128, Goodfellow notes that he has never seen convergence. Currently there is no set of conditions under which a GAN will converge or not converge, but that is currently being researched.</p>
+    <h4>Mode Collapse:</h4>
+    <p>Another area within non-convergence, is mode collapse. Herem several input values are mapped to the same output point. Complete mode collapse is rare, but partial mode collapse is much more common. With this issue, GANs are limited to problems where one input can be mapped to many distinct outputs, for instance text to image synthesis. Here an input description of a small yellow bird could be mapped to many correct distinct outputs.</p> 
+    <h4>Equilibrium Algorithms:</h4>
+    <p>To train a GAN we need to find the equilibrium of a game. We don't always find this equilibrium with gradient descent. Currently, there is no good algorithm that finds the equilibrium, hence adding training unstability.</p>
+
+    <h4>Overall Training:</h4>
+    <p>All in all, training a generative adversarial network is difficult. The function the networks try to minimize has no closed form and thus the optimization problem is unstable. Research is being hevily devoted to efficient training of a generative adversarial network.</p>
+
+
+  <h1>Further Resources</h1>
+  <p>A lot of work has been done on generative adversarial networks. Here are some alternate links worth checking out:</p>
+  <h4>Presentations:</h4>
+  <ul>
+  <li><a href="https://www.youtube.com/watch?v=HN9NRhm9waY">Ian Goodfellow AIWTB 2016 Lecture</a></li>
+  <li><a href="https://www.youtube.com/watch?v=RvgYvHyT15E&t=1292s">Ian Goodfellow NIPS 2016 Workshop</a></li>
+  <li><a href="https://arxiv.org/pdf/1701.00160.pdf">Ian Goodfellow 2016 NIPS Tutorial</a></li>
+  <li><a href="https://www.youtube.com/watch?v=QPkb5VcgXAM&t=657s">Soumith Chintala Facebook London Machine Learning Meetup Lecture</a></li>
+  <li><a href="https://www.youtube.com/watch?v=pqkpIfu36Os&index=44&list=PLujxSBD-JXglGL3ERdDOhthD3jTlfudC2">Two Minute Papers Image Editing with GANs</a></li>
+  <li><a href="https://www.youtube.com/watch?v=deyOX6Mt_As&t=30s">Siraj Raval Fresh Machine Learning with GANs</a></li>
+  </ul>
+  <h4>Research Papers:</h4>
+  <ul>
+  <li><a href="https://arxiv.org/pdf/1406.2661.pdf">2014 Ian Goodfellow Generative Adversarial Nets</a></li>
+  <li><a href="https://arxiv.org/pdf/1703.10847.pdf">Music Generation using GANs</a></li>
+  <li><a href="https://arxiv.org/pdf/1606.03498v1.pdf">Improved Techniques for Training GANs</a></li>
+  <li><a href="https://openreview.net/pdf?id=S1HEBe_Jl">Learning to Protect Communications with Adversarial Neural Cryptography</a></li>
+  <li><a href="https://arxiv.org/pdf/1605.05396.pdf">Generative Adversarial Text to Image Synthesis</a></li>
+  <li><a href="https://arxiv.org/pdf/1609.04802.pdf">Photo-Realistic Single Image Super-Resolution Using a Generative Adversarial Network</a></li>
+  <li><a href="http://web.mit.edu/vondrick/tinyvideo/">Generating Videos with Scene Dynamics</a></li>
+  <li><a href="https://arxiv.org/pdf/1603.07442v3.pdf">Pixel-Level Domain Transfer</a></li>
+  <li><a href"https://arxiv.org/pdf/1511.06434.pdfï%C2%BC‰">Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks</a></li>
+  <li><a href="https://pdfs.semanticscholar.org/42f6/f5454dda99d8989f9814989efd50fe807ee8.pdf">Conditional generative adversarial nets for convolutional face generation</a></li>
+  <li><a href="https://arxiv.org/pdf/1610.01945.pdf">Connecting Generative Adversarial Networks and Actor-Critic Methods</a></li>
+  </ul>
+
 
     <h1>Building our own GAN:</h1>
     <p>Now that we understand what a generative adversarial network is and how it works, let's proceed by creating our own GAN. We will specifically implement a DCGAN and generate facial images like we described in the motivating example. For this post click the button below.</p>
@@ -297,19 +371,80 @@
       top:1px;
       }
   </style>
-  <center><a href="#" class="myButton">Let's Build A GAN</a></center>
+  <center><a href="main2.html" class="myButton">Let's Build A GAN</a></center>
 
 
     <h1>References</h1>
-    <p>
+    <p>Below are all references I used in constructing this tutorial. Each reference item is a link. You can find the specific link referenced by going to the section with the corresponding desctiption:
+    <li>Images</li>
     <ol>
-    <li>http://machinelearningmastery.com/supervised-and-unsupervised-machine-learning-algorithms/</li>
-    <li>Machine Learning Categories: https://en.wikipedia.org/wiki/Machine_learning</li>
-    <li>http://stats.stackexchange.com/questions/114385/what-is-the-difference-between-convolutional-neural-networks-restricted-boltzma</li>
-    <li>Fully Connected Layer: http://stats.stackexchange.com/questions/182102/what-do-the-fully-connected-layers-do-in-cnns</li>
-    <li>Batch Normalization: https://standardfrancis.wordpress.com/2015/04/16/batch-normalization/</li>
+    <li><a href="https://github.com/torch/torch.github.io/blob/master/blog/_posts/2015-11-13-gan.md">Motivation - Generating Facial Images Example</a></li>
+    <li><a href="https://twitter.com/goodfellow_ian/status/806914227315183616">History - Goodfellow/Schmidhuber Twitter Complaint</a></li>
+    <li><a href="https://www.reddit.com/r/MachineLearning/comments/5go4sa/n_whats_happening_at_nips_2016_jurgen_schmidhuber/">History - Goodfello/Schmidhuber Reddit Discussions</a></li>
+    <li><a href="https://www.quora.com/Was-Jürgen-Schmidhuber-right-when-he-claimed-credit-for-GANs-at-NIPS-2016">History - Goodfellow Quora Response</a></li>
+    <li><a href="https://duphan.wordpress.com/tag/generative-model/">Prerequisites - Generative vs. Discriminative Example</a></li>
+    <li><a href="https://www.tutorialspoint.com/artificial_intelligence/artificial_intelligence_neural_networks.htm">Prerequisites - Artifical Neural Network Example</a></li>
+    <li><a href="https://developer.apple.com/library/content/documentation/Performance/Conceptual/vImage/ConvolutionOperations/ConvolutionOperations.html">Prerequisites - Convolutional Layer Example</a></li>
+    <li><a href="https://i.stack.imgur.com/8CGlM.png">Prerequisites - Rectified Linear Unit Layer Example</a></li>
+    <li><a href="http://cs231n.github.io/convolutional-networks/">Prerequisites - Max Pooling Layer Example</a></li>
+    <li><a href="https://arxiv.org/pdf/1502.03167.pdf">Prerequisites - Batch Normalization Algorithm</a></li>
+    <li><a href="https://www.overstock.com/Home-Garden/Sofas-Loveseats/Grey,/color,/2027/subcat.html">What are Genearative Adversarial Networks - Motivational Couch Image</a></li>
+    <li><a href="https://www.halloweencostumes.com">What are Genearative Adversarial Networks - Beginner Police/Criminal GAN description</a></li>
+    <li><a href="https://www.halloweencostumes.com">What are Genearative Adversarial Networks - Expert Police/Criminal GAN description</a></li>
+    <li><a href="https://commons.wikimedia.org/wiki/File:United_States_one_dollar_bill,_obverse.jpg">What are Generative Adversarial Netowrks - Dollar Bill</a></li>
+    <li><a href="https://arxiv.org/pdf/1701.00160.pdf">What are Generative Adversarial Networks - GAN pipeline</a></li>
+    <li><a href="https://www.yumpu.com/en/document/view/56509039/generative-adversarial-networks-gans/29">Deep Convolutional Generative Adversarial Networks - Generator DCGAN architecture</a></li> 
+    <li><a href="https://bamos.github.io/2016/08/09/deep-completion/">Deep Convolutional Generative Adversarial Networks - Discriminator DCGAN architecture</a></li>
+    <li><a href="https://arxiv.org/pdf/1603.07442v3.pdf">Applications & Current Research - Fashion Images</a></li>
+    <li><a href="https://medium.com/@ageitgey/abusing-generative-adversarial-networks-to-make-8-bit-pixel-art-e45d9b96cee7">Applications & Current Research - Art Images</a></li>
+    <li><a href="https://github.com/junyanz/iGAN">Applications & Current Research - iGAN</a></li>
+    <li><a href="https://arxiv.org/pdf/1605.05396.pdf">Applications & Current Research - Text-to-Image Synthesis Image 1</a></li>
+    <li><a href="https://github.com/paarthneekhara/text-to-image">Applications & Current Research - Text-to-Image Synthesis Image 2</a></li>
+    <li><a href="https://arxiv.org/pdf/1609.04802.pdf">Applications & Current Research - Super Resolution Image</a></li>
+    <li><a href="http://web.mit.edu/vondrick/tinyvideo/">Applications & Current Research - Video with Scene Dynamics GIF</a></li>
+    <li><a href="https://www.youtube.com/watch?v=rs3aI7bACGc">Applications & Current Research - Generating Pokemon Image</a></li>
     </ol>
-    </p>
+
+
+
+
+
+    <li>Content</li>
+    <ol>
+    <li><a href="http://blog.aylien.com/introduction-generative-adversarial-networks-code-tensorflow/">Motivaiton - Yann LeCun Quote</a></li>
+    <li><a href="ftp://ftp.idsia.ch/pub/juergen/factorial.pdf">History - Schmidhuber Predictibility Minimization</a></li>
+    <li><a href="https://arxiv.org/pdf/1406.2661.pdf">History - Goodfellow's Invention of GANs</a></li>
+    <li><a href="https://media.nips.cc/nipsbooks/nipspapers/paper_files/nips27/reviews/1384.html">History - Schmidhuber's NIPS Submission Feedback & Goodfellow's Response </a></li>
+    <li><a href="http://papers.nips.cc/paper/5423-generative-adversarial-nets.pdf">History - Goodfellow GANs paper revision</a></li>
+    <li><a href="https://en.wikipedia.org/wiki/Machine_learning">Prerequisites - General Machine Learning</a></li>
+    <li><a href="http://machinelearningmastery.com/supervised-and-unsupervised-machine-learning-algorithms/">Prerequisites - Types of Machine Learning</a></li>
+    <li><a href="http://stackoverflow.com/questions/879432/what-is-the-difference-between-a-generative-and-discriminative-algorithm">Prerequisites - Generative vs. Discriminative</a></li>
+    <li><a href="https://developer.apple.com/library/content/documentation/Performance/Conceptual/vImage/ConvolutionOperations/ConvolutionOperations.html">Prerequisites - Convolutional Neural Networks</a></li>
+    <li><a href="http://cs231n.github.io/convolutional-networks/">Prerequisites - Fully Connected Layer</a></li>
+    <li><a href="https://arxiv.org/pdf/1502.03167.pdf">Prerequisites - Batch Normalization and Algorithm</a></li>
+    <li><a href="https://en.wikipedia.org/wiki/Zero-sum_game">Prerequisites - Zero-Sum Game</a></li>
+    <li><a href="https://en.wikipedia.org/wiki/Nash_equilibrium">Prerequisites - Nash Equilibrium</a></li>
+    <li><a href="https://arxiv.org/pdf/1701.00160.pdf">What are Generative Adversarial Networks - The GAN Framework</a></li>
+    <li><a href="https://adeshpande3.github.io/adeshpande3.github.io/Deep-Learning-Research-Review-Week-1-Generative-Adversarial-Nets">What are Generative Adversarial Networks - Simplified GAN Framework Inspiration</a></li>
+    <li><a href="http://www.deeplearningbook.org/contents/generative_models.html">What are Generative Adversarial Networks - Mathematical GAN Framework</a></li>
+    <li><a href="https://arxiv.org/pdf/1511.06434.pdf">Deep Convolutional Generative Adversarial Networks</a></li>
+    <li><a href="https://github.com/soumith/ganhacks">Improving Performance of GANs</a></li>
+
+    <li><a href="https://arxiv.org/pdf/1603.07442v3.pdf">Applications & Current Research - Fashion</a></li>
+    <li><a href="https://medium.com/@ageitgey/abusing-generative-adversarial-networks-to-make-8-bit-pixel-art-e45d9b96cee7">Applications & Current Research - Art</a></li>
+    <li><a href="https://github.com/junyanz/iGAN">Applications & Current Research - Art - iGAN</a></li>
+    <li><a href="https://arxiv.org/pdf/1605.05396.pdf">Applications & Current Research - Text-to-Image Synthesis</a></li>
+    <li><a href="https://arxiv.org/pdf/1609.04802.pdf">Applications & Current Research - Super Resolution Image</a></li>
+    <li><a href="http://web.mit.edu/vondrick/tinyvideo/">Applications & Current Research - Video with Scene Dynamics</a></li>
+    <li><a href="https://openreview.net/pdf?id=S1HEBe_Jl">Applications & Current Research - Encryption</a></li>
+    <li><a href="https://arxiv.org/pdf/1703.09452.pdf">Applications & Current Research - Speech Enhancement</a></li>
+    <li><a href="https://pt.slideshare.net/LearnWTB/generative-adversarial-networks-gans-ian-goodfellow-openai?smtNoRedir=1">Applications & Current Research - Generating Pokemon</a></li>
+    <li><a href="https://media.nips.cc/Conferences/2016/Slides/6202-Slides.pdf">Research Problems</a></li>
+
+
+    </ol>
+    </li>
+
       <!--<a id="user-content-header-1" class="anchor" href="#header-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Header 1</h1>
 
       <p>This is a normal paragraph following a header. Bacon ipsum dolor sit amet t-bone doner shank drumstick, pork belly porchetta chuck sausage brisket ham hock rump pig. Chuck kielbasa leberkas, pork bresaola ham hock filet mignon cow shoulder short ribs biltong.</p>
