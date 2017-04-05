@@ -69,7 +69,7 @@
     </ul>
     <p>Once TensorFlow is installed you will have access to TF-Slim, a lightweight library for defining, training, and evaluating complex models in TensorFlow. This makes writing TensorFlow code easier and quicker while still allowing us to see the fine details of our model and its layers.</p>
     <br>
-    <li>Numpy - Numpy is a package for scientific computing that contains many useful operations for a multi-dimensional data structure called an nd array (np array).</li>
+    <li>Numpy - Numpy is a package for scientific computing that contains many useful operations for a multi-dimensional data structure called an ndarray (np array).</li>
     <ul>
     <li>Installation: <a href="https://www.scipy.org/scipylib/download.html">Numpy Installation</a></li>
     <li>Documentation: <a href="https://docs.scipy.org/doc/numpy-dev/user/basics.html">Numpy Documentation</a></li>
@@ -87,7 +87,7 @@
     <li>Documentation: <a href="https://docs.scipy.org/doc/scipy/reference/">Scipy Documentation</a></li>
     </ul>
     <br>
-    <li>Sklearn - Sklearn has efficient tools for data mining, analysis, and machine learning. Installation can be found <a href="http://scikit-learn.org/stable/install.html">here</a> or by using pip install sklearn. Documentation can be found <a href="http://scikit-learn.org/stable/documentation.html">here</a>.</li>
+    <li>Sklearn - Sklearn has efficient tools for data mining, analysis, and machine learning.</li>
     <ul>
     <li>Installation: <a href="http://scikit-learn.org/stable/install.html">Sklearn Installation</a></li>
     <li>Documentation: <a href="http://scikit-learn.org/stable/documentation.html">Sklearn Documentation</a></li>
@@ -109,7 +109,7 @@
     </ul>
 
     <h1>Data</h1>
-    <p>We will be using data from the Labeled Faces in the Wild (LFW) database. This database consists of more than 13,000 images of faces collected from the web. Additionally, each face has been labeled with the name of the person pictured. The data can be downloaded from <a href="http://vis-www.cs.umass.edu/lfw/">here</a>. Additionally, we can access the datasets module in sklearn and pull the data using the fetch_lfw_people function. This will return our data in a dataset object, which is a dictionary like structure. Let us now proceed to write a class and a few fuctions to read in and format our data.</p>
+    <p>We will be using data from the Labeled Faces in the Wild (LFW) database. This database consists of more than 13,000 grayscale images of faces collected from the web. Additionally, each face has been labeled with the name of the person pictured. The data can be downloaded from <a href="http://vis-www.cs.umass.edu/lfw/">here</a>. Additionally, we can access the datasets module in sklearn and pull the data using the fetch_lfw_people function. This will return our data in a dataset object, which is a dictionary like structure. Let us now proceed to write a class and a few fuctions to read in and format our data.</p>
 
     <p>We start by creating a class called Data_Set. In this class we take in our vector of images. In our init method we will calculate the number of samples we have in the images vector, normalize the images, and set the number of epochs completed and index of the epochs to 0. We will need the number epochs completed and the index of the epochs when we train our generative adversarial network. We will also create some getters for the number of images, number of samples, and the number of epochs completed. Finally, we will create a method called batch_next. This takes in a batch size and will perform a sequential pull of this batch size for our training data. Our class is as follows:</p>
 
@@ -206,7 +206,7 @@
 display_images(data,[<span style="color: #009999">4</span>,<span style="color: #009999">45</span>,<span style="color: #009999">599</span>])
 </pre></div>
 
-    <p>Once we call display_images(data,[4,45,599]) above, we see the following the $4^{\text{th}}, 45^{\text{th}}, \text{and}\; 599^{\text{th}}$ images in our dataset. The images are as follows:</p>
+    <p>Once we call display_images(data,[4,45,599]) above, we see the $4^{\text{th}}, 45^{\text{th}}, \text{and}\; 599^{\text{th}}$ images in our dataset. The images are as follows:</p>
     <center><img src = "../images/gan_samples.png" style="height:350px;"></center>
 
 
@@ -389,7 +389,7 @@ update_G = trainerG.apply_gradients(gradients_generator)
 </pre></div>
 
     <h1>DCGAN Training</h1>
-    <p>Let us now train our network on our machine ( I am using a retina macbook pro with 8gb of ram). Since we are not using a GPU right now (we will do so in the next section), we will use 5000 iterations and a batch_size of 128. Here, we will choose a sample batch from our facial image data using the class function batch_next and shape it into a 32 x 32 image. We will then generate a random batch, z, and update the generator and discriminator. Every 15 iterations we will calculate our loss for both the generator and discriminator and plot them on an updating plot. We will also save some sample generated images (36 sample generated images in a 6 x 6 grid) from the generator at this stage. We will save these images into a directory called facial_figs. Every 1000 iterations we will save our model attributes into a directory called facial_models. We train our model as follows:</p>
+    <p>Let us now train our network on our machine ( I am using a retina macbook pro with 8gb of ram). Since we are not using a GPU right now (we will do so in the next section), we will use 5000 iterations and a batch size of 128. Here, we will choose a sample batch from our facial image data using the class function batch_next and shape it into a 32 x 32 image. We will then generate a random batch, z, and update the generator and discriminator. Every 15 iterations we will calculate our loss for both the generator and discriminator and plot them on an updating plot. We will also save some sample generated images (36 sample generated images in a 6 x 6 grid) from the generator at this stage. We will save these images into a directory called facial_figs. Every 1000 iterations we will save our model attributes into a directory called facial_models. We train our model as follows:</p>
 
     <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #aaaaaa; font-style: italic">#size setups</span>
 batch_size = <span style="color: #009999">128</span>
@@ -529,7 +529,7 @@ plt_x = np.array([])
     <center><img src="../images/AJL_GAN_training_LFW.gif"></center>
 
     <h1>Query Our DCGAN</h1>
-    <p>Now that we have a trained model, where we can clearly see facial images, let us write a function to query new facial images. We first load in our saved model in the facial_models. Then, we pass this vector into the generator and generate a set of 6 x 6 images, which will be saved in a directory called synthetic_faces. We wrap the random number process and image generation in a for loop so we can repeat this k times. Our code is as follows:</p>
+    <p>Now that we have a trained model, where we can clearly see facial images, let us write a function to query new facial images. We first load in our saved model from the facial_models directory. Then, we pass in a vector of random uniformly distributed numbers of the batch size specified previously to the generator and generate a set of 6 x 6 images, which will be saved in a directory called synthetic_faces. We wrap the random number process and image generation in a for loop so we can repeat this k times. Our code is as follows:</p>
 
     <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">batch_size_sample = <span style="color: #009999">36</span>
 num_img = <span style="color: #009999">10</span>
@@ -565,7 +565,7 @@ saver = tf.train.Saver()
 
     <h1>DCGAN On A GPU</h1>
 
-    <p>We see that we had good success in generating facial images by training 5,000 iterations over 8 hours on our machine's CPU. Using a GPU will allow us to train many more iterations in much less time. Amazon Web Services (AWS) offers a low cost hourly charge to run code on their powerful machines. We will make use of the p2.8xlarge machine for training our model. This machine has 8 GPUs, 32 vCPU, 488 GiB of memory, 19968 parallel processing cores, 96 GiB of GPU memory, and 10 Gigabit network performance. This is a very powerful machine and at the cost of $\$7.20$ per hour we can train for 50,000 iterations in about 85 minutes. This might sound expensive, but we are going to use AWS spot pricing. Here, the current spot price (always changing) is $\$0.905$ per hour. So, for less than $\$2$ we can train our DCGAN model on a high powered machine packed with multiple GPUs for 50,000 iterations. To do so, we need to enable our TensorFlow code to use a GPU. Now, when we create our DCGAN model by combining the generator and discriminator we wrote, we need to set DEVICE = '/gpu:0' and wrap our code inside with tf.device(DEVIDE). We make the change as follows:</p> 
+    <p>We see that we had good success in generating facial images by training 5,000 iterations over 8 hours on our machine's CPU. Using a GPU will allow us to train many more iterations in much less time. Amazon Web Services (AWS) offers a low cost hourly charge to run code on their powerful machines. We will make use of the p2.8xlarge machine for training our model. This machine has 8 GPUs, 32 vCPU, 488 GiB of memory, 19968 parallel processing cores, 96 GiB of GPU memory, and 10 Gigabit network performance. This is a very powerful machine and at the cost of $\$7.20$ per hour we can train for 50,000 iterations in about 85 minutes. This might sound expensive, but we are going to use AWS spot pricing. Here, the current spot price (always changing) is $\$0.905$ per hour. So, for less than $\$2$ we can train our DCGAN model on a high powered machine packed with multiple GPUs for 50,000 iterations. To do so, we need to enable our TensorFlow code to use a GPU. Now, when we create our DCGAN model by combining the generator and discriminator, we need to set DEVICE = '/gpu:0' and wrap our code inside with tf.device(DEVICE). We make the change as follows:</p> 
 
     <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">DEVICE=<span style="color: #aa5500">&#39;/gpu:0&#39;</span>
 <span style="color: #0000aa">with</span> tf.device(DEVICE):
