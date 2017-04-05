@@ -244,7 +244,7 @@ display_images(data,[<span style="color: #009999">4</span>,<span style="color: #
         <li>Deconvolutional Layer 3 - batch normalization, relu activation</li>
         <li>Deconvolutional Layer 4 - batch normalization, tanh activation</li>
     </ul>
-    <p>All in all, our generator will take in a vector consisting of random numbers from a uniform distribution, pass through four fractionally-strided convolutions (called deconvolutions), and then output an image with shape 32 x 32. We construct our generator model, called generator, with an input called z_shp. This is the shape of our z in the above architecture descrption. Our function is as follows:</p>
+    <p>All in all, our generator will take in a vector consisting of random numbers from a uniform distribution, pass through four fractionally-strided convolutions (called deconvolutions), and then output an image with shape 32 x 32. We construct our generator model, called generator, with an input called z_shp. This is the shape of our z in the above architecture description. Our function is as follows:</p>
     <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">def</span> <span style="color: #00aa00">generator</span>(z_shp):
     
     <span style="color: #aaaaaa; font-style: italic">#Commonly Used Variables</span>
