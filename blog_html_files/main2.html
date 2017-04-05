@@ -154,7 +154,7 @@
     <br>
     <li>Resize: The Ratio used to resize the each facial picture. This value is specified as a float and defaults to 0.5. The original images are 250 x 250 pixels, but the default slice and resize arguments reduce them to 62 x 74. We, however, want our our images to be 28 x 28. To do so we can set the resize = 0.224.</li>
     </ul>
-    <p>Once we call the fetch_lft_people module we obtain a dataset object. We can then use the .data function to extract a vector of the facial images. We can then create the Data_Set object, which we created in the class above, by passing in our vector of the facial images. We create our pull_data function as follows:</p>
+    <p>Once we call the fetch_lfw_people module we obtain a dataset object. We can then use the .data function to extract a vector of the facial images. We can then create the Data_Set object, which we created in the class above, by passing in our vector of the facial images. We create our pull_data function as follows:</p>
     <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #0000aa">def</span> <span style="color: #00aa00">pull_data</span>():
     <span style="color: #0000aa">class</span> <span style="color: #00aa00; text-decoration: underline">Data_Sets</span>(<span style="color: #00aaaa">object</span>):
         <span style="color: #0000aa">pass</span>
