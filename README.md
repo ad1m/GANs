@@ -1,9 +1,8 @@
-###Readme:
-
+### Readme:
 In this document I cover the directory structure for the project, accessing and running the code, viewting the html in the localhost, viewing the GitHub hosted site, and provide my contact information for any questions. 
 
 
-##Directory Structure
+## Directory Structure
 The directory is organized as follows: 
 
 -index.html - The main page of the site. The reason that this file is outside the blog\_html\_files directory is that the site is hosted on github pages and it uses index.html as the landing page. When this file is opened with google Chrome or an alternate browser, you will find links to go to part 1 and part 2 of the assignment. 
@@ -22,11 +21,11 @@ The directory is organized as follows:
 
 -README.md - The file you are currently viewing. This covers using the directory structure for the project, running the code, viewing the HTML in the localhost, viewing the GitHub hosted site, and provides contact information for any further questions.
 
-##Accessing And Running The Code
+## Accessing And Running The Code
 To run the code please open up a jupyter notebook server (iPython server) and navigate to the code directory. Then open the Facial_GANs.ipynb folder. To run the code please run the cells in a sequential fashion. However, you will not be able to run the section where we use an AWS GPU. Here, you will need to separate the code and upload it to an instance to run it. However, you can run the CPU implementation which is all cells before the section "Using a GPU for Training."
 
-##Viewing the HTML in the Localhost
+## Viewing the HTML in the Localhost
 To view the html please open up index.html. This will navigate you to part 1 and part 2 of the assignment.
 
-##Viewing the Website 
+## Viewing the Website 
 The HTML has been hosted with GitHub pages. To view the website please go to https://ad1m.github.io/GANs/ in your browser. If this does not load please try https://ad1m.github.io/GANs/index.html. It is recommended to use Google Chrome for viewing experience.
