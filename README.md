@@ -29,6 +29,3 @@ To view the html please open up index.html. This will navigate you to part 1 and
 
 ##Viewing the Website 
 The HTML has been hosted with GitHub pages. To view the website please go to https://ad1m.github.io/GANs/ in your browser. If this does not load please try https://ad1m.github.io/GANs/index.html. It is recommended to use Google Chrome for viewing experience.
-
-##Questions 
-For any questions please reach out to me at adam.justin.lieberman@gmail.com. I will be happy to assist with running any code or viewing the site.
