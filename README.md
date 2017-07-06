@@ -1,4 +1,5 @@
 ###Readme:
+
 In this document I cover the directory structure for the project, accessing and running the code, viewting the html in the localhost, viewing the GitHub hosted site, and provide my contact information for any questions. 
 
 
